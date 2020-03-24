@@ -2,18 +2,22 @@ package Task;
 
 import org.junit.Test;
 
+import User.User;
+
 import static org.junit.Assert.*;
 
 
 public class Tasktest {
     @Test
     public void doConstruct(){
-        Task task = new Task("Buying Lunch","A001","May","John");
+        User user1 = new User("May",1,"0");
+        User user2 = new User("John",2,"1");
+        Task task = new Task("Buying Lunch",1,user1,user2);
 
         assertEquals("Buying Lunch",task.getTaskName());
-        assertEquals("A001",task.getTaskID());
-        assertEquals("May",task.getTaskAssigner());
-        assertEquals("John",task.getTaskAccepter());
+        assertEquals(1,task.getTaskID());
+        assertEquals("May",user1.getUserName());
+        assertEquals("John",user2.getUserName());
         assertEquals(0,task.getTaskState());
         assertEquals("2020",task.getYear());
         assertEquals("03",task.getMonth());
@@ -22,21 +26,23 @@ public class Tasktest {
     }
     @Test
     public void doSet(){
-        Task task = new Task("Buying Lunch","A001","May","John");
+        User user1 = new User("May",1,"0");
+        User user2 = new User("John",2,"1");
+        Task task = new Task("Buying Lunch",1,user1,user2);
 
         task.setTaskName("Cleaning room");
-        task.setTaskID("A002");
-        task.setTaskAssigner("Jack");
-        task.setTaskAccepter("Mary");
+        task.setTaskID(2);
+        user1.setUserName("Jack");
+        user2.setUserName("Mary");
         task.setTaskState(1);
         task.setYear("2020");
         task.setMonth("03");
         task.setDay("22");
 
         assertEquals("Cleaning room",task.getTaskName());
-        assertEquals("A002",task.getTaskID());
-        assertEquals("Jack",task.getTaskAssigner());
-        assertEquals("Mary",task.getTaskAccepter());
+        assertEquals(2,task.getTaskID());
+        assertEquals("Jack",user1.getUserName());
+        assertEquals("Mary",user2.getUserName());
         assertEquals(1,task.getTaskState());
         assertEquals("2020",task.getYear());
         assertEquals("03",task.getMonth());
