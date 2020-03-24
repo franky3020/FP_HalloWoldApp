@@ -7,10 +7,10 @@ public class Login {
 
     public String ConfirmLogin(String s1,String s2){
         if(s1.equals(username)&&s2.equals(password)){
-            return "correct";
+            return "Correct!";
         }
         else {
-            return "Wrong username or password"
+            return "Wrong username or password!";
         }
 
     }
