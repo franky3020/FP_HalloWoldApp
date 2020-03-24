@@ -13,7 +13,7 @@ public class Tasktest {
         TaskTime taskTime = new TaskTime("2020", "03", "24");
         User user1 = new User("May",1,"0");
         User user2 = new User("John",2,"1");
-        Task task = new Task("Buying Lunch",1,user1,user2);
+        Task task = new Task("Buying Lunch",1,user1,user2,1,taskTime);
 
         assertEquals("Buying Lunch",task.getTaskName());
         assertEquals(1,task.getTaskID());
@@ -30,7 +30,7 @@ public class Tasktest {
         TaskTime taskTime = new TaskTime("2020", "03", "24");
         User user1 = new User("May",1,"0");
         User user2 = new User("John",2,"1");
-        Task task = new Task("Buying Lunch",1,user1,user2);
+        Task task = new Task("Buying Lunch",1,user1,user2,1,taskTime);
 
         task.setTaskName("Cleaning room");
         task.setTaskID(2);

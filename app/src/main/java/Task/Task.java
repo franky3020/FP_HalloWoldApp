@@ -3,9 +3,9 @@ package Task;
 import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import User.User;
 
 public class Task{
-import User.User;
     private String taskName;
     private int taskID;
     private User taskAssigner;
@@ -13,8 +13,7 @@ import User.User;
     private int taskState;/* 訂單狀態 0=發布中 1=已接受 2=已完成 */
     private TaskTime taskTime;/* 訂單日期 包含年月日 */
 
-    public Task(String taskName, String taskID, String taskAssigner, String taskAccepter, int taskState, TaskTime taskTime){
-    public Task(String taskName,int taskID,User taskAssigner,User taskAccepter){
+    public Task(String taskName, int taskID,User taskAssigner,User taskAccepter, int taskState, TaskTime taskTime){
         /* 基本Constructor */
         this.taskName = taskName;
         this.taskID = taskID;
