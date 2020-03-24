@@ -5,14 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Task{
+import User.User;
     private String taskName;
-    private String taskID;
-    private String taskAssigner;
-    private String taskAccepter;
+    private int taskID;
+    private User taskAssigner;
+    private User taskAccepter;
     private int taskState;/* 訂單狀態 0=發布中 1=已接受 2=已完成 */
     private TaskTime taskTime;/* 訂單日期 包含年月日 */
 
     public Task(String taskName, String taskID, String taskAssigner, String taskAccepter, int taskState, TaskTime taskTime){
+    public Task(String taskName,int taskID,User taskAssigner,User taskAccepter){
         /* 基本Constructor */
         this.taskName = taskName;
         this.taskID = taskID;
@@ -26,15 +28,8 @@ public class Task{
         this.taskName = taskName;
     }
 
-    public void setTaskID(String taskID) {
+    public void setTaskID(int taskID) {
         this.taskID = taskID;
-    }
-
-    public void setTaskAssigner(String taskAssigner){
-        this.taskAssigner = taskAssigner;
-    }
-    public void setTaskAccepter(String taskAccepter){
-        this.taskAccepter = taskAccepter;
     }
     public void setTaskState(int taskState){
         this.taskState = taskState;
@@ -44,16 +39,8 @@ public class Task{
         return taskName;
     }
 
-    public String getTaskID() {
+    public int getTaskID() {
         return taskID;
-    }
-
-    public String getTaskAssigner() {
-        return taskAssigner;
-    }
-
-    public String getTaskAccepter() {
-        return taskAccepter;
     }
 
     public int getTaskState() {
