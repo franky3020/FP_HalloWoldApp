@@ -4,24 +4,22 @@ import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Task extends TaskTime{
+public class Task{
     private String taskName;
     private String taskID;
     private String taskAssigner;
     private String taskAccepter;
     private int taskState;/* 訂單狀態 0=發布中 1=已接受 2=已完成 */
-    private TaskTime taskTime = new TaskTime();/* 訂單日期 包含年月日 */
+    private TaskTime taskTime;/* 訂單日期 包含年月日 */
 
-    public Task(String taskName,String taskID,String taskAssigner,String taskAccepter){
+    public Task(String taskName, String taskID, String taskAssigner, String taskAccepter, int taskState, TaskTime taskTime){
         /* 基本Constructor */
         this.taskName = taskName;
         this.taskID = taskID;
         this.taskAssigner = taskAssigner;
         this.taskAccepter = taskAccepter;
-        this.taskState = 0;
-        this.setYear("2020");
-        this.setMonth("03");
-        this.setDay("24");
+        this.taskState = taskState;
+        this.taskTime = taskTime;
     }
 
     public void setTaskName(String taskName) {

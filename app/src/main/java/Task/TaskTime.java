@@ -4,6 +4,11 @@ public class TaskTime {
     private String year;
     private String month;
     private String day;
+    public TaskTime(String year, String month, String day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 
     public String getYear() {
         return year;
