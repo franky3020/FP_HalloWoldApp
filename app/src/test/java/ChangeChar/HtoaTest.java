@@ -2,9 +2,8 @@ package ChangeChar;
 
 import org.junit.Test;
 
-import franky.test.Franky_first_jar;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
 public class HtoaTest {
 
     @Test
@@ -12,7 +11,6 @@ public class HtoaTest {
         Htoa htoa = new Htoa();
         assertEquals("a", htoa.doChange("H"));//測試輸入字串參數 H 時，會不會輸出a
         assertEquals("g", htoa.doChange("g"));//測試輸入字串參數 g 時，會不會輸出g
-        Franky_first_jar franky_first_jar = new Franky_first_jar();
-        franky_first_jar.showYAYA();
+
     }
 }
