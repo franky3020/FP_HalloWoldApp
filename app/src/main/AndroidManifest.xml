@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 待完成，為了切換到登入頁面，未研究 activity 內容撰寫 -->
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

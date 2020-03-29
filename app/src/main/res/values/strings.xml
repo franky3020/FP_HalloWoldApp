@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">My_first_Application</string>
     <string name="hello_world">hello_world</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="forgot_your_password">Forgot your Password?</string>
+    <string name="or">OR</string>
+    <string name="sign_up">Don\'t have an account? Sign up</string>
+
+    <!-- 暫時的 button，為了進入 Login 頁面 -->
+    <string name="click">click to Login page</string>
 </resources>
