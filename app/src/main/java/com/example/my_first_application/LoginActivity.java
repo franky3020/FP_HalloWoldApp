@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG
-            = LoginActivity.class.getSimpleName();
+    private static final String LOG_TAG = LoginActivity.class.getSimpleName();
 
     @Override
     protected void onStart() {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">我的第一個應用程式</string>
-    <string name="hello_world">是在哈摟?</string>
+    <string name="hello_world">哈摟世界?</string>
     <string name="email_address">電子郵件帳號</string>
     <string name="password">密碼</string>
     <string name="login">登入</string>
     <string name="forgot_your_password">忘記密碼?</string>
     <string name="or">或</string>
-    <string name="sign_up">新用戶註冊</string>
+    <string name="sign_up">註冊</string>
 
     <!-- 暫時的 button，為了進入 Login 頁面 -->
     <string name="click">前往登入介面</string>
