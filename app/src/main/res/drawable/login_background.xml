@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 設定 Log in 背景從白色改成漸層 (深藍 -> 紫) -->
+    <gradient
+        android:startColor="@color/dark_blue"
+        android:endColor="@color/purple"
+        android:angle="-135" />
+
+</shape>
