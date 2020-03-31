@@ -20,11 +20,10 @@ public class TaskTest {
         Date date = new GregorianCalendar(2020, 3, 24).getTime();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);  //use java.util.Date object as arguement
-        Task task = new Task("Buying Lunch",1, assignerUser, accepterUser,1, date);
+        Task task = new Task("Buying Lunch",1, assignerUser, accepterUser,new TaskState(), date);
 
         assertEquals("Buying Lunch",task.getName());
         assertEquals(1,task.getID());
-        assertEquals(1,task.getState());
         assertEquals(2020, cal.get(Calendar.YEAR));
         assertEquals(3, cal.get(Calendar.MONTH));
         assertEquals(24, cal.get(Calendar.DATE));
@@ -35,7 +34,7 @@ public class TaskTest {
         User assignerUser = new User("May",1,"0");
         User accepterUser = new User("John",2,"1");
         Date date = new GregorianCalendar(2020, 3, 24).getTime();
-        Task task = new Task("Buying Lunch", 1, assignerUser, accepterUser,1, date);
+        Task task = new Task("Buying Lunch", 1, assignerUser, accepterUser,new TaskState(), date);
 
         task.setName("Cleaning room");
         assertEquals("Cleaning room", task.getName());
@@ -43,13 +42,11 @@ public class TaskTest {
         task.setID(2);
         assertEquals(2, task.getID());
 
-        assignerUser.setUserName("Jack");
-        assertEquals("Jack", assignerUser.getUserName());
+        assignerUser.setName("Jack");
+        assertEquals("Jack", assignerUser.getName());
 
-        accepterUser.setUserName("Mary");
-        assertEquals("Mary", accepterUser.getUserName());
+        accepterUser.setName("Mary");
+        assertEquals("Mary", accepterUser.getName());
 
-        task.setState(1);
-        assertEquals(1, task.getState());
     }
 }

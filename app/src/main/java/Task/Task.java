@@ -8,17 +8,16 @@ public class Task{
     private int id;
     private User assigner;
     private User executor;
-    private int state;/* 訂單狀態 0=發布中 1=已接受 2=已完成 */
-    private Date data;/* 訂單日期 包含年月日 */
+    private TaskState state;
+    private Date startData;/* 訂單日期 包含年月日 */
 
-    public Task (String name, int id, User assigner, User executor, int taskState, Date data) {
-        /* 基本Constructor */
+    public Task (String name, int id, User assigner, User executor, TaskState taskState, Date startData) {
         this.name = name;
         this.id = id;
         this.assigner = assigner;
         this.executor = executor;
         this.state = taskState;
-        this.data = data;
+        this.startData = startData;
     }
 
     public void setName(String taskName) {
@@ -29,12 +28,12 @@ public class Task{
         this.id = taskID;
     }
 
-    public void setState(int taskState){
-        this.state = taskState;
+    public void setState(TaskState state) {
+        this.state = state;
     }
 
-    public void setData(Date taskData){
-        this.data = taskData;
+    public void setStartData(Date startData){
+        this.startData = startData;
     }
 
     public String getName() {
@@ -45,12 +44,12 @@ public class Task{
         return id;
     }
 
-    public int getState() {
+    public TaskState getState() {
         return state;
     }
 
-    public Date getTime() {
-        return data;
+    public Date getStartData() {
+        return startData;
     }
 
 }
