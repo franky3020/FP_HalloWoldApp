@@ -4,49 +4,53 @@ import java.util.Date;
 import User.User;
 
 public class Task{
-    private String taskName;
-    private int taskID;
-    private User taskAssigner;
-    private User taskAccepter;
-    private int taskState;/* 訂單狀態 0=發布中 1=已接受 2=已完成 */
-    private Date taskData;/* 訂單日期 包含年月日 */
+    private String name;
+    private int id;
+    private User assigner;
+    private User executor;
+    private int state;/* 訂單狀態 0=發布中 1=已接受 2=已完成 */
+    private Date data;/* 訂單日期 包含年月日 */
 
-    public Task ( String taskName, int taskID, User taskAssigner, User taskAccepter, int taskState, Date taskData ) {
+    public Task (String name, int id, User assigner, User executor, int taskState, Date data) {
         /* 基本Constructor */
-        this.taskName = taskName;
-        this.taskID = taskID;
-        this.taskAssigner = taskAssigner;
-        this.taskAccepter = taskAccepter;
-        this.taskState = taskState;
-        this.taskData = taskData;
+        this.name = name;
+        this.id = id;
+        this.assigner = assigner;
+        this.executor = executor;
+        this.state = taskState;
+        this.data = data;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setName(String taskName) {
+        this.name = taskName;
     }
 
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
+    public void setID(int taskID) {
+        this.id = taskID;
     }
 
-    public void setTaskState(int taskState){
-        this.taskState = taskState;
+    public void setState(int taskState){
+        this.state = taskState;
     }
 
-    public void setTaskTime(Date taskData){
-        this.taskData = taskData;
+    public void setData(Date taskData){
+        this.data = taskData;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getName() {
+        return name;
     }
 
-    public int getTaskID() {
-        return taskID;
+    public int getID() {
+        return id;
     }
 
-    public int getTaskState() {
-        return taskState;
+    public int getState() {
+        return state;
+    }
+
+    public Date getTime() {
+        return data;
     }
 
 }
