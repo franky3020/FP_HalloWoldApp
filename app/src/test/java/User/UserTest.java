@@ -11,23 +11,23 @@ public class UserTest {
         User assignerUser = new User("May",1,"0");
         User accepterUser = new User("John",2,"1");
 
-        assignerUser.setUserName("May");
-        assertEquals("May", assignerUser.getUserName());
+        assignerUser.setName("May");
+        assertEquals("May", assignerUser.getName());
 
-        assignerUser.setUserID(1);
-        assertEquals(1, assignerUser.getUserID());
+        assignerUser.setId(1);
+        assertEquals(1, assignerUser.getId());
 
-        assignerUser.setUserPhone("0");
-        assertEquals("0", assignerUser.getUserPhone());
+        assignerUser.setPhone("0");
+        assertEquals("0", assignerUser.getPhone());
 
-        accepterUser.setUserName("John");
-        assertEquals("John", accepterUser.getUserName());
+        accepterUser.setName("John");
+        assertEquals("John", accepterUser.getName());
 
-        accepterUser.setUserID(2);
-        assertEquals(2, accepterUser.getUserID());
+        accepterUser.setId(2);
+        assertEquals(2, accepterUser.getId());
 
-        accepterUser.setUserPhone("1");
-        assertEquals("1", accepterUser.getUserPhone());
+        accepterUser.setPhone("1");
+        assertEquals("1", accepterUser.getPhone());
     }
 
 

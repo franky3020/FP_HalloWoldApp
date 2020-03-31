@@ -57,8 +57,8 @@ public class testDb {
         Properties props = new Properties();
         try {
             props.load(new FileInputStream("src/test/assets/jdbc.properties"));
-            String url = props.getProperty("db.user");
-            System.out.println(url);
+            String userName = props.getProperty("db.user");
+            assertEquals("root", userName);
         } catch (Exception ex) {
             System.out.println("Error: "+ex);
             fail();

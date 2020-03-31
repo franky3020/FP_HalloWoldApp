@@ -1,37 +1,37 @@
 package User;
 
 public class User {
-    private String userName;
-    private int userID;
-    private String userPhone;
+    private String name;
+    private int id;
+    private String phone;
 
-    public User(String userName, int userID, String userPhone) {
-        this.userName = userName;
-        this.userID = userID;
-        this.userPhone = userPhone;
+    public User(String name, int id, String phone) {
+        this.name = name;
+        this.id = id;
+        this.phone = phone;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getId() {
+        return id;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getUserPhone() {
-        return userPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
