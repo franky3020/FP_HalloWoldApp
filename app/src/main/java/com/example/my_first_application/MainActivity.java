@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 /* 參考教學網頁 : https://codelabs.developers.google.com/codelabs/android-training-activity-lifecycle-and-state/index.html?index=..%2F..android-training#0 */
 public class MainActivity extends AppCompatActivity {
@@ -22,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_release_task);
 
         // Log the start of the onCreate() method.
         Log.d(LOG_TAG, "-------");
         Log.d(LOG_TAG, "onCreate");
 
-        Button button = (Button)findViewById(R.id.button_tmp);
+        /*Button button = (Button)findViewById(R.id.button_tmp);
         button.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 MainActivity.this.finish();
             }
-        });
+        });*/
     }
 
     @Override
