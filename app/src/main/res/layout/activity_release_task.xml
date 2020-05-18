@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_login_page_left"
         android:layout_width="wrap_content"
@@ -105,7 +106,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editText_detail_content" />
 
     <EditText
-        android:id="@+id/editText_pay"
+        android:id="@+id/editText_pay_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -123,7 +124,7 @@
         android:text="建議"
         android:textAlignment="textEnd"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText_pay"
+        app:layout_constraintBottom_toTopOf="@+id/editText_pay_content"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintTop_toBottomOf="@+id/editText_detail_content" />
 
@@ -138,7 +139,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_pay" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_pay_content" />
 
     <EditText
         android:id="@+id/editText_task_region"
@@ -192,11 +193,12 @@
         app:layout_constraintTop_toBottomOf="@+id/editText_task_region" />
 
     <EditText
-        android:id="@+id/editText_date_concent"
+        android:id="@+id/editText_date_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="例：2020/5/18"
+        android:drawableEnd="@drawable/ic_release_task_date_calender"
         android:inputType="date"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
@@ -212,5 +214,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
