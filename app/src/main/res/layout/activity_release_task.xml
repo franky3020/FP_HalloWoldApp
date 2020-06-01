@@ -1,217 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_login_page_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="24dp" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_login_page_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="24dp" />
+        <TextView
+            android:id="@+id/textView_title"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="標題"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="標題"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/editText_title_content"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="例：幫忙打掃倉庫"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/editText_title_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="例：幫忙打掃倉庫"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/textView_title" />
+        <TextView
+            android:id="@+id/textView_type"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="任務類型"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="任務類型"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_title_content" />
+        <Spinner
+            android:id="@+id/spinner_task_type"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/task_type_array"
+            android:gravity="center"
+            android:textAlignment="center" />
 
-    <Spinner
-        android:id="@+id/spinner_task_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/task_type_array"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/textView_type" />
+        <TextView
+            android:id="@+id/textView_detail"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="任務內容"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView_detail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="任務內容"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_task_type" />
+        <EditText
+            android:id="@+id/editText_detail_content"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="請簡述任務的工作內容"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/editText_detail_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="請簡述任務的工作內容"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/textView_detail" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/textView_pay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="工作待遇"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_detail_content" />
+            <TextView
+                android:id="@+id/textView_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="任務待遇"
+                android:textAlignment="textStart"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat" />
 
-    <EditText
-        android:id="@+id/editText_pay_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="請輸入金額"
-        android:inputType="number"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/textView_pay" />
+            <TextView
+                android:id="@+id/textView_pay_recommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="建議"
+                android:textAlignment="textEnd"
+                android:textSize="18sp"
+                tools:ignore="RtlCompat" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView_pay_recommend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="建議"
-        android:textAlignment="textEnd"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText_pay_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintTop_toBottomOf="@+id/editText_detail_content" />
+        <EditText
+            android:id="@+id/editText_pay_content"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="請輸入金額"
+            android:inputType="number" />
 
-    <TextView
-        android:id="@+id/textView_task_address"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="任務地點"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_pay_content" />
+        <TextView
+            android:id="@+id/textView_task_address"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="任務地點"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/editText_task_region"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="請輸入地址或地標"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_task_region" />
+        <EditText
+            android:id="@+id/editText_task_region"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="請輸入地址或地標"
+            android:inputType="textPersonName" />
 
-    <Spinner
-        android:id="@+id/spinner_task_region"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/task_region_array"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/textView_task_address" />
+        <Spinner
+            android:id="@+id/spinner_task_region"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/task_region_array"
+            android:gravity="center"
+            android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/textView_task_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="任務日期"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_task_region" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/button_single_date"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:text="單日"
-        app:layout_constraintStart_toEndOf="@+id/textView_task_date"
-        app:layout_constraintTop_toBottomOf="@+id/editText_task_region" />
+            <TextView
+                android:id="@+id/textView_task_date"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="任務日期"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/button_period_date"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="期間"
-        app:layout_constraintStart_toEndOf="@+id/button_single_date"
-        app:layout_constraintTop_toBottomOf="@+id/editText_task_region" />
+            <Button
+                android:id="@+id/button_single_date"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:text="單日" />
 
-    <EditText
-        android:id="@+id/editText_date_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="例：2020/5/18"
-        android:drawableEnd="@drawable/ic_release_task_date_calender"
-        android:inputType="date"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/button_single_date" />
+            <Button
+                android:id="@+id/button_period_date"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="期間" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="發布並儲存"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editText_date_content"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_release_task_date_calender"
+            android:ems="10"
+            android:hint="例：2020/5/18"
+            android:inputType="date"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/button3"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="發布並儲存" />
+    </LinearLayout>
+</ScrollView>
