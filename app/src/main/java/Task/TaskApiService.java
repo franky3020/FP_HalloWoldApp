@@ -10,7 +10,7 @@ import okhttp3.Response;
 
 public class TaskApiService {
 
-    public boolean post(Task task) { //未完成
+    public boolean post_test() { //未完成
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();

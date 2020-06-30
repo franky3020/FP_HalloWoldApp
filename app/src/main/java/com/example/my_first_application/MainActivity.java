@@ -15,6 +15,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    public void onClickToLogin(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickToReleaseTask(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ReleaseTaskActivity.class);
+        startActivity(intent);
+    }
+
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -24,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_release_task);
+        setContentView(R.layout.activity_main);
 
         // Log the start of the onCreate() method.
         Log.d(LOG_TAG, "-------");
