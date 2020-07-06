@@ -7,6 +7,9 @@ import android.view.View;
 
 import Task.Task;
 import Task.TaskApiService;
+import TestHttpsApi.TestHttpsApi;
+
+
 import android.widget.Toast;
 public class ReleaseTaskActivity extends AppCompatActivity {
 
@@ -17,8 +20,13 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     }
 
     public void onClickToPostTask(View view) {
-        TaskApiService taskApiService = new TaskApiService();
-        boolean is_success = taskApiService.post_test();
+//        TaskApiService taskApiService = new TaskApiService();
+//        boolean is_success = taskApiService.post_test();
+//        if(is_success) {
+//            Toast.makeText(this, "success", Toast.LENGTH_LONG).show();
+//        }
+        TestHttpsApi testHttpsApi = new TestHttpsApi();
+        boolean is_success = testHttpsApi.get_test();
         if(is_success) {
             Toast.makeText(this, "success", Toast.LENGTH_LONG).show();
         }
