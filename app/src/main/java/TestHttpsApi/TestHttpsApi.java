@@ -1,5 +1,7 @@
 package TestHttpsApi;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
@@ -10,31 +12,35 @@ import okhttp3.Response;
 public class TestHttpsApi {
 
     public boolean get_test() { //未完成
+        final String TAG = "franky-test";
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+//                    String apiUrl = "https://datacenter.taichung.gov.tw/swagger/yaml/387010000A";
+                    String apiUrl = "http://140.134.26.71:41394/tasks";
+                    Request request = new Request.Builder()
+                            .url(apiUrl)
+                            .method("GET", null)
+                            .build();
 
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        Log.i(TAG, response.body().string());
+                    } else {
+                        Log.i(TAG, "okHttp is request error");
+                    }
 
-
-        Request request = new Request.Builder()
-                .url("https://datacenter.taichung.gov.tw/swagger/yaml/387010000A")
-                .method("GET", null)
-                .build();
-
-        try {
-
-            Response response = client.newCall(request).execute();
-            if(response == null) {
-                return false;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            if( response.code() == HttpURLConnection.HTTP_OK ) {
-                return true;
-            }
+        }).start();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return true;
 
     }
 
