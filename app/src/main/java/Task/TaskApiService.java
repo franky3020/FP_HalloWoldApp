@@ -9,28 +9,37 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class TaskApiService {
+    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-    public boolean post_test() { //未完成
+    public Boolean post() { //未完成
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//
+//                } catch (Exception e) {
+//
+//                }
+//            }
+//        }
+//        );
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        MediaType mediaType = MediaType.parse("text/plain");
-        RequestBody body = RequestBody.create(mediaType, "");
+
+        RequestBody body = RequestBody.create("", JSON);
         Request request = new Request.Builder()
-                .url("http://140.134.26.71:41394//tasks?taskName=frankyTest&message=postmanTest&postTime=2020-01-01 00:00:00&salary=666")
-                .method("POST", body)
+                .url("http://140.134.26.71:41394//tasks?taskName=AndroidTest&message=FromAndroidTest&postTime=2020-07-14 00:00:00&salary=777")
+                .post(body)
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
             if( response.code() == HttpURLConnection.HTTP_CREATED ) {
                 return true;
             }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
-
     }
 
 

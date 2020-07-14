@@ -20,7 +20,6 @@ public class TestHttpsApi {
                 try {
                     OkHttpClient client = new OkHttpClient().newBuilder()
                             .build();
-//                    String apiUrl = "https://datacenter.taichung.gov.tw/swagger/yaml/387010000A";
                     String apiUrl = "http://140.134.26.71:41394/tasks";
                     Request request = new Request.Builder()
                             .url(apiUrl)

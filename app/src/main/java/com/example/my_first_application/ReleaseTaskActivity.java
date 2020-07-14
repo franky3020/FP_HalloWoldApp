@@ -3,6 +3,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 
 import Task.Task;
@@ -17,16 +18,13 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_task);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public void onClickToPostTask(View view) {
-//        TaskApiService taskApiService = new TaskApiService();
-//        boolean is_success = taskApiService.post_test();
-//        if(is_success) {
-//            Toast.makeText(this, "success", Toast.LENGTH_LONG).show();
-//        }
-        TestHttpsApi testHttpsApi = new TestHttpsApi();
-        boolean is_success = testHttpsApi.get_test();
+        TaskApiService taskApiService = new TaskApiService();
+        boolean is_success = taskApiService.post();
         if(is_success) {
             Toast.makeText(this, "success", Toast.LENGTH_LONG).show();
         }
