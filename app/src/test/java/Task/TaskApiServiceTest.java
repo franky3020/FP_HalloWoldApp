@@ -9,7 +9,6 @@ public class TaskApiServiceTest {
     @Test
     public void post_test() {
         TaskApiService taskApiService = new TaskApiService();
-        boolean is_success = taskApiService.post();
-        assertTrue(is_success);
+        taskApiService.post();
     }
 }

@@ -24,10 +24,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
     public void onClickToPostTask(View view) {
         TaskApiService taskApiService = new TaskApiService();
-        boolean is_success = taskApiService.post();
-        if(is_success) {
-            Toast.makeText(this, "success", Toast.LENGTH_LONG).show();
-        }
+        taskApiService.post();
     }
 
 
