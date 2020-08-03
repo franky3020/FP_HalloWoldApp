@@ -44,5 +44,41 @@ public class TaskApiService {
 
     }
 
+    public static boolean getTasks() {
+        final String TAG = "franky-test";
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    String apiUrl = "http://140.134.26.71:39410/ms-provider-develop/tasks";
+                    Request request = new Request.Builder()
+                            .url(apiUrl)
+                            .method("GET", null)
+                            .build();
+
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        Log.i(TAG, response.body().string());
+                    } else {
+                        Log.i(TAG, "okHttp is request error");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        return true;
+
+    }
+
+
+
+
+
 
 }

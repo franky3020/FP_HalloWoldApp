@@ -27,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToShowTask(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ShowTask.class);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onStart() {
