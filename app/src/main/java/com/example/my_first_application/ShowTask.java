@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import Task.TaskApiService;
 
+import Task.ThreadForTaskGet;
 public class ShowTask extends AppCompatActivity {
 
     private GridView taskShow;
@@ -19,7 +19,14 @@ public class ShowTask extends AppCompatActivity {
         setContentView(R.layout.activity_show_task);
         findViews();
         setAdapter();
-        TaskApiService.getTasks();
+        ThreadForTaskGet threadForTaskGet = new ThreadForTaskGet();
+        threadForTaskGet.start();
+        System.out.println("franky test: allTask.length(): ");
+        try {
+            System.out.println(threadForTaskGet.getTaskLength());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setAdapter(){
