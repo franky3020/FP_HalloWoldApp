@@ -24,7 +24,7 @@ public class TaskApiService {
 
                     RequestBody body = RequestBody.create("", JSON);
                     Request request = new Request.Builder()
-                            .url("http://140.134.26.71:41394//tasks?taskName=AndroidTest&message=FromAndroidTest&postTime=2020-07-14 00:00:00&salary=777")
+                            .url("http://140.134.26.71:46557/ms-provider-develop/tasks?taskName=AndroidTest&message=FromAndroidTest&postTime=2020-07-14 00:00:00&salary=777")
                             .post(body)
                             .build();
                     Response response = client.newCall(request).execute();
@@ -53,7 +53,7 @@ public class TaskApiService {
                 try {
                     OkHttpClient client = new OkHttpClient().newBuilder()
                             .build();
-                    String apiUrl = "http://140.134.26.71:39410/ms-provider-develop/tasks";
+                    String apiUrl = "http://140.134.26.71:46557/ms-provider-develop/tasks";
                     Request request = new Request.Builder()
                             .url(apiUrl)
                             .method("GET", null)
