@@ -1,5 +1,5 @@
 package com.example.my_first_application;
-
+//http://androidthinkermobile.blogspot.com/2017/10/android-ui3adapter-listview-gridview.html
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
