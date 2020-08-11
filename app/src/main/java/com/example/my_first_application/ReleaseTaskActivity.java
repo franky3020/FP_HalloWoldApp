@@ -11,6 +11,7 @@ import Task.TaskApiService;
 import TestHttpsApi.TestHttpsApi;
 
 
+import android.widget.EditText;
 import android.widget.Toast;
 public class ReleaseTaskActivity extends AppCompatActivity {
 
@@ -22,9 +23,12 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
     }
 
+    EditText editText = findViewById(R.id.editText_title_content);
+    String taskName = editText.getText().toString();
+
     public void onClickToPostTask(View view) {
         TaskApiService taskApiService = new TaskApiService();
-        taskApiService.post();
+        taskApiService.post(taskName);
     }
 
 

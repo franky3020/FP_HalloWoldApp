@@ -13,7 +13,7 @@ import okhttp3.Response;
 public class TaskApiService {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-    public void post() { //未完成
+    public void post(final String taskName) { //未完成
         final String TAG = "franky-test";
         new Thread(new Runnable() {
             @Override
@@ -23,8 +23,14 @@ public class TaskApiService {
                             .build();
 
                     RequestBody body = RequestBody.create("", JSON);
+
+                    String base_URL = "http://140.134.26.71:46557/ms-provider-develop/tasks?";
+                    String taskParameter1 = "taskName=" + taskName;
+
+
+
                     Request request = new Request.Builder()
-                            .url("http://140.134.26.71:46557/ms-provider-develop/tasks?taskName=AndroidTest&message=FromAndroidTest&postTime=2020-07-14 00:00:00&salary=777")
+                            .url(base_URL + taskParameter1 + "&message=FromAndroidTest&postTime=2020-07-14 00:00:00&salary=777")
                             .post(body)
                             .build();
                     Response response = client.newCall(request).execute();
