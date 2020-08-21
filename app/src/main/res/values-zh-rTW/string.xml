@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">任務APP</string>
+    <string name="create_new_task">創建任務</string>
     <string name="hello_world">哈摟世界?</string>
     <string name="email_address">電子郵件帳號</string>
     <string name="password">密碼</string>
