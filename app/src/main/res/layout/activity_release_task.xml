@@ -173,12 +173,12 @@
 
         <EditText
             android:id="@+id/editText_date_content"
-            android:gravity="center"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_release_task_date_calender"
             android:ems="10"
-            android:hint="例：2020/5/18"
+            android:gravity="center"
+            android:hint="例：2020-5-18"
             android:inputType="date"
             android:textAlignment="center" />
 
