@@ -32,9 +32,10 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <GridView
         android:id="@+id/taskShow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:numColumns="1" />
 
 </LinearLayout>
