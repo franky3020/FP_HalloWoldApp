@@ -1,10 +1,6 @@
 package com.example.my_first_application;
-<<<<<<< HEAD
-//http://androidthinkermobile.blogspot.com/2017/10/android-ui3adapter-listview-gridview.html
-=======
 
 import androidx.annotation.NonNull;
->>>>>>> developer
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
-
 
 import Task.ThreadForTaskGet;
 public class ShowTask extends AppCompatActivity {
@@ -44,7 +39,7 @@ public class ShowTask extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.manu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
