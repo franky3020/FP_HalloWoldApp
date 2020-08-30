@@ -179,12 +179,23 @@
             android:id="@+id/editText_date_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_release_task_date_calender"
             android:ems="10"
             android:gravity="center"
-            android:hint="例：2020-5-18"
-            android:inputType="date"
-            android:textAlignment="center" />
+            android:hint="請選擇日期"
+            android:inputType="none"
+            android:textAlignment="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <EditText
+            android:id="@+id/editText_time_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:hint="請選擇時間"
+            android:textAlignment="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
         <Button
             android:id="@+id/button3"
@@ -194,5 +205,6 @@
             android:gravity="center"
             android:onClick="onClickToPostTask"
             android:text="發布並儲存" />
+
     </LinearLayout>
 </ScrollView>
