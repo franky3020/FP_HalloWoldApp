@@ -27,7 +27,6 @@ public class ShowTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        System.out.println(taskList);
         initTasks();
         RecyclerView recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
@@ -65,6 +64,8 @@ public class ShowTaskActivity extends AppCompatActivity {
     private void initTasks() {
         ShowTask user1 = new ShowTask("小明","買便當", R.drawable.ic_user_show_task);
         taskList.add(user1);
+        taskList.add(new ShowTask("張三","買藥", R.drawable.ic_user_show_task));
+        taskList.add(new ShowTask("李四","打掃庭院", R.drawable.ic_user_show_task));
     }
 }
 

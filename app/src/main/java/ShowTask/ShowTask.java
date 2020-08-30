@@ -22,4 +22,16 @@ public class ShowTask {
     public int getImageId() {
         return imageId;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
+    }
 }

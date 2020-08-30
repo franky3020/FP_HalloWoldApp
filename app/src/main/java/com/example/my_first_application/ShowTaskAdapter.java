@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -24,43 +24,20 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         this.mTaskShowList = taskList;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private RecyclerView taskView;
-        private ImageView userImage;
-        private TextView userName;
-        private TextView taskContent;
-
-        public ViewHolder(RecyclerView view) {
-            super(view);
-            this.taskView = view;
-            this.userImage = view.findViewById(R.id.imageView_pic);
-            this.userName = view.findViewById(R.id.textView_showTask_name);
-            this.taskContent = view.findViewById(R.id.textView_showTask_content);
-        }
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.activity_show_task_item, parent, false);
-        final ViewHolder holder = new ViewHolder((RecyclerView) view);
-        holder.taskView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = holder.getAdapterPosition();
-                ShowTask task = mTaskShowList.get(position);
-                Toast.makeText(view.getContext(), "View"+ task.getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        holder.userImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = holder.getAdapterPosition();
-                ShowTask task = mTaskShowList.get(position);
-                Toast.makeText(view.getContext(), "Image"+ task.getImageId(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        final ViewHolder holder = new ViewHolder((CardView) view);
+//        holder.taskView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int position = holder.getAdapterPosition();
+//                ShowTask task = mTaskShowList.get(position);
+//                Toast.makeText(view.getContext(), "View"+ task.getName(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
         return holder;
     }
 
@@ -75,5 +52,20 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
     @Override
     public int getItemCount() {
         return mTaskShowList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private CardView taskView;
+        private ImageView userImage;
+        private TextView userName;
+        private TextView taskContent;
+
+        public ViewHolder(CardView view) {
+            super(view);
+            this.taskView = view;
+            this.userImage = view.findViewById(R.id.imageView_pic);
+            this.userName = view.findViewById(R.id.textView_showTask_name);
+            this.taskContent = view.findViewById(R.id.textView_showTask_content);
+        }
     }
 }
