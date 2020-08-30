@@ -14,24 +14,22 @@ import java.util.List;
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
     private List<Task> taskShowList;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View taskView;
-        TextView taskName;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private RecyclerView taskView;
+        private TextView taskName;
 
-        public ViewHolder(View view) {
+        public ViewHolder(RecyclerView view) {
             super(view);
-            taskView = view;
-            taskName = view.findViewById(R.id.task_name);
+            this.taskView = view;
+            this.taskName = view.findViewById(R.id.taskShow);
         }
     }
 
     public static class Task {
         private String name;
-
         public Task(String name) {
             this.name = name;
         }
-
         public String getName() {
             return name;
         }
@@ -42,7 +40,7 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_show_task_item, parent, false);
-        final ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder((RecyclerView) view);
         holder.taskView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

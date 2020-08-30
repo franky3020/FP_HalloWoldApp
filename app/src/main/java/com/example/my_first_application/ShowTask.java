@@ -27,7 +27,6 @@ public class ShowTask extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initTasks();
         RecyclerView recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -61,15 +60,5 @@ public class ShowTask extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    private void initTasks() {
-        for(int i = 0; i < 10; i++) {
-            ShowTaskAdapter.Task apple = new ShowTaskAdapter.Task("Apple");
-            taskList.add(apple);
-            ShowTaskAdapter.Task banana = new ShowTaskAdapter.Task("Banana");
-            taskList.add(banana);
-        }
-    }
-
 }
 

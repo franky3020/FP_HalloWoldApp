@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/task_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"/>
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/imageView_pic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_lock_password"/>
+        
+        <TextView
+            android:id="@+id/textView_showTask_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="text test"
+            android:layout_toEndOf="@+id/imageView_pic"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/textView_showTask_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="text test 2"
+            android:layout_toEndOf="@+id/imageView_pic"
+            android:layout_below="@+id/textView_showTask_title"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
