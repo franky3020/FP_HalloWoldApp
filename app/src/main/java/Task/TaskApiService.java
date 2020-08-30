@@ -25,8 +25,8 @@ public class TaskApiService {
 
                     RequestBody body = RequestBody.create("", JSON);
 
-                    //String base_URL = "http://140.134.26.71:46557/ms-provider-develop/tasks?";
-                    String base_URL = "http://140.134.26.71:46557/ms-provider-release-1.0.0/tasks?";
+                    String API_version = "ms-provider-release-1.0.0";
+                    String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
                     String taskParameter1 = "TaskName=" + taskName;
                     String taskParameter2 = "Message=" + message;
                     String taskParameter3 = "PostTime=" + dateTime + " 00:00:00";
@@ -34,7 +34,6 @@ public class TaskApiService {
                     String taskParameter5 = "TypeName=" + taskType;
                     String taskParameter6 = "TaskAddress=" + taskAddress;
                     String taskParameter7 = "TaskCity=" + taskCity;
-
 
 
                     Request request = new Request.Builder()
