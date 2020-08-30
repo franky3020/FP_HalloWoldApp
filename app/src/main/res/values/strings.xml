@@ -8,6 +8,8 @@
     <string name="forgot_your_password">Forgot your Password?</string>
     <string name="or">OR</string>
     <string name="sign_up">Sign up</string>
+    <string name="show_task_name">user name</string>
+    <string name="show_task_content">task content</string>
 
     <!-- 暫時的 button，為了進入 Login 頁面 -->
     <string name="click">click to Login page</string>

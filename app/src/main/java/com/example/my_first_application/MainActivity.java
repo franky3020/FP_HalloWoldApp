@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
 
 /* 參考教學網頁 : https://codelabs.developers.google.com/codelabs/android-training-activity-lifecycle-and-state/index.html?index=..%2F..android-training#0 */
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickToShowTask(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ShowTask.class);
+        intent.setClass(MainActivity.this, ShowTaskActivity.class);
         startActivity(intent);
     }
 

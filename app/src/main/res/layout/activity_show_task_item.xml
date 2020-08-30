@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+    android:layout_margin="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,13 +14,13 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_user_showtask"/>
-        
+            android:src="@drawable/ic_user_show_task"/>
+
         <TextView
-            android:id="@+id/textView_showTask_title"
+            android:id="@+id/textView_showTask_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="text test"
+            android:text="@string/show_task_name"
             android:layout_toEndOf="@+id/imageView_pic"
             android:textColor="@android:color/black"
             android:textSize="18dp"
@@ -30,8 +30,8 @@
             android:id="@+id/textView_showTask_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="text test 2"
+            android:text="@string/show_task_content"
             android:layout_toEndOf="@+id/imageView_pic"
-            android:layout_below="@+id/textView_showTask_title"/>
+            android:layout_below="@+id/textView_showTask_name"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

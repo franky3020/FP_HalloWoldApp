@@ -1,4 +1,4 @@
-package signUp;
+package SignUp;
 
 public class SignUp {
     /* 未開始實作 method 功能

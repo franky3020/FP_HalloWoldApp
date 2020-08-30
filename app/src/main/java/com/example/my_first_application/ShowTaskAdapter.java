@@ -1,71 +1,79 @@
 package com.example.my_first_application;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import java.util.ArrayList;
+
+import ShowTask.ShowTask;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
-    private List<Task> taskShowList;
+    private Context mContext;
+    private ArrayList<ShowTask> mTaskShowList;
+
+    public ShowTaskAdapter(Context context, ArrayList<ShowTask> taskList) {
+        this.mContext = context;
+        this.mTaskShowList = taskList;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView taskView;
-        private TextView taskName;
+        private ImageView userImage;
+        private TextView userName;
+        private TextView taskContent;
 
         public ViewHolder(RecyclerView view) {
             super(view);
             this.taskView = view;
-            this.taskName = view.findViewById(R.id.taskShow);
-        }
-    }
-
-    public static class Task {
-        private String name;
-        public Task(String name) {
-            this.name = name;
-        }
-        public String getName() {
-            return name;
+            this.userImage = view.findViewById(R.id.imageView_pic);
+            this.userName = view.findViewById(R.id.textView_showTask_name);
+            this.taskContent = view.findViewById(R.id.textView_showTask_content);
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.activity_show_task_item, parent, false);
         final ViewHolder holder = new ViewHolder((RecyclerView) view);
         holder.taskView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
-                Task task = taskShowList.get(position);
+                ShowTask task = mTaskShowList.get(position);
                 Toast.makeText(view.getContext(), "View"+ task.getName(), Toast.LENGTH_SHORT).show();
             }
         });
-
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition();
+                ShowTask task = mTaskShowList.get(position);
+                Toast.makeText(view.getContext(), "Image"+ task.getImageId(), Toast.LENGTH_SHORT).show();
+            }
+        });
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Task task = taskShowList.get(position);
-        holder.taskName.setText(task.getName());
+        ShowTask task = mTaskShowList.get(position);
+        holder.userImage.setImageResource(task.getImageId());
+        holder.userName.setText(task.getName());
+        holder.taskContent.setText(task.getContent());
     }
 
     @Override
     public int getItemCount() {
-        return taskShowList.size();
+        return mTaskShowList.size();
     }
-
-    public ShowTaskAdapter(List<Task> taskList) {
-        taskShowList = taskList;
-    }
-
 }
