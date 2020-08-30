@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import ShowTask.ShowTask;
 import Task.ThreadForTaskGet;
-public class ShowTask extends AppCompatActivity {
 
-    private List<ShowTaskAdapter.Task> taskList = new ArrayList<>();
+public class ShowTaskActivity extends AppCompatActivity {
+
+    private ArrayList<ShowTask> taskList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +27,12 @@ public class ShowTask extends AppCompatActivity {
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        System.out.println(taskList);
+        initTasks();
         RecyclerView recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        ShowTaskAdapter adapter = new ShowTaskAdapter(taskList);
+        ShowTaskAdapter adapter = new ShowTaskAdapter(this, taskList);
         recyclerView.setAdapter(adapter);
         ThreadForTaskGet threadForTaskGet = new ThreadForTaskGet();
         threadForTaskGet.start();
@@ -50,7 +52,6 @@ public class ShowTask extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.action_create_new_task:
                 Intent intent = new Intent(this, ReleaseTaskActivity.class);
@@ -59,6 +60,11 @@ public class ShowTask extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void initTasks() {
+        ShowTask user1 = new ShowTask("小明","買便當", R.drawable.ic_user_show_task);
+        taskList.add(user1);
     }
 }
 
