@@ -13,7 +13,7 @@ import okhttp3.Response;
 public class TaskApiService {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-    public void post(final String taskName, final String message, final String salary , final String dateTime
+    public void post(final String taskName, final String message, final String salary , final String postTime
                         , final String taskType, final String taskAddress, final String taskCity) {
         final String TAG = "franky-test";
         new Thread(new Runnable() {
@@ -29,7 +29,7 @@ public class TaskApiService {
                     String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
                     String taskParameter1 = "TaskName=" + taskName;
                     String taskParameter2 = "Message=" + message;
-                    String taskParameter3 = "PostTime=" + dateTime + " 00:00:00";
+                    String taskParameter3 = "PostTime=" + postTime;
                     String taskParameter4 = "Salary=" + salary;
                     String taskParameter5 = "TypeName=" + taskType;
                     String taskParameter6 = "TaskAddress=" + taskAddress;
