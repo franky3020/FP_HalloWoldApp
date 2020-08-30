@@ -3,6 +3,5 @@
     <string-array name="task_region_array">
         <item>選擇縣市區域</item>
         <item>台中市</item>
-        <item>台北市</item>
     </string-array>
 </resources>
