@@ -14,7 +14,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_lock_password"/>
+            android:src="@drawable/ic_user_showtask"/>
         
         <TextView
             android:id="@+id/textView_showTask_title"
