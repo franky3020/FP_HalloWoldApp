@@ -20,6 +20,7 @@ public class TaskListObserved extends Observable implements Runnable{
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             String apiUrl = "http://140.134.26.71:46557/ms-provider-develop/tasks";
+//            String apiUrl = "http://140.134.26.71:33836/tasks"; // 因目前gateway 會有timeout的問題
             Request request = new Request.Builder()
                     .url(apiUrl)
                     .method("GET", null)
@@ -28,9 +29,9 @@ public class TaskListObserved extends Observable implements Runnable{
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 String jsonData = response.body().string();
-                Log.i(TAG, jsonData);
                 allTask = new JSONObject(jsonData);
-                Log.i(TAG, "okHttp is request success");
+                Log.i(TAG, "okHttp is request success" + allTask.length());
+                setChanged(); // 一定先有這個 notifyObservers() 才會有效
                 notifyObservers();
             } else {
                 Log.i(TAG, "okHttp is request error");
@@ -39,4 +40,9 @@ public class TaskListObserved extends Observable implements Runnable{
             e.printStackTrace();
         }
     }
+
+    public int getTaskLength() {
+        return allTask.length();
+    }
+
 }

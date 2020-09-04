@@ -15,6 +15,8 @@ import android.view.Menu;
 import java.util.ArrayList;
 
 import ShowTask.ShowTask;
+import Task.ShowTaskListObservable;
+import Task.TaskListObserved;
 import Task.ThreadForTaskGet;
 
 public class ShowTaskActivity extends AppCompatActivity {
@@ -33,14 +35,6 @@ public class ShowTaskActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         ShowTaskAdapter adapter = new ShowTaskAdapter(this, taskList);
         recyclerView.setAdapter(adapter);
-        ThreadForTaskGet threadForTaskGet = new ThreadForTaskGet();
-        threadForTaskGet.start();
-        System.out.println("franky test: allTask.length(): ");
-        try {
-            System.out.println(threadForTaskGet.getTaskLength());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -68,6 +62,15 @@ public class ShowTaskActivity extends AppCompatActivity {
             taskList.add(new ShowTask("張三","買藥", R.drawable.ic_user_show_task));
             taskList.add(new ShowTask("李四","打掃庭院", R.drawable.ic_user_show_task));
         }
+
+        TaskListObserved taskListObserved = new TaskListObserved();
+        ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable();
+        taskListObserved.addObserver(showTaskListObservable);
+
+        System.out.println("franky-test");
+        System.out.println(taskListObserved.countObservers());
+        Thread th1 = new Thread(taskListObserved,"taskListObserved 1");
+        th1.start();
     }
 }
 
