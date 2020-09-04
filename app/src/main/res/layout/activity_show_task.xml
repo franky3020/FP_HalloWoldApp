@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ShowTask">
+    tools:context=".ShowTaskActivity">
 
     <include
         layout="@layout/toolbar_main"
@@ -14,27 +14,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="right">
 
-        <Button
+        <Spinner
             android:id="@+id/button_task_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="類型" />
+            android:entries="@array/task_type_array"
+            android:background="@drawable/show_task_spinner"
+            android:text="@string/show_task_spinner_type" />
 
-        <Button
+        <Spinner
             android:id="@+id/button_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="區域" />
+            android:entries="@array/task_region_array"
+            android:background="@drawable/show_task_spinner"
+            android:text="@string/show_task_spinner_address" />
 
     </LinearLayout>
 
-    <GridView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskShow"
+        android:padding="5dp"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="1" />
+        tools:listitem="@layout/activity_show_task_item"/>
 
 </LinearLayout>

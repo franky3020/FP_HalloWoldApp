@@ -9,6 +9,10 @@
     <string name="forgot_your_password">忘記密碼?</string>
     <string name="or">或</string>
     <string name="sign_up">註冊</string>
+    <string name="show_task_name">使用者姓名</string>
+    <string name="show_task_content">任務內容</string>
+    <string name="show_task_spinner_type">類型</string>
+    <string name="show_task_spinner_address">區域</string>
 
     <!-- 暫時的 button，為了進入 Login 頁面 -->
     <string name="click">前往登入介面</string>
