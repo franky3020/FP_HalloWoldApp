@@ -12,6 +12,15 @@
                 android:right="5dp"
                 android:bottom="5dp"
                 android:top="5dp" /> //邊距
+            <size
+                android:width="140dp"
+                />
         </shape>
+    </item>
+    <item>
+        <bitmap
+            android:gravity="end"
+            android:src="@drawable/arrow_down"
+            android:antialias="true" />
     </item>
 </layer-list>

@@ -3,42 +3,138 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView_pic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_user_show_task"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/textView_showTask_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/show_task_name"
-                android:layout_toEndOf="@+id/imageView_pic"
-                android:textColor="@android:color/black"
-                android:textSize="18dp"
-                android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/textView_showTask_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/show_task_content"
-                android:layout_toEndOf="@+id/imageView_pic"
-                android:layout_below="@+id/textView_showTask_name"/>
+                <ImageView
+                    android:id="@+id/imageView_user_pic"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="15dp"
+                    android:src="@drawable/ic_user_show_task"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView_showTask_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/show_task_title"
+                        android:layout_toEndOf="@+id/imageView_user_pic"
+                        android:textColor="@android:color/black"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/textView_showTask_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/show_task_type"
+                        android:textSize="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@+id/imageView_user_pic"
+                        android:layout_below="@+id/textView_showTask_title"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imageView_arrow_pic"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@drawable/ic_baseline_keyboard_arrow_up_24"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:layout_marginLeft="10dp">
+
+                <ImageView
+                    android:id="@+id/imageView_address_pic"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_address_show_task"/>
+
+                <TextView
+                    android:id="@+id/textView_showTask_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_task_address"
+                    android:layout_toEndOf="@+id/imageView_address_pic"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:layout_marginLeft="10dp">
+
+                <ImageView
+                    android:id="@+id/imageView_date_pic"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_release_task_date_calender"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/textView_showTask_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_task_date"
+                    android:layout_toEndOf="@+id/imageView_date_pic"
+                    android:textSize="14dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView_time_pic"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_time_show_task"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/textView_showTask_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_task_address"
+                    android:layout_toEndOf="@+id/imageView_time_pic"
+                    android:textSize="14dp"/>
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

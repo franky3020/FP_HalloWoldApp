@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import ShowTask.ShowTask;
+import Task.ShowTask;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
     private Context mContext;
@@ -45,8 +45,11 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ShowTask task = mTaskShowList.get(position);
         holder.userImage.setImageResource(task.getImageId());
-        holder.userName.setText(task.getName());
-        holder.taskContent.setText(task.getContent());
+        holder.taskTitle.setText(task.getTitle());
+        holder.taskType.setText(task.getType());
+        holder.taskAddress.setText(task.getAddress());
+        holder.taskDate.setText(task.getDate());
+        holder.taskTime.setText(task.getTime());
     }
 
     @Override
@@ -57,15 +60,21 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         private CardView taskView;
         private ImageView userImage;
-        private TextView userName;
-        private TextView taskContent;
+        private TextView taskTitle;
+        private TextView taskType;
+        private TextView taskAddress;
+        private TextView taskDate;
+        private TextView taskTime;
 
         public ViewHolder(CardView view) {
             super(view);
             this.taskView = view;
-            this.userImage = view.findViewById(R.id.imageView_pic);
-            this.userName = view.findViewById(R.id.textView_showTask_name);
-            this.taskContent = view.findViewById(R.id.textView_showTask_content);
+            this.userImage = view.findViewById(R.id.imageView_user_pic);
+            this.taskTitle = view.findViewById(R.id.textView_showTask_title);
+            this.taskType = view.findViewById(R.id.textView_showTask_type);
+            this.taskAddress = view.findViewById(R.id.textView_showTask_address);
+            this.taskDate = view.findViewById(R.id.textView_showTask_date);
+            this.taskTime = view.findViewById(R.id.textView_showTask_time);
         }
     }
 }

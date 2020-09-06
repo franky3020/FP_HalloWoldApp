@@ -8,8 +8,10 @@
     <string name="forgot_your_password">Forgot your Password?</string>
     <string name="or">OR</string>
     <string name="sign_up">Sign up</string>
-    <string name="show_task_name">user name</string>
-    <string name="show_task_content">task content</string>
+    <string name="show_task_title">Task Title</string>
+    <string name="show_task_type">Task type</string>
+    <string name="show_task_address">Task address</string>
+    <string name="show_task_date">Task Date</string>
     <string name="show_task_spinner_type">Task Type</string>
     <string name="show_task_spinner_address">Address</string>
 
