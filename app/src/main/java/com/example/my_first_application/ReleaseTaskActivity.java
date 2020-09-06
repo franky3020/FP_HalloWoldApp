@@ -17,9 +17,11 @@ import TestHttpsApi.TestHttpsApi;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -37,14 +39,21 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     String taskAddress;
     String taskCity;
     String currentTime;
-    EditText postTimeField;
-    EditText timePickerField;
+    String date1;
+    String date2;
+    String PeriodDate1;
+    String PeriodDate2;
+    Button SingleDateButton;
+    Button PeriodDateButton;
+    TextView postTimeField;
     Calendar calendar;
     int currentHour;
     int currentMinute;
     int currentYear;
     int currentMonth;
     int currentDay;
+    boolean twice = false;
+    boolean flag = false;
 
 
 
@@ -60,69 +69,23 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        postTimeField = findViewById(R.id.editText_date_content);
-        postTimeField.setInputType(InputType.TYPE_NULL);
-        postTimeField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                // TODO Auto-generated method stub
-                if(hasFocus){
-                    showDatePickerDialog();
-                }
-            }
-        });
-
-        postTimeField.setOnClickListener(new View.OnClickListener() {
-
+        SingleDateButton = findViewById(R.id.button_single_date);
+        PeriodDateButton = findViewById(R.id.button_period_date);
+        SingleDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 showDatePickerDialog();
             }
         });
-
-        timePickerField = findViewById(R.id.editText_time_content);
-        timePickerField.setInputType(InputType.TYPE_NULL);
-        timePickerField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    showTimePickerDialog();
-                }
-            }
-        });
-
-
-        timePickerField.setOnClickListener(new View.OnClickListener() {
-
+        PeriodDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                showTimePickerDialog();
+                flag = true;
+                showDatePickerDialog();
             }
         });
-
     }
-    private void showTimePickerDialog(){
-        calendar = Calendar.getInstance();
-        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        currentMinute = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(ReleaseTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
 
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                currentTime = String.format("%02d:%02d", hourOfDay%12, minute);
-                if(hourOfDay >= 12){
-                    timePickerField.setText("下午" + currentTime);
-                }
-                else{
-                    timePickerField.setText("上午" + currentTime);
-
-                }
-            }
-        },  currentHour ,currentMinute,false).show();
-    }
 
     private void showDatePickerDialog() {
         calendar = Calendar.getInstance();
@@ -133,11 +96,45 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                // TODO Auto-generated method stub
-                postTimeField.setText(year+"-" + (monthOfYear+1)+ "-" +dayOfMonth);
+                date1 = year+"-" + (monthOfYear+1)+ "-" +dayOfMonth;
+                showTimePickerDialog();
             }
         }, currentYear, currentMonth, currentDay).show();
 
+
+    }
+    private void showTimePickerDialog(){
+        postTimeField = findViewById(R.id.textView_time_content);
+        calendar = Calendar.getInstance();
+        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        currentMinute = calendar.get(Calendar.MINUTE);
+        new TimePickerDialog(ReleaseTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
+
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                currentTime = String.format("%02d:%02d", hourOfDay%12, minute);
+                if(hourOfDay >= 12){
+                    date2 = "下午" + currentTime;
+                }
+                else{
+                    date2 = "上午" + currentTime;
+                }
+                if(twice){
+                    PeriodDate2 = date1 + " " + date2;
+                    twice = false;
+                }
+                else {
+                    PeriodDate1 = date1 + "  " + date2;
+                    PeriodDate2 = "";
+                }
+                if(flag){
+                    twice = true;
+                    showDatePickerDialog();
+                }
+                flag = false;
+                postTimeField.setText(PeriodDate1 + "～\n" + PeriodDate2);
+            }
+        },  currentHour ,currentMinute,false).show();
     }
 
 
@@ -153,7 +150,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         EditText SalaryField = findViewById(R.id.editText_pay_content);
         salary = SalaryField.getText().toString();
 
-        postTime = postTimeField.getText().toString() + " " + currentTime + ":00";
+        postTime = date1 + " " + currentTime + ":00";
 
         Spinner taskTypeField = findViewById(R.id.spinner_task_type);
         taskType = taskTypeField.getSelectedItem().toString();
