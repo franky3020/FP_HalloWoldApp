@@ -63,10 +63,10 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     private void initTasks() {
         for(int i = 0; i <= 10; i++){
-            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task,"買xxx的滷肉飯", "買便當", "台中市西屯區", "2020/9/11", "上午 11：00");
+            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task,"買xxx的滷肉飯", "買便當", "台中市西屯區", "2020/9/11", "上午 11:00");
             taskList.add(user1);
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task,"打掃庭院", "做家務", "台中市北屯區", "2020/10/11", "上午 10：00"));
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task,"裝燈泡", "修理", "台中市南屯區", "2020/11/11", "下午 2：00"));
+            taskList.add(new ShowTask(R.drawable.ic_user_show_task,"打掃庭院", "做家務", "台中市北屯區", "2020/10/11", "上午 10:00"));
+            taskList.add(new ShowTask(R.drawable.ic_user_show_task,"裝燈泡", "修理", "台中市南屯區", "2020/11/11", "下午 2:00"));
         }
     }
 }
