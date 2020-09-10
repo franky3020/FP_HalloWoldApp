@@ -170,33 +170,19 @@
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:text="期間" />
 
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/editText_date_content"
+        <TextView
+            android:id="@+id/textView_time_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="請選擇日期"
-            android:inputType="none"
             android:textAlignment="center"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-
-        <EditText
-            android:id="@+id/editText_time_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:hint="請選擇時間"
-            android:textAlignment="center"
-            android:focusable="true"
-            android:focusableInTouchMode="true"/>
-
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
         <Button
             android:id="@+id/button3"
             android:layout_width="fill_parent"
