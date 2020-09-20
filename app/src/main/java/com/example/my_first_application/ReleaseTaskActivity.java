@@ -104,7 +104,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
     }
     private void showTimePickerDialog(){
-        postTimeField = findViewById(R.id.textView_time_content);
+        postTimeField = findViewById(R.id.textView_task_time);
         calendar = Calendar.getInstance();
         currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         currentMinute = calendar.get(Calendar.MINUTE);
@@ -132,7 +132,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                     showDatePickerDialog();
                 }
                 flag = false;
-                postTimeField.setText(PeriodDate1 + "～\n" + PeriodDate2);
+                postTimeField.setText(PeriodDate1 +  " ～ " + PeriodDate2);
             }
         },  currentHour ,currentMinute,false).show();
     }
