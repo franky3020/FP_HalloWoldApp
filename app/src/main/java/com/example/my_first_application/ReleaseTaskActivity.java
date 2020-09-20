@@ -180,7 +180,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         }
 
         TaskApiService taskApiService = new TaskApiService();
-        taskApiService.post(taskName, message, salary, postTime, taskType, taskAddress, taskCity);
+        taskApiService.postUseThread(taskName, message, salary, postTime, taskType, taskAddress, taskCity);
     }
 
 
