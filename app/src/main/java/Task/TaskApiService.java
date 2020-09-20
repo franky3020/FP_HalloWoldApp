@@ -25,21 +25,22 @@ public class TaskApiService {
 
                     RequestBody body = RequestBody.create("", JSON);
 
-                    String API_version = "ms-provider-release-1.0.0";
+                    String API_version = "ms-provider-develop";
                     String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
-                    String taskParameter1 = "TaskName=" + taskName;
-                    String taskParameter2 = "Message=" + message;
-                    String taskParameter3 = "PostTime=" + postTime;
-                    String taskParameter4 = "Salary=" + salary;
-                    String taskParameter5 = "TypeName=" + taskType;
-                    String taskParameter6 = "TaskAddress=" + taskAddress;
-                    String taskParameter7 = "TaskCity=" + taskCity;
+                    String taskNameParameter = "TaskName=" + taskName;
+                    String messageParameter = "Message=" + message;
+                    String startPostTimeParameter = "StartPostTime=" + postTime;
+                    String endPostTimeParameter = "EndPostTime=" + postTime;
+                    String salaryParameter = "Salary=" + salary;
+                    String taskTypeParameter = "TypeName=" + taskType;
+                    String taskAddressParameter = "TaskAddress=" + taskAddress;
+                    String taskCityParameter = "TaskCity=" + taskCity;
 
 
                     Request request = new Request.Builder()
-                            .url(base_URL + taskParameter1 + "&" + taskParameter2 + "&" + taskParameter3 +
-                                    "&" + taskParameter4 + "&" + taskParameter5 + "&" + taskParameter6 +
-                                    "&" + taskParameter7)
+                            .url(base_URL + taskNameParameter + "&" + messageParameter + "&" + startPostTimeParameter +
+                                    "&" + endPostTimeParameter + "&" + salaryParameter + "&" + taskTypeParameter +
+                                    "&" + taskAddressParameter + "&" + taskCityParameter)
                             .post(body)
                             .build();
                     Response response = client.newCall(request).execute();
