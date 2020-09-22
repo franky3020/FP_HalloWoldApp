@@ -1,7 +1,5 @@
 package Task;
 
-import android.app.Activity;
-import android.util.Log;
 
 import java.util.Observable;
 import java.util.Observer;

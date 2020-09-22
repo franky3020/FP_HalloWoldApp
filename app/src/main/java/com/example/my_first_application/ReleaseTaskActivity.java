@@ -4,30 +4,22 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.text.InputType;
 import android.view.View;
 
-import Task.Task;
 import Task.TaskApiService;
-import TestHttpsApi.TestHttpsApi;
 
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 public class ReleaseTaskActivity extends AppCompatActivity {
 
