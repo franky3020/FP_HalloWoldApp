@@ -11,7 +11,7 @@ public class ShowTaskListObservable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         TaskListObserved taskListObserved = (TaskListObserved) o;
-        Log.i("Frankt-test", "Observable success " + taskListObserved.getTaskLength());
+        taskListObserved.updateAllTasks();
     }
 
 }
