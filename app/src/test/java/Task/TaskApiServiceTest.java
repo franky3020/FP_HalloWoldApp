@@ -2,6 +2,7 @@ package Task;
 
 import android.util.Log;
 
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class TaskApiServiceTest {
 
@@ -27,4 +29,17 @@ public class TaskApiServiceTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void getTasks_test() {
+        TaskApiService taskApiService = new TaskApiService();
+        try {
+            JSONObject tasks = taskApiService.getTasks();
+            assertTrue(tasks.length() > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

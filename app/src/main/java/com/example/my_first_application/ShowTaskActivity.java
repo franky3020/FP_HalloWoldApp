@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,11 +18,14 @@ import java.util.ArrayList;
 import Task.ShowTask;
 import Task.ShowTaskListObservable;
 import Task.TaskListObserved;
-import Task.ThreadForTaskGet;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
     private ArrayList<ShowTask> taskList = new ArrayList<>();
+    RecyclerView recyclerView;
+    ShowTaskAdapter adapter;
+    Handler getTasksAPI_Handler;
+    int sendAPI_DelayMillis = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +33,15 @@ public class ShowTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initTasks();
-        RecyclerView recyclerView = findViewById(R.id.taskShow);
+
+        this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        ShowTaskAdapter adapter = new ShowTaskAdapter(this, taskList);
-        recyclerView.setAdapter(adapter);
+        this.recyclerView.setLayoutManager(layoutManager);
+        this.adapter = new ShowTaskAdapter(this, taskList);
+        this.recyclerView.setAdapter(adapter);
+
+        this.getTasksAPI_Handler = new Handler();
+        this.getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis); // 第一次會比較久, 因為會先delay在執行, 這之後要修正
     }
 
     @Override
@@ -54,23 +61,27 @@ public class ShowTaskActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
+    }
 
-    private void initTasks() {
-        for(int i = 0; i <= 10; i++){
-            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task,"買xxx的滷肉飯", "買便當", "台中市西屯區", "2020/9/11", "上午 11:00");
-            taskList.add(user1);
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task,"打掃庭院", "做家務", "台中市北屯區", "2020/10/11", "上午 10:00"));
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task,"裝燈泡", "修理", "台中市南屯區", "2020/11/11", "下午 2:00"));
+    private final Runnable getTaskAPI_Runnable = new Runnable()
+    {
+        public void run()
+
+        {
+            TaskListObserved taskListObserved = new TaskListObserved(taskList);
+            ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable();
+            taskListObserved.addObserver(showTaskListObservable);
+
+            Thread getTasksList = new Thread(taskListObserved,"taskListObserved 1");
+            getTasksList.start();
+            adapter.notifyDataSetChanged(); //要改 有bug
+            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
 
-        TaskListObserved taskListObserved = new TaskListObserved();
-        ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable();
-        taskListObserved.addObserver(showTaskListObservable);
-
-        System.out.println("franky-test");
-        System.out.println(taskListObserved.countObservers());
-        Thread th1 = new Thread(taskListObserved,"taskListObserved 1");
-        th1.start();
-    }
+    };
 }
 
