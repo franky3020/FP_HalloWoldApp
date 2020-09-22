@@ -1,6 +1,5 @@
 package com.example.my_first_application;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
