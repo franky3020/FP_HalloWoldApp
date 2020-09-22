@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import Task.ShowTask;
-import Task.ThreadForTaskGet;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -32,14 +31,6 @@ public class HomePageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         HomePageAdapter adapter = new HomePageAdapter(this, taskList);
         recyclerView.setAdapter(adapter);
-        ThreadForTaskGet threadForTaskGet = new ThreadForTaskGet();
-        threadForTaskGet.start();
-        System.out.println("franky test: allTask.length(): ");
-        try {
-            System.out.println(threadForTaskGet.getTaskLength());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
