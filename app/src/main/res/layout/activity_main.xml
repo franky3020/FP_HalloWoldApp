@@ -7,60 +7,54 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/button_main_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="50dp"
+        android:onClick="onClickToLogin"
+        android:text="@string/click_to_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_tmp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:onClick="onClickToLogin"
-        android:text="@string/click"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_main_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:onClick="onClickToSignUp"
+        android:text="@string/click_to_sign_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_main_login" />
+
+    <Button
+        android:id="@+id/button_main_release_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="onClickToReleaseTask"
-        android:text="to Release Task"
-        app:layout_constraintBottom_toTopOf="@+id/button_tmp"
+        android:text="@string/click_to_release_task"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.506" />
+        app:layout_constraintTop_toBottomOf="@+id/button_main_sign_up" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_main_show_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="62dp"
         android:onClick="onClickToShowTask"
-        android:text="show tasks"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        android:text="@string/click_to_show_task"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.013" />
+        app:layout_constraintTop_toBottomOf="@+id/button_main_release_task" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/button_main_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="156dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button" />
-
+        android:onClick="onClickToMainPage"
+        android:text="@string/click_to_main_page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_main_show_task"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

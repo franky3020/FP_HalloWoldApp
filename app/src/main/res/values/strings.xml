@@ -4,17 +4,23 @@
     <string name="hello_world">hello_world</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
+    <string name="password_again">Enter Password Again</string>
     <string name="login">LOGIN</string>
     <string name="forgot_your_password">Forgot your Password?</string>
     <string name="or">OR</string>
     <string name="sign_up">Sign up</string>
     <string name="show_task_title">Task Title</string>
     <string name="show_task_type">Task type</string>
+    <string name="show_task_status">Task time</string>
     <string name="show_task_address">Task address</string>
     <string name="show_task_date">Task Date</string>
     <string name="show_task_spinner_type">Task Type</string>
     <string name="show_task_spinner_address">Address</string>
 
     <!-- 暫時的 button，為了進入 Login 頁面 -->
-    <string name="click">click to Login page</string>
+    <string name="click_to_login">Click to Login page</string>
+    <string name="click_to_sign_up">Click to Sign Up page</string>
+    <string name="click_to_release_task">Click to Release Task</string>
+    <string name="click_to_show_task">Click to Show Task</string>
+    <string name="click_to_main_page">Click to Main Page</string>
 </resources>

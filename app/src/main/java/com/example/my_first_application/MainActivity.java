@@ -18,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToSignUp(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
     public void onClickToReleaseTask(View view) {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, ReleaseTaskActivity.class);
@@ -30,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToMainPage(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, HomePageActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onStart() {

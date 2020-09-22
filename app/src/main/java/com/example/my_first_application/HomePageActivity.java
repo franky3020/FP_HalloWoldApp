@@ -2,39 +2,44 @@ package com.example.my_first_application;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 
 import Task.ShowTask;
-import Task.ShowTaskListObservable;
-import Task.TaskListObserved;
 import Task.ThreadForTaskGet;
 
-public class ShowTaskActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity {
 
     private ArrayList<ShowTask> taskList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_task);
+        setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initTasks();
-        RecyclerView recyclerView = findViewById(R.id.taskShow);
+        RecyclerView recyclerView = findViewById(R.id.homeTaskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        ShowTaskAdapter adapter = new ShowTaskAdapter(this, taskList);
+        HomePageAdapter adapter = new HomePageAdapter(this, taskList);
         recyclerView.setAdapter(adapter);
+        ThreadForTaskGet threadForTaskGet = new ThreadForTaskGet();
+        threadForTaskGet.start();
+        System.out.println("franky test: allTask.length(): ");
+        try {
+            System.out.println(threadForTaskGet.getTaskLength());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -57,20 +62,11 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     private void initTasks() {
         for(int i = 0; i <= 10; i++){
-            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task, "買xxx的滷肉飯", "買便當", "台中市西屯區", "2020/9/11", "上午 11:00");
+            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task, "買xxx的滷肉飯", "買便當", "台中市西屯區", "2020/9/11", "上午 11:00", "50 min");
             taskList.add(user1);
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task, "打掃庭院", "做家務", "台中市北屯區", "2020/10/11", "上午 10:00"));
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task, "裝燈泡", "修理", "台中市南屯區", "2020/11/11", "下午 2:00"));
+            taskList.add(new ShowTask(R.drawable.ic_user_show_task, "打掃庭院", "做家務", "台中市北屯區", "2020/10/11", "上午 10:00", "30 min"));
+            taskList.add(new ShowTask(R.drawable.ic_user_show_task, "裝燈泡", "修理", "台中市南屯區", "2020/11/11", "下午 2:00", "1 hr"));
         }
-
-        TaskListObserved taskListObserved = new TaskListObserved();
-        ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable();
-        taskListObserved.addObserver(showTaskListObservable);
-
-        System.out.println("franky-test");
-        System.out.println(taskListObserved.countObservers());
-        Thread th1 = new Thread(taskListObserved,"taskListObserved 1");
-        th1.start();
     }
 }
 

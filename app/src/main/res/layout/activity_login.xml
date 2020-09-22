@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" /> <!-- 參考教學 : http://androidnotebykenny.blogspot.com/2015/07/android-imageview.html -->
 
     <EditText
-        android:id="@+id/editText_username"
+        android:id="@+id/editText_login_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -50,7 +50,7 @@
 
     <!-- Asset 教學 : https://developer.android.com/studio/write/image-asset-studio?hl=zh-cn -->
     <EditText
-        android:id="@+id/editText_password"
+        android:id="@+id/editText_login_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -64,7 +64,7 @@
         android:drawableEnd="@drawable/ic_visibility_eye"
         app:layout_constraintEnd_toStartOf="@id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_username" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_login_username" />
 
     <Button
         android:id="@+id/button_log_in"
@@ -77,10 +77,10 @@
         android:background="@drawable/login_button_background"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@id/editText_password" />
+        app:layout_constraintTop_toBottomOf="@id/editText_login_password" />
 
     <TextView
-        android:id="@+id/textView_forgot_password"
+        android:id="@+id/textView_login_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forgot_your_password"
@@ -96,7 +96,7 @@
         android:layout_height="1dp"
         android:background="@color/login_form_details_medium"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/textView_forgot_password"
+        app:layout_constraintTop_toBottomOf="@+id/textView_login_forgot_password"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_social_login"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintEnd_toStartOf="@+id/textView_or"/>
