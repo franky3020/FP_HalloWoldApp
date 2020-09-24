@@ -16,7 +16,7 @@ import android.view.Menu;
 import java.util.ArrayList;
 
 import Task.ShowTask;
-import Task.ShowTaskListObservable;
+import Task.UpdateTaskListObservable;
 import Task.GetTasksObserved;
 
 public class ShowTaskActivity extends AppCompatActivity {
@@ -71,8 +71,8 @@ public class ShowTaskActivity extends AppCompatActivity {
     {
         public void run() {
             GetTasksObserved getTasksObserved = new GetTasksObserved();
-            ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable(taskList);
-            getTasksObserved.addObserver(showTaskListObservable);
+            UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(taskList);
+            getTasksObserved.addObserver(updateTaskListObservable);
 
             Thread getTasksList = new Thread(getTasksObserved,"taskListObserved 1");
             getTasksList.start();

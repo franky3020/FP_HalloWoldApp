@@ -10,11 +10,11 @@ import java.util.Observer;
 
 import com.example.my_first_application.R;
 
-public class ShowTaskListObservable implements Observer {
+public class UpdateTaskListObservable implements Observer {
 
     private ArrayList<ShowTask> taskList;
 
-    public ShowTaskListObservable(ArrayList<ShowTask> taskList) {
+    public UpdateTaskListObservable(ArrayList<ShowTask> taskList) {
         this.taskList = taskList;
     }
 
