@@ -4,7 +4,7 @@
     <string name="hello_world">hello_world</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
-    <string name="password_again">Enter Password Again</string>
+    <string name="password_again">Confirm Password</string>
     <string name="login">LOGIN</string>
     <string name="forgot_your_password">Forgot your Password?</string>
     <string name="or">OR</string>
