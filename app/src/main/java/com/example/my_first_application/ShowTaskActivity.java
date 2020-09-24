@@ -69,11 +69,9 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     private final Runnable getTaskAPI_Runnable = new Runnable()
     {
-        public void run()
-
-        {
-            TaskListObserved taskListObserved = new TaskListObserved(taskList);
-            ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable();
+        public void run() {
+            TaskListObserved taskListObserved = new TaskListObserved();
+            ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable(taskList);
             taskListObserved.addObserver(showTaskListObservable);
 
             Thread getTasksList = new Thread(taskListObserved,"taskListObserved 1");
@@ -81,7 +79,6 @@ public class ShowTaskActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged(); //要改 有bug
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
-
     };
 }
 

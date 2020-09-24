@@ -1,15 +1,51 @@
 package Task;
 
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.example.my_first_application.R;
+
 public class ShowTaskListObservable implements Observer {
+
+    private ArrayList<ShowTask> taskList;
+
+    public ShowTaskListObservable(ArrayList<ShowTask> taskList) {
+        this.taskList = taskList;
+    }
 
     @Override
     public void update(Observable o, Object arg) {
         TaskListObserved taskListObserved = (TaskListObserved) o;
-        taskListObserved.updateAllTasks();
+
+        ArrayList<ShowTask> tmpTaskList = new ArrayList<ShowTask>();
+
+        JSONObject tasksJSON = taskListObserved.getTasks();
+        Iterator taskKeys = tasksJSON.keys();
+
+        while (taskKeys.hasNext()){
+            String key = (String) taskKeys.next();
+            String taskName = "";
+            String taskAddress = "";
+            try {
+                JSONObject aTask = tasksJSON.getJSONObject(key);
+
+                taskName = aTask.getString("TaskName");
+                taskAddress = aTask.getString("TaskAddress");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task, taskName, "買便當", taskAddress, "2020/9/11", "上午 11:00");
+            tmpTaskList.add(user1);
+        }
+        taskList.clear();
+        taskList.addAll(tmpTaskList);
+
     }
 
 }
