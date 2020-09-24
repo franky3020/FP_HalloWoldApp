@@ -22,15 +22,17 @@ android:background="@drawable/login_background">
         app:layout_constraintGuide_end="24dp" />
 
     <!-- both layout_width/layout_height are wrap_content -->
-    <ImageView
-        android:id="@+id/imageView_logo"
-        android:layout_width="128dp"
-        android:layout_height="94dp"
+    <TextView
+        android:id="@+id/TextView_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:src="@drawable/temp_logo"
+        android:text="@string/sign_up"
+        android:textColor="@color/login_form_details"
+        android:textSize="50dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_sign_up_page_left"
-        app:layout_constraintTop_toTopOf="parent" /> <!-- 參考教學 : http://androidnotebykenny.blogspot.com/2015/07/android-imageview.html -->
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editText_sign_up_username"
@@ -46,7 +48,7 @@ android:background="@drawable/login_background">
         android:padding="16dp"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_sign_up" />
 
     <!-- Asset 教學 : https://developer.android.com/studio/write/image-asset-studio?hl=zh-cn -->
     <EditText
@@ -81,16 +83,16 @@ android:background="@drawable/login_background">
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@+id/editText_sign_up_password" />
 
-<Button
-    android:id="@+id/button_sign_up"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:text="@string/sign_up"
-    android:textAllCaps="false"
-    android:textColor="@color/login_form_details_medium"
-    android:background="@drawable/login_button_background"
-    app:layout_constraintEnd_toStartOf="@+id/guideline_sign_up_page_right"
-    app:layout_constraintStart_toStartOf="@+id/guideline_sign_up_page_left"
-    app:layout_constraintTop_toBottomOf="@id/editText_sign_up_password_again" />
+    <Button
+        android:id="@+id/button_sign_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/sign_up"
+        android:textAllCaps="false"
+        android:textColor="@color/login_form_details_medium"
+        android:background="@drawable/login_button_background"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_sign_up_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_up_page_left"
+        app:layout_constraintTop_toBottomOf="@id/editText_sign_up_password_again" />
 </androidx.constraintlayout.widget.ConstraintLayout>
