@@ -4,21 +4,31 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Observable;
 
-public class GetTasksObserved extends Observable implements Runnable{
+public class GetTasksObserved extends Observable{
     JSONObject allTask;
     TaskApiService taskApiService = new TaskApiService();
+    Thread getTasksAPIThread;
 
-    @Override
-    public void run() {
-        try {
-            allTask = taskApiService.getTasks();
-            if(allTask != null) {
-                setChanged();// 一定先有這個 notifyObservers() 才會有效
-                notifyObservers();
+
+    public GetTasksObserved() {
+        getTasksAPIThread = new Thread() {
+            public void run() {
+                try {
+                    allTask = taskApiService.getTasks();
+                    if(allTask != null) {
+                        setChanged();// 一定先有這個 notifyObservers() 才會有效
+                        notifyObservers();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        };
+    }
+
+    public void startGetTasksThread() {
+        getTasksAPIThread.start();
     }
 
     public JSONObject getTasks() {

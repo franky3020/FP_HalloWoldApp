@@ -73,9 +73,7 @@ public class ShowTaskActivity extends AppCompatActivity {
             GetTasksObserved getTasksObserved = new GetTasksObserved();
             UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(taskList);
             getTasksObserved.addObserver(updateTaskListObservable);
-
-            Thread getTasksList = new Thread(getTasksObserved,"taskListObserved 1");
-            getTasksList.start();
+            getTasksObserved.startGetTasksThread();
             adapter.notifyDataSetChanged(); //要改 有bug
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
