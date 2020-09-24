@@ -9,12 +9,15 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.example.my_first_application.R;
+import com.example.my_first_application.ShowTaskActivity;
 
 public class UpdateTaskListObservable implements Observer {
 
     private ArrayList<ShowTask> taskList;
+    private ShowTaskActivity activity;
 
-    public UpdateTaskListObservable(ArrayList<ShowTask> taskList) {
+    public UpdateTaskListObservable(ShowTaskActivity activity, ArrayList<ShowTask> taskList) {
+        this.activity = activity;
         this.taskList = taskList;
     }
 
@@ -46,6 +49,7 @@ public class UpdateTaskListObservable implements Observer {
         taskList.clear();
         taskList.addAll(tmpTaskList);
 
+        activity.updateTasksList();
     }
 
 }

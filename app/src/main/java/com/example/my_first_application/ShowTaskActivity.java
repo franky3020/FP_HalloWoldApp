@@ -21,6 +21,8 @@ import Task.GetTasksObserved;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
+    private ShowTaskActivity showTaskActivity = this;
+
     private ArrayList<ShowTask> taskList = new ArrayList<>();
     RecyclerView recyclerView;
     ShowTaskAdapter showTaskAdapter;
@@ -31,7 +33,7 @@ public class ShowTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_task);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         this.recyclerView = findViewById(R.id.taskShow);
@@ -71,12 +73,22 @@ public class ShowTaskActivity extends AppCompatActivity {
     {
         public void run() {
             GetTasksObserved getTasksObserved = new GetTasksObserved();
-            UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(taskList);
+            UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity, taskList);
             getTasksObserved.addObserver(updateTaskListObservable);
             getTasksObserved.startGetTasksThread();
-            showTaskAdapter.notifyDataSetChanged(); // 這一定要在主執行緒上執行 不然會錯 有夠怪
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
     };
+
+    public void updateTasksList() { //必須要在主執行緒上更新UI, 才不會出錯
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                showTaskAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
 }
 
