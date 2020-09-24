@@ -16,14 +16,16 @@ import android.view.Menu;
 import java.util.ArrayList;
 
 import Task.ShowTask;
-import Task.ShowTaskListObservable;
-import Task.TaskListObserved;
+import Task.UpdateTaskListObservable;
+import Task.GetTasksObserved;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
+    private ShowTaskActivity showTaskActivity = this;
+
     private ArrayList<ShowTask> taskList = new ArrayList<>();
     RecyclerView recyclerView;
-    ShowTaskAdapter adapter;
+    ShowTaskAdapter showTaskAdapter;
     Handler getTasksAPI_Handler;
     int sendAPI_DelayMillis = 200;
 
@@ -31,14 +33,14 @@ public class ShowTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_task);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.adapter = new ShowTaskAdapter(this, taskList);
-        this.recyclerView.setAdapter(adapter);
+        this.showTaskAdapter = new ShowTaskAdapter(this, taskList);
+        this.recyclerView.setAdapter(showTaskAdapter);
 
         this.getTasksAPI_Handler = new Handler();
         this.getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis); // 第一次會比較久, 因為會先delay在執行, 這之後要修正
@@ -69,19 +71,24 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     private final Runnable getTaskAPI_Runnable = new Runnable()
     {
-        public void run()
-
-        {
-            TaskListObserved taskListObserved = new TaskListObserved(taskList);
-            ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable();
-            taskListObserved.addObserver(showTaskListObservable);
-
-            Thread getTasksList = new Thread(taskListObserved,"taskListObserved 1");
-            getTasksList.start();
-            adapter.notifyDataSetChanged(); //要改 有bug
+        public void run() {
+            GetTasksObserved getTasksObserved = new GetTasksObserved();
+            UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity, taskList);
+            getTasksObserved.addObserver(updateTaskListObservable);
+            getTasksObserved.startGetTasksThread();
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
-
     };
+
+    public void updateTasksList() { //必須要在主執行緒上更新UI, 才不會出錯
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                showTaskAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
 }
 
