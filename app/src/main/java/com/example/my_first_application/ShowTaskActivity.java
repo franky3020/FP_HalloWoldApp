@@ -27,7 +27,7 @@ public class ShowTaskActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ShowTaskAdapter showTaskAdapter;
     Handler getTasksAPI_Handler;
-    int sendAPI_DelayMillis = 200;
+    int sendAPI_DelayMillis = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,21 +73,24 @@ public class ShowTaskActivity extends AppCompatActivity {
     {
         public void run() {
             GetTasksObserved getTasksObserved = new GetTasksObserved();
-            UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity, taskList);
+            UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity);
             getTasksObserved.addObserver(updateTaskListObservable);
             getTasksObserved.startGetTasksThread();
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
     };
 
-    public void updateTasksList() { //必須要在主執行緒上更新UI, 才不會出錯
+    public void showTaskUI_Update() { //必須要在主執行緒上更新UI, 才不會出錯
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
                 showTaskAdapter.notifyDataSetChanged();
             }
         });
+    }
 
+    public ArrayList<ShowTask> getTaskList() {
+        return this.taskList;
     }
 
 }

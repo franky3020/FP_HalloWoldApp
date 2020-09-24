@@ -16,9 +16,9 @@ public class UpdateTaskListObservable implements Observer {
     private ArrayList<ShowTask> taskList;
     private ShowTaskActivity activity;
 
-    public UpdateTaskListObservable(ShowTaskActivity activity, ArrayList<ShowTask> taskList) {
+    public UpdateTaskListObservable(ShowTaskActivity activity) {
         this.activity = activity;
-        this.taskList = taskList;
+        this.taskList = activity.getTaskList();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UpdateTaskListObservable implements Observer {
         taskList.clear();
         taskList.addAll(tmpTaskList);
 
-        activity.updateTasksList();
+        activity.showTaskUI_Update();
     }
 
 }
