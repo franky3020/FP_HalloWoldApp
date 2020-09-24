@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Observable;
 
 public class GetTasksObserved extends Observable{
-    JSONObject allTask;
-    TaskApiService taskApiService = new TaskApiService();
+    JSONObject tasksJSONObject;
+    TaskAPIService taskApiService = new TaskAPIService();
     Thread getTasksAPIThread;
 
 
@@ -14,8 +14,8 @@ public class GetTasksObserved extends Observable{
         getTasksAPIThread = new Thread() {
             public void run() {
                 try {
-                    allTask = taskApiService.getTasks();
-                    if(allTask != null) {
+                    tasksJSONObject = taskApiService.getTasks();
+                    if(tasksJSONObject != null) {
                         setChanged();// 一定先有這個 notifyObservers() 才會有效
                         notifyObservers();
                     }
@@ -32,6 +32,6 @@ public class GetTasksObserved extends Observable{
     }
 
     public JSONObject getTasks() {
-        return allTask;
+        return tasksJSONObject;
     }
 }

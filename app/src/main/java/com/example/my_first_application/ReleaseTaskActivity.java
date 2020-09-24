@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 
-import Task.TaskApiService;
+import Task.TaskAPIService;
 
 
 import android.app.DatePickerDialog;
@@ -171,7 +171,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                 break;
         }
 
-        TaskApiService taskApiService = new TaskApiService();
+        TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.postUseThread(taskName, message, salary, postTime, taskType, taskAddress, taskCity);
     }
 

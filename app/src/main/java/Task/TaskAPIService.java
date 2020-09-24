@@ -9,7 +9,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TaskApiService {
+public class TaskAPIService {
 
     public void postUseThread(final String taskName, final String message, final String salary , final String postTime
                         , final String taskType, final String taskAddress, final String taskCity) {
