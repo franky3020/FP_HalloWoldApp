@@ -23,7 +23,7 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     private ArrayList<ShowTask> taskList = new ArrayList<>();
     RecyclerView recyclerView;
-    ShowTaskAdapter adapter;
+    ShowTaskAdapter showTaskAdapter;
     Handler getTasksAPI_Handler;
     int sendAPI_DelayMillis = 200;
 
@@ -37,8 +37,8 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.adapter = new ShowTaskAdapter(this, taskList);
-        this.recyclerView.setAdapter(adapter);
+        this.showTaskAdapter = new ShowTaskAdapter(this, taskList);
+        this.recyclerView.setAdapter(showTaskAdapter);
 
         this.getTasksAPI_Handler = new Handler();
         this.getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis); // 第一次會比較久, 因為會先delay在執行, 這之後要修正
@@ -74,7 +74,7 @@ public class ShowTaskActivity extends AppCompatActivity {
             UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(taskList);
             getTasksObserved.addObserver(updateTaskListObservable);
             getTasksObserved.startGetTasksThread();
-            adapter.notifyDataSetChanged(); //要改 有bug
+            showTaskAdapter.notifyDataSetChanged(); // 這一定要在主執行緒上執行 不然會錯 有夠怪
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
     };

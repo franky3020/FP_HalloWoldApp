@@ -25,10 +25,10 @@ public class UpdateTaskListObservable implements Observer {
         ArrayList<ShowTask> tmpTaskList = new ArrayList<ShowTask>();
 
         JSONObject tasksJSON = getTasksObserved.getTasks();
-        Iterator taskKeys = tasksJSON.keys();
+        Iterator<String> taskKeys = tasksJSON.keys();
 
         while (taskKeys.hasNext()){
-            String key = (String) taskKeys.next();
+            String key = taskKeys.next();
             String taskName = "";
             String taskAddress = "";
             try {
