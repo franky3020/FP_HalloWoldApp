@@ -12,8 +12,10 @@ public class GetTasksObserved extends Observable implements Runnable{
     public void run() {
         try {
             allTask = taskApiService.getTasks();
-            setChanged(); // 一定先有這個 notifyObservers() 才會有效
-            notifyObservers();
+            if(allTask != null) {
+                setChanged();// 一定先有這個 notifyObservers() 才會有效
+                notifyObservers();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
