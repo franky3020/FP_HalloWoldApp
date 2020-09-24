@@ -20,11 +20,11 @@ public class ShowTaskListObservable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        TaskListObserved taskListObserved = (TaskListObserved) o;
+        GetTasksObserved getTasksObserved = (GetTasksObserved) o;
 
         ArrayList<ShowTask> tmpTaskList = new ArrayList<ShowTask>();
 
-        JSONObject tasksJSON = taskListObserved.getTasks();
+        JSONObject tasksJSON = getTasksObserved.getTasks();
         Iterator taskKeys = tasksJSON.keys();
 
         while (taskKeys.hasNext()){

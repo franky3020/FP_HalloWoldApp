@@ -4,13 +4,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Observable;
 
-public class TaskListObserved extends Observable implements Runnable{
+public class GetTasksObserved extends Observable implements Runnable{
     JSONObject allTask;
     TaskApiService taskApiService = new TaskApiService();
-
-    public TaskListObserved() {
-
-    }
 
     @Override
     public void run() {

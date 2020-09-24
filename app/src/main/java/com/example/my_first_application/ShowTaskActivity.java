@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import Task.ShowTask;
 import Task.ShowTaskListObservable;
-import Task.TaskListObserved;
+import Task.GetTasksObserved;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
@@ -70,11 +70,11 @@ public class ShowTaskActivity extends AppCompatActivity {
     private final Runnable getTaskAPI_Runnable = new Runnable()
     {
         public void run() {
-            TaskListObserved taskListObserved = new TaskListObserved();
+            GetTasksObserved getTasksObserved = new GetTasksObserved();
             ShowTaskListObservable showTaskListObservable = new ShowTaskListObservable(taskList);
-            taskListObserved.addObserver(showTaskListObservable);
+            getTasksObserved.addObserver(showTaskListObservable);
 
-            Thread getTasksList = new Thread(taskListObserved,"taskListObserved 1");
+            Thread getTasksList = new Thread(getTasksObserved,"taskListObserved 1");
             getTasksList.start();
             adapter.notifyDataSetChanged(); //要改 有bug
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
