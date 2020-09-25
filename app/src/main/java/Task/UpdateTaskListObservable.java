@@ -13,12 +13,11 @@ import com.example.my_first_application.ShowTaskActivity;
 
 public class UpdateTaskListObservable implements Observer {
 
-    private ArrayList<ShowTask> taskList;
+    private static ArrayList<ShowTask> taskList = new ArrayList<ShowTask>();
     private ShowTaskActivity activity;
 
     public UpdateTaskListObservable(ShowTaskActivity activity) {
         this.activity = activity;
-        this.taskList = activity.getTaskList();
     }
 
     @Override
@@ -52,4 +51,7 @@ public class UpdateTaskListObservable implements Observer {
         activity.showTaskUI_Update();
     }
 
+    public static ArrayList<ShowTask> getTaskList() {
+        return taskList;
+    }
 }

@@ -23,7 +23,6 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     private ShowTaskActivity showTaskActivity = this;
 
-    private ArrayList<ShowTask> taskList = new ArrayList<>();
     RecyclerView recyclerView;
     ShowTaskAdapter showTaskAdapter;
     Handler getTasksAPI_Handler;
@@ -39,7 +38,7 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.showTaskAdapter = new ShowTaskAdapter(this, taskList);
+        this.showTaskAdapter = new ShowTaskAdapter(this, UpdateTaskListObservable.getTaskList());
         this.recyclerView.setAdapter(showTaskAdapter);
 
         this.getTasksAPI_Handler = new Handler();
@@ -89,9 +88,6 @@ public class ShowTaskActivity extends AppCompatActivity {
         });
     }
 
-    public ArrayList<ShowTask> getTaskList() {
-        return this.taskList;
-    }
 
 }
 
