@@ -26,7 +26,12 @@ public class UpdateTaskListObservable implements Observer {
 
         ArrayList<ShowTask> tmpTaskList = new ArrayList<ShowTask>();
 
-        JSONObject tasksJSON = getTasksObserved.getTasks();
+        JSONObject tasksJSON = getTasksObserved.getTasks(); // 如果沒拿到會是null
+        if(tasksJSON == null) {
+            activity.runGetTaskAPI_Runnable(1000); // 重送請求
+            return; // 直接退出
+        }
+
         Iterator<String> taskKeys = tasksJSON.keys();
 
         while (taskKeys.hasNext()){
@@ -49,7 +54,7 @@ public class UpdateTaskListObservable implements Observer {
         taskList.addAll(tmpTaskList);
 
         activity.showTaskUI_Update();
-        activity.runGetTaskAPI_Runnable(200);
+        activity.runGetTaskAPI_Runnable(1000);
     }
 
     public static ArrayList<ShowTask> getTaskList() {

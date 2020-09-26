@@ -26,7 +26,6 @@ public class ShowTaskActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ShowTaskAdapter showTaskAdapter;
     Handler getTasksAPI_Handler;
-    int sendAPI_DelayMillis = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.Observable;
 
 public class GetTasksObserved extends Observable{
-    JSONObject tasksJSONObject;
+    JSONObject tasksJSONObject = null;
+    JSONObject latestTasksJSONObject = new JSONObject();
     TaskAPIService taskApiService = new TaskAPIService();
     Thread getTasksAPIThread;
 
@@ -13,16 +14,12 @@ public class GetTasksObserved extends Observable{
     public GetTasksObserved() {
         getTasksAPIThread = new Thread() {
             public void run() {
-                try {
-                    tasksJSONObject = taskApiService.getTasks();
-                    if(tasksJSONObject != null) {
-                        setChanged();// 一定先有這個 notifyObservers() 才會有效
-                        notifyObservers();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                latestTasksJSONObject = taskApiService.getTasks();
+                if(latestTasksJSONObject != null) { //有成功拿到資料, 就會更新 tasksJSONObject
+                    tasksJSONObject = latestTasksJSONObject;
                 }
-
+                setChanged();// 一定先有這個 notifyObservers() 才會有效
+                notifyObservers();
             }
         };
     }
@@ -32,6 +29,11 @@ public class GetTasksObserved extends Observable{
     }
 
     public JSONObject getTasks() {
-        return tasksJSONObject;
+        if(tasksJSONObject != null) {
+            return tasksJSONObject;
+        } else {
+            return null;
+        }
+
     }
 }

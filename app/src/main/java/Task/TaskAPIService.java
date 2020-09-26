@@ -3,6 +3,8 @@ package Task;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -63,20 +65,22 @@ public class TaskAPIService {
     }
 
 
-    public JSONObject getTasks() throws IOException {
-            String API_version = "ms-provider-develop";
-
+    public JSONObject getTasks() {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
+
+            String API_version = "ms-provider-develop";
             String apiUrl = "http://140.134.26.71:46557/" + API_version + "/tasks";
+
             Request request = new Request.Builder()
                     .url(apiUrl)
                     .method("GET", null)
                     .build();
 
-            Response response = client.newCall(request).execute();
             try {
-                return new JSONObject(response.body().string());
+                Response response = client.newCall(request).execute();
+
+                return new JSONObject( Objects.requireNonNull(response.body()).string() );
             } catch (Exception e) {
                 e.printStackTrace();
             }
