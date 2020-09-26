@@ -42,7 +42,7 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.recyclerView.setAdapter(showTaskAdapter);
 
         this.getTasksAPI_Handler = new Handler();
-        this.getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis); // 第一次會比較久, 因為會先delay在執行, 這之後要修正
+        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
     }
 
     @Override
@@ -75,7 +75,6 @@ public class ShowTaskActivity extends AppCompatActivity {
             UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity);
             getTasksObserved.addObserver(updateTaskListObservable);
             getTasksObserved.startGetTasksThread();
-            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, sendAPI_DelayMillis);
         }
     };
 
@@ -88,6 +87,9 @@ public class ShowTaskActivity extends AppCompatActivity {
         });
     }
 
+    public void runGetTaskAPI_Runnable(int delayMillis) { // 在觀察者中呼叫 可以確保上一個拿取確實拿取完後 才在請求下一次
+        getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
+    }
 
 }
 

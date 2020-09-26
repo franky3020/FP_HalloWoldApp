@@ -49,6 +49,7 @@ public class UpdateTaskListObservable implements Observer {
         taskList.addAll(tmpTaskList);
 
         activity.showTaskUI_Update();
+        activity.runGetTaskAPI_Runnable(200);
     }
 
     public static ArrayList<ShowTask> getTaskList() {
