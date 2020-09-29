@@ -18,8 +18,6 @@ import Task.GetTasksObserved;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
-    private ShowTaskActivity showTaskActivity = this;
-
     RecyclerView recyclerView;
     ShowTaskAdapter showTaskAdapter;
     Handler getTasksAPI_Handler;
@@ -41,9 +39,9 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.showTaskAdapter = new ShowTaskAdapter(this, UpdateTaskListObservable.getTaskList());
         this.recyclerView.setAdapter(showTaskAdapter);
 
-        getTasksObserved = new GetTasksObserved();
-        updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity);
-        getTasksObserved.addObserver(updateTaskListObservable);
+        this.getTasksObserved = new GetTasksObserved();
+        this.updateTaskListObservable = new UpdateTaskListObservable(this);
+        this.getTasksObserved.addObserver(updateTaskListObservable);
 
         this.getTasksAPI_Handler = new Handler();
         this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
