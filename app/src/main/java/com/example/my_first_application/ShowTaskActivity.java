@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 
-import java.util.ArrayList;
-
-import Task.ShowTask;
 import Task.UpdateTaskListObservable;
 import Task.GetTasksObserved;
 
@@ -26,6 +23,10 @@ public class ShowTaskActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ShowTaskAdapter showTaskAdapter;
     Handler getTasksAPI_Handler;
+
+    GetTasksObserved getTasksObserved;
+    UpdateTaskListObservable updateTaskListObservable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,10 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.recyclerView.setLayoutManager(layoutManager);
         this.showTaskAdapter = new ShowTaskAdapter(this, UpdateTaskListObservable.getTaskList());
         this.recyclerView.setAdapter(showTaskAdapter);
+
+        getTasksObserved = new GetTasksObserved();
+        updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity);
+        getTasksObserved.addObserver(updateTaskListObservable);
 
         this.getTasksAPI_Handler = new Handler();
         this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
@@ -67,12 +72,8 @@ public class ShowTaskActivity extends AppCompatActivity {
         getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
 
-    private final Runnable getTaskAPI_Runnable = new Runnable()
-    {
+    private final Runnable getTaskAPI_Runnable = new Runnable() {
         public void run() {
-            GetTasksObserved getTasksObserved = new GetTasksObserved();
-            UpdateTaskListObservable updateTaskListObservable = new UpdateTaskListObservable(showTaskActivity);
-            getTasksObserved.addObserver(updateTaskListObservable);
             getTasksObserved.startGetTasksThread();
         }
     };

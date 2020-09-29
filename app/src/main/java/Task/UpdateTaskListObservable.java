@@ -13,7 +13,7 @@ import com.example.my_first_application.ShowTaskActivity;
 
 public class UpdateTaskListObservable implements Observer {
 
-    private static ArrayList<ShowTask> taskList = new ArrayList<ShowTask>();
+    private static ArrayList<ShowTask> taskList = new ArrayList<ShowTask>();// 這也是個問題
     private ShowTaskActivity activity;
 
     public UpdateTaskListObservable(ShowTaskActivity activity) {
@@ -54,7 +54,7 @@ public class UpdateTaskListObservable implements Observer {
         taskList.addAll(tmpTaskList);
 
         activity.showTaskUI_Update();
-        activity.runGetTaskAPI_Runnable(1000);
+        activity.runGetTaskAPI_Runnable(1000); //要改
     }
 
     public static ArrayList<ShowTask> getTaskList() {

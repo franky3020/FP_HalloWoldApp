@@ -58,8 +58,10 @@ public class TaskAPIService {
                 .build();
         Response response = client.newCall(request).execute();
         if (response.isSuccessful()) {
+            response.close();
             return true;
         } else {
+            response.close();
             return false;
         }
     }
