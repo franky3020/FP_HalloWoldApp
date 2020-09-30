@@ -1,11 +1,15 @@
 package Task;
 
-import org.json.JSONException;
+import android.icu.text.SimpleDateFormat; //時間未完成
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.Objects;
 
+import User.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,7 +19,7 @@ import okhttp3.Response;
 public class TaskAPIService {
 
     public void postUseThread(final String taskName, final String message, final String salary , final String postTime
-                        , final String taskType, final String taskAddress, final String taskCity) {
+                        , final String taskType, final String taskAddress, final String taskCity) { // 這應該改成傳入Task
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -31,7 +35,7 @@ public class TaskAPIService {
 
 
     public boolean post(final String taskName, final String message, final String salary , final String postTime
-            , final String taskType, final String taskAddress, final String taskCity) throws IOException {
+            , final String taskType, final String taskAddress, final String taskCity) throws IOException { // 這應該改成傳入Task
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -67,7 +71,7 @@ public class TaskAPIService {
         }
     }
 
-    public JSONObject getTasks() throws Exception {
+    public ArrayList<Task> getTasks() throws Exception {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
@@ -79,7 +83,34 @@ public class TaskAPIService {
                 .method("GET", null)
                 .build();
         Response response = client.newCall(request).execute();
-        return new JSONObject( Objects.requireNonNull(response.body()).string() );
+        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+
+        ArrayList<Task> taskList = new ArrayList<>();
+
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //時間未完成
+
+        Iterator<String> taskKeys = tasksJSONObject.keys();
+        while (taskKeys.hasNext()) {
+            String key = taskKeys.next();
+
+            JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
+
+            String taskName = aJSONTask.getString("TaskName");
+            int taskId = Integer.parseInt(key);
+
+
+            User assigner = new User("test", Integer.parseInt(aJSONTask.getString("ReleaseUserID")), "test");
+            User executor = new User("test", Integer.parseInt(aJSONTask.getString("ReceiveUserID")), "test");
+            TaskState taskState = TaskState.BOSS_RELEASE;
+
+//            String startDataString = aJSONTask.getString("StartPostTime"); //時間未完成
+//            Date startData = simpleDateFormat.parse(startDataString); //時間未完成
+//            System.out.println(startData); //時間未完成
+
+            Task task = new Task(taskName, taskId, assigner, executor, taskState, new Date()); // 時間未完成
+            taskList.add(task);
+        }
+        return taskList;
     }
 
 }

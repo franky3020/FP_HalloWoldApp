@@ -1,11 +1,14 @@
 package Task;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 public class GetTasksObserved extends Observable{
-    JSONObject tasksJSONObject = new JSONObject();;
-    JSONObject latestTasksJSONObject = new JSONObject();
+
+    ArrayList<Task> latestTasksList = new ArrayList<>();
+    ArrayList<Task> tasksList = new ArrayList<>();
+
     TaskAPIService taskApiService = new TaskAPIService();
 
     public void startGetTasksThread() {
@@ -25,11 +28,11 @@ public class GetTasksObserved extends Observable{
     }
 
     private void getTaskAndUpdateTaskJSONObject() throws Exception{
-        latestTasksJSONObject = taskApiService.getTasks();
-        tasksJSONObject = latestTasksJSONObject;
+        latestTasksList = taskApiService.getTasks();
+        tasksList = latestTasksList;
     }
 
-    public JSONObject getTasks() {
-        return tasksJSONObject;
+    public ArrayList<Task> getTasks() {
+        return tasksList;
     }
 }

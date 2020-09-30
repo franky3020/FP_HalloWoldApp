@@ -22,6 +22,7 @@ import java.util.Observer;
 
 import Task.ShowTask;
 import Task.GetTasksObserved;
+import Task.Task;
 
 public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
@@ -99,35 +100,20 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
         GetTasksObserved getTasksObserved = (GetTasksObserved) o;
 
-        ArrayList<ShowTask> tmpTaskList = new ArrayList<>();
+        ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
 
-        JSONObject tasksJSON = getTasksObserved.getTasks();
-        if( tasksJSON.length() == 0 ) {
+        ArrayList<Task> tasksList = getTasksObserved.getTasks();
+        if( tasksList.size() == 0 ) {
             runGetTaskAPI(1000); // 重送請求
             return; // 直接退出
         }
 
-        Iterator<String> taskKeys = tasksJSON.keys();
-
-        while (taskKeys.hasNext()){
-            String key = taskKeys.next();
-            String taskName = "";
-            String taskAddress = "";
-            try {
-                JSONObject aTask = tasksJSON.getJSONObject(key);
-
-                taskName = aTask.getString("TaskName");
-                taskAddress = aTask.getString("TaskAddress");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task, taskName, "買便當", taskAddress, "2020/9/11", "上午 11:00");
-            tmpTaskList.add(user1);
+        for(Task task:tasksList) {
+            ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
+            tmpShowTaskList.add(showTask);
         }
         taskList.clear();
-        taskList.addAll(tmpTaskList);
-
+        taskList.addAll(tmpShowTaskList);
 
         showTaskUIUpdate();
         runGetTaskAPI(1000);
