@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,7 +25,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
     RecyclerView recyclerView;
     static ArrayList<ShowTask> taskList = new ArrayList<>();
-    ShowTaskAdapter showTaskAdapter;
+    RecyclerView.Adapter recyclerViewAdapter;
     Handler uiHandler;
 
     GetTasksObserved getTasksObserved;
@@ -44,8 +41,8 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.showTaskAdapter = new ShowTaskAdapter(this, taskList);
-        this.recyclerView.setAdapter(showTaskAdapter);
+        this.recyclerViewAdapter = new ShowTaskAdapter(this, taskList); // taskList 是被綁定在這個 recyclerViewAdapter 裡
+        this.recyclerView.setAdapter(recyclerViewAdapter);
 
         this.getTasksObserved = new GetTasksObserved();
         this.getTasksObserved.addObserver(this);
@@ -87,12 +84,12 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
-                showTaskAdapter.notifyDataSetChanged();
+                recyclerViewAdapter.notifyDataSetChanged();
             }
         });
     }
 
-    public void runGetTaskAPI(int delayMillis) { // 在觀察者中呼叫 可以確保上一個拿取確實拿取完後 才在請求下一次
+    public void runGetTaskAPI(int delayMillis) {
         uiHandler.postDelayed(getTaskAPIRunnable, delayMillis);
     }
 
@@ -113,9 +110,9 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
             tmpShowTaskList.add(showTask);
         }
         taskList.clear();
-        taskList.addAll(tmpShowTaskList);
+        taskList.addAll(tmpShowTaskList); // taskList 是會被綁定的
 
-        showTaskUIUpdate();
+        showTaskUIUpdate(); // 會去看 taskList 的修改而更新
         runGetTaskAPI(1000);
     }
 }

@@ -21,7 +21,7 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
     public ShowTaskAdapter(Context context, ArrayList<ShowTask> taskList) {
         this.mContext = context;
-        this.mTaskShowList = taskList;
+        this.mTaskShowList = taskList; // 不太確定是不是這樣綁定的 或是有其他種做法比較好
     }
 
     @NonNull
