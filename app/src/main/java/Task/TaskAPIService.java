@@ -99,8 +99,8 @@ public class TaskAPIService {
             int taskId = Integer.parseInt(key);
 
 
-            User assigner = new User("test", Integer.parseInt(aJSONTask.getString("ReleaseUserID")), "test");
-            User executor = new User("test", Integer.parseInt(aJSONTask.getString("ReceiveUserID")), "test");
+            User assigner = new User("test", aJSONTask.getInt("ReleaseUserID"), "test");
+            User executor = new User("test", aJSONTask.getInt("ReceiveUserID"), "test");
             TaskState taskState = TaskState.BOSS_RELEASE;
 
 //            String startDataString = aJSONTask.getString("StartPostTime"); //時間未完成
