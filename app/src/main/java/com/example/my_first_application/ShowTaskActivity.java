@@ -13,17 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 
-import Task.UpdateTaskListObservable;
-import Task.GetTasksObserved;
+import org.json.JSONObject;
 
-public class ShowTaskActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
+
+import Task.ShowTask;
+import Task.GetTasksObserved;
+import Task.Task;
+
+public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
     RecyclerView recyclerView;
+    static ArrayList<ShowTask> taskList = new ArrayList<>();
     ShowTaskAdapter showTaskAdapter;
-    Handler getTasksAPI_Handler;
+    Handler uiHandler;
 
     GetTasksObserved getTasksObserved;
-    UpdateTaskListObservable updateTaskListObservable;
 
 
     @Override
@@ -36,15 +44,14 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.showTaskAdapter = new ShowTaskAdapter(this, UpdateTaskListObservable.getTaskList());
+        this.showTaskAdapter = new ShowTaskAdapter(this, taskList);
         this.recyclerView.setAdapter(showTaskAdapter);
 
         this.getTasksObserved = new GetTasksObserved();
-        this.updateTaskListObservable = new UpdateTaskListObservable(this);
-        this.getTasksObserved.addObserver(updateTaskListObservable);
+        this.getTasksObserved.addObserver(this);
 
-        this.getTasksAPI_Handler = new Handler();
-        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
+        this.uiHandler = new Handler();
+        runGetTaskAPI(0); // 馬上執行拿任務的api
     }
 
     @Override
@@ -67,17 +74,17 @@ public class ShowTaskActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
+        uiHandler.removeCallbacks(getTaskAPIRunnable);
     }
 
-    private final Runnable getTaskAPI_Runnable = new Runnable() {
+    private final Runnable getTaskAPIRunnable = new Runnable() {
         public void run() {
             getTasksObserved.startGetTasksThread();
         }
     };
 
-    public void showTaskUI_Update() { //必須要在主執行緒上更新UI, 才不會出錯
-        recyclerView.post(new Runnable() {
+    public void showTaskUIUpdate() { //必須要在主執行緒上更新UI, 才不會出錯
+        uiHandler.post(new Runnable() {
             @Override
             public void run() {
                 showTaskAdapter.notifyDataSetChanged();
@@ -85,9 +92,31 @@ public class ShowTaskActivity extends AppCompatActivity {
         });
     }
 
-    public void runGetTaskAPI_Runnable(int delayMillis) { // 在觀察者中呼叫 可以確保上一個拿取確實拿取完後 才在請求下一次
-        getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
+    public void runGetTaskAPI(int delayMillis) { // 在觀察者中呼叫 可以確保上一個拿取確實拿取完後 才在請求下一次
+        uiHandler.postDelayed(getTaskAPIRunnable, delayMillis);
     }
 
+    @Override
+    public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
+        GetTasksObserved getTasksObserved = (GetTasksObserved) o;
+
+        ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
+
+        ArrayList<Task> tasksList = getTasksObserved.getTasks();
+        if( tasksList.size() == 0 ) {
+            runGetTaskAPI(1000); // 重送請求
+            return; // 直接退出
+        }
+
+        for(Task task:tasksList) {
+            ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
+            tmpShowTaskList.add(showTask);
+        }
+        taskList.clear();
+        taskList.addAll(tmpShowTaskList);
+
+        showTaskUIUpdate();
+        runGetTaskAPI(1000);
+    }
 }
 
