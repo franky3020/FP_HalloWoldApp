@@ -1,7 +1,7 @@
 package tmpTest;
 
 import org.junit.Test;
-import franky.test.Franky_first_jar;
+import franky.test.Franky_first_jar; // is in libs Myjat.jar
 
 public class testimportJAR {
 

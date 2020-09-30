@@ -3,6 +3,8 @@ package Task;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertTrue;
 
 public class TaskAPIServiceTest {
@@ -23,8 +25,8 @@ public class TaskAPIServiceTest {
     public void getTasks_test() {
         TaskAPIService taskApiService = new TaskAPIService();
         try {
-            JSONObject tasks = taskApiService.getTasks();
-            assertTrue(tasks.length() > 0);
+            ArrayList<Task> tasks = taskApiService.getTasks();
+            assertTrue(tasks.size() > 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
