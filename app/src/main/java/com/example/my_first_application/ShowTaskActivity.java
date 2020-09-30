@@ -101,8 +101,8 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
         ArrayList<ShowTask> tmpTaskList = new ArrayList<>();
 
-        JSONObject tasksJSON = getTasksObserved.getTasks(); // 如果沒拿到會是null
-        if(tasksJSON == null) {
+        JSONObject tasksJSON = getTasksObserved.getTasks();
+        if( tasksJSON.length() == 0 ) {
             runGetTaskAPI(1000); // 重送請求
             return; // 直接退出
         }

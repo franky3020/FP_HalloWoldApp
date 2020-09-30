@@ -1,5 +1,6 @@
 package Task;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -66,27 +67,19 @@ public class TaskAPIService {
         }
     }
 
+    public JSONObject getTasks() throws Exception {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
 
-    public JSONObject getTasks() {
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
+        String API_version = "ms-provider-develop";
+        String apiUrl = "http://140.134.26.71:46557/" + API_version + "/tasks";
 
-            String API_version = "ms-provider-develop";
-            String apiUrl = "http://140.134.26.71:46557/" + API_version + "/tasks";
-
-            Request request = new Request.Builder()
-                    .url(apiUrl)
-                    .method("GET", null)
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-
-                return new JSONObject( Objects.requireNonNull(response.body()).string() );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
+        Request request = new Request.Builder()
+                .url(apiUrl)
+                .method("GET", null)
+                .build();
+        Response response = client.newCall(request).execute();
+        return new JSONObject( Objects.requireNonNull(response.body()).string() );
     }
 
 }
