@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">All Task</string>
-    <string name="create_new_task">Create new task</string>
-    <string name="hello_world">hello_world</string>
+    <string name="homePage_toolbar_title">All Task</string>
+    <string name="showTask_toolbar_title">My Task</string>
+    <string name="releaseTask_toolbar_title">Create new task</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="password_again">Confirm Password</string>

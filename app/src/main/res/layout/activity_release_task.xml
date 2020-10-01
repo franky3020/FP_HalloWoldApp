@@ -12,7 +12,7 @@
 
         <include
             layout="@layout/toolbar_main"
-            android:id="@+id/toolbar"/>
+            android:id="@+id/toolbar_release_task"/>
 
         <LinearLayout
             android:layout_width="match_parent"
