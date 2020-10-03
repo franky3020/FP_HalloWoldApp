@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,7 +49,6 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         this.getTasksObserved.addObserver(this);
 
         this.uiHandler = new Handler();
-        runGetTaskAPI(0); // 馬上執行拿任務的api
     }
 
     @Override
@@ -68,9 +68,16 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+        runGetTaskAPI(0); // 馬上執行拿任務的api
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         uiHandler.removeCallbacks(getTaskAPIRunnable);
     }
 
@@ -112,7 +119,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
             recyclerViewAdapter.setTaskShowList(tmpShowTaskList);
 
             showTaskUIUpdate(); // 會去看 taskList 的修改而更新
-            runGetTaskAPI(1000);
+            runGetTaskAPI(1000);// 由觀察者去啟動發布者非常不合理 需修改
         }
     }
 }
