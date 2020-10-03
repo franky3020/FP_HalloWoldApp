@@ -1,4 +1,5 @@
 <resources>
+    <string name="main_toolbar_title">xxx</string>
     <string name="homePage_toolbar_title">All Task</string>
     <string name="showTask_toolbar_title">My Task</string>
     <string name="releaseTask_toolbar_title">Create new task</string>
@@ -23,4 +24,10 @@
     <string name="click_to_release_task">Click to Release Task</string>
     <string name="click_to_show_task">Click to Show Task</string>
     <string name="click_to_main_page">Click to Main Page</string>
+
+    <!-- bottom navigation bar -->
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="message">Message</string>
+    <string name="user">User</string>
 </resources>
