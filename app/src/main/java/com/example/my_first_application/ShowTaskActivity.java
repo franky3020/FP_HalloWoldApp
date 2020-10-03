@@ -25,7 +25,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
     RecyclerView recyclerView;
     static ArrayList<ShowTask> taskList = new ArrayList<>();
-    RecyclerView.Adapter recyclerViewAdapter;
+    ShowTaskAdapter recyclerViewAdapter;
     Handler uiHandler;
 
     GetTasksObserved getTasksObserved;
@@ -95,25 +95,25 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
-        GetTasksObserved getTasksObserved = (GetTasksObserved) o;
+        if (o instanceof GetTasksObserved) {
+            GetTasksObserved getTasksObserved = (GetTasksObserved) o;
 
-        ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
+            ArrayList<Task> tasks = getTasksObserved.getTasks();
+            if( tasks.size() == 0 ) {
+                runGetTaskAPI(1000); // 重送請求
+                return; // 直接退出
+            }
 
-        ArrayList<Task> tasksList = getTasksObserved.getTasks();
-        if( tasksList.size() == 0 ) {
-            runGetTaskAPI(1000); // 重送請求
-            return; // 直接退出
+            ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
+            for(Task task:tasks) {
+                ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
+                tmpShowTaskList.add(showTask);
+            }
+            recyclerViewAdapter.setTaskShowList(tmpShowTaskList);
+
+            showTaskUIUpdate(); // 會去看 taskList 的修改而更新
+            runGetTaskAPI(1000);
         }
-
-        for(Task task:tasksList) {
-            ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
-            tmpShowTaskList.add(showTask);
-        }
-        taskList.clear();
-        taskList.addAll(tmpShowTaskList); // taskList 是會被綁定的
-
-        showTaskUIUpdate(); // 會去看 taskList 的修改而更新
-        runGetTaskAPI(1000);
     }
 }
 
