@@ -1,5 +1,4 @@
 package Task;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -15,7 +14,7 @@ public class GetTasksObserved extends Observable{
         Thread getTasksAPIThread = new Thread() {
             public void run() {
                 try {
-                    getTaskAndUpdateTaskJSONObject();
+                    getTaskAndUpdateTaskList();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -27,7 +26,7 @@ public class GetTasksObserved extends Observable{
         getTasksAPIThread.start();
     }
 
-    private void getTaskAndUpdateTaskJSONObject() throws Exception{
+    private void getTaskAndUpdateTaskList() throws Exception{
         latestTasksList = taskApiService.getTasks();
         tasksList = latestTasksList;
     }

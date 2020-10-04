@@ -17,11 +17,11 @@ import Task.ShowTask;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<ShowTask> mTaskShowList;
+    private ArrayList<ShowTask> taskShowList;
 
     public ShowTaskAdapter(Context context, ArrayList<ShowTask> taskList) {
         this.mContext = context;
-        this.mTaskShowList = taskList; // 不太確定是不是這樣綁定的 或是有其他種做法比較好
+        this.taskShowList = taskList; // 不太確定是不是這樣綁定的 或是有其他種做法比較好
     }
 
     @NonNull
@@ -43,7 +43,7 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ShowTask task = mTaskShowList.get(position);
+        ShowTask task = taskShowList.get(position);
         holder.userImage.setImageResource(task.getImageId());
         holder.taskTitle.setText(task.getTitle());
         holder.taskType.setText(task.getType());
@@ -54,7 +54,11 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mTaskShowList.size();
+        return taskShowList.size();
+    }
+
+    public void setTaskShowList(ArrayList<ShowTask> taskShowList) {
+        this.taskShowList = taskShowList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
