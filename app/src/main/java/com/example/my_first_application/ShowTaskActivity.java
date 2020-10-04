@@ -41,7 +41,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.recyclerViewAdapter = new ShowTaskAdapter(this, taskList); // taskList 是被綁定在這個 recyclerViewAdapter 裡
+        this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
         this.getTasksObserved = new GetTasksObserved();
@@ -115,9 +115,10 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
                 ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
                 tmpShowTaskList.add(showTask);
             }
-            recyclerViewAdapter.setTaskShowList(tmpShowTaskList);
 
-            showTaskUIUpdate(); // 會去看 taskList 的修改而更新
+            recyclerViewAdapter.setTaskShowList(tmpShowTaskList);
+            showTaskUIUpdate();
+
             runGetTaskAPI(1000);// 由觀察者去啟動發布者非常不合理 需修改
         }
     }
