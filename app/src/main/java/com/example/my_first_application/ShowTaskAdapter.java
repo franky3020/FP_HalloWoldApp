@@ -1,6 +1,7 @@
 package com.example.my_first_application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import Task.ShowTask;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
     private ArrayList<ShowTask> taskShowList;
+    private Context parentContext;
 
     public ShowTaskAdapter(ArrayList<ShowTask> taskList) {
         this.taskShowList = taskList;
@@ -25,23 +27,18 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
     @NonNull
     @Override
-    public ShowTaskAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ShowTaskAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_show_task_item, parent, false);
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "test", Toast.LENGTH_SHORT).show(); //設定按下去執行的動作
-            }
-        });
+        this.parentContext = parent.getContext();
 
         return new ViewHolder(cardView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ShowTask task = taskShowList.get(position);
+        final ShowTask task = taskShowList.get(position);
 
         CardView taskCardView = holder.taskCardView;
 
@@ -62,6 +59,16 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
         taskTime.setText(task.getTime());
+
+        taskCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(parentContext, TaskDetailActivity.class);
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTitle());
+                parentContext.startActivity(intent);
+            }
+        });
+
     }
 
     @Override

@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomePageActivity"></activity>
+        <activity android:name=".TaskDetailActivity"></activity>
+        <activity android:name=".HomePageActivity" />
         <activity android:name=".ShowTaskActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -27,7 +28,7 @@
         <activity
             android:name=".ReleaseTaskActivity"
             android:label="@string/create_new_task"
-            android:parentActivityName=".ShowTaskActivity"></activity>
+            android:parentActivityName=".ShowTaskActivity" />
     </application>
 
 </manifest>

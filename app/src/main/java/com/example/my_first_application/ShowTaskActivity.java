@@ -24,7 +24,7 @@ import Task.Task;
 public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
     RecyclerView recyclerView;
-    static ArrayList<ShowTask> taskList = new ArrayList<>();
+    ArrayList<ShowTask> taskList = new ArrayList<>();
     ShowTaskAdapter recyclerViewAdapter;
     Handler uiHandler;
 
