@@ -28,7 +28,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
     ShowTaskAdapter recyclerViewAdapter;
     Handler uiHandler;
 
-    GetTasksObserved getTasksObserved;
+    GetTasksObserved getTasksObserved = GetTasksObserved.getInstance();
 
 
     @Override
@@ -42,11 +42,10 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
+        recyclerViewAdapter.setTaskShowList(getTasksObserved.getShowTasks());
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
-        this.getTasksObserved = new GetTasksObserved();
         this.getTasksObserved.addObserver(this);
-
         this.uiHandler = new Handler();
     }
 
@@ -68,24 +67,6 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        runGetTaskAPI(0); // 馬上執行拿任務的api
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        uiHandler.removeCallbacks(getTaskAPIRunnable);
-    }
-
-    private final Runnable getTaskAPIRunnable = new Runnable() {
-        public void run() {
-            getTasksObserved.startGetTasksThread();
-        }
-    };
-
     public void showTaskUIUpdate() { //必須要在主執行緒上更新UI, 才不會出錯
         uiHandler.post(new Runnable() {
             @Override
@@ -95,31 +76,12 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         });
     }
 
-    public void runGetTaskAPI(int delayMillis) {
-        uiHandler.postDelayed(getTaskAPIRunnable, delayMillis);
-    }
-
     @Override
     public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
         if (o instanceof GetTasksObserved) {
             GetTasksObserved getTasksObserved = (GetTasksObserved) o;
-
-            ArrayList<Task> tasks = getTasksObserved.getTasks();
-            if( tasks.size() == 0 ) {
-                runGetTaskAPI(1000); // 重送請求
-                return; // 直接退出
-            }
-
-            ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
-            for(Task task:tasks) {
-                ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
-                tmpShowTaskList.add(showTask);
-            }
-
-            recyclerViewAdapter.setTaskShowList(tmpShowTaskList);
+            recyclerViewAdapter.setTaskShowList(getTasksObserved.getShowTasks());
             showTaskUIUpdate();
-
-            runGetTaskAPI(1000);// 由觀察者去啟動發布者非常不合理 需修改
         }
     }
 }

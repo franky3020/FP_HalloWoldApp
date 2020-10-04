@@ -27,7 +27,7 @@ public class TaskDetailFragment extends Fragment {
         super.onStart();
         View view = getView();
         if(view != null) {
-            TextView taskTitle = (TextView) view.findViewById(R.id.taskTitle);
+            TextView taskTitle = view.findViewById(R.id.taskTitle);
             taskTitle.setText(this.taskTitle);
         }
     }

@@ -60,6 +60,7 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
         taskTime.setText(task.getTime());
 
+        // 這做法不好 要使用介面解耦
         taskCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
