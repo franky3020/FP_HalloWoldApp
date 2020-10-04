@@ -95,4 +95,5 @@ android:background="@drawable/login_background">
         app:layout_constraintEnd_toStartOf="@+id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@id/editText_sign_up_password_again" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
