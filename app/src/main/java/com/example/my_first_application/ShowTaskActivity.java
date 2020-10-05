@@ -39,18 +39,16 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        this.uiHandler = new Handler();
+
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
-
-        recyclerViewAdapter.setShowTaskList(getTasksObserved.getShowTasks());
-        // 未設定listener 所以第一次功能會失效
-
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
         this.getTasksObserved.addObserver(this);
-        this.uiHandler = new Handler();
+
     }
 
     @Override
@@ -71,7 +69,22 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public void showTaskUIUpdate() { //必須要在主執行緒上更新UI, 才不會出錯
+    public void showTaskUIUpdate(final ArrayList<ShowTask> showTaskList) { //必須要在主執行緒上更新UI, 才不會出錯
+
+        recyclerViewAdapter.setShowTaskList(showTaskList);
+
+        recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
+
+            @Override
+            public void onClick(int position) {
+                ShowTask showTask = showTaskList.get(position);
+
+                Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, showTask.getTitle());
+                showTaskActivity.startActivity(intent);
+            }
+        });
+
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -84,23 +97,8 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
         if (o instanceof GetTasksObserved) {
             GetTasksObserved getTasksObserved = (GetTasksObserved) o;
-
-            final ArrayList<ShowTask> showTaskList = getTasksObserved.getShowTasks();
-            recyclerViewAdapter.setShowTaskList(showTaskList);
-
-            recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
-
-                @Override
-                public void onClick(int position) {
-                    ShowTask showTask = showTaskList.get(position);
-
-                    Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
-                    intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, showTask.getTitle());
-                    showTaskActivity.startActivity(intent);
-                }
-            });
-
-            showTaskUIUpdate();
+            ArrayList<ShowTask> showTaskList = getTasksObserved.getShowTasks();
+            showTaskUIUpdate(showTaskList);
         }
     }
 }

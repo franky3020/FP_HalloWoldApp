@@ -5,7 +5,7 @@ import com.example.my_first_application.R;
 import java.util.ArrayList;
 import java.util.Observable;
 
-public class GetTasksObserved extends Observable{
+public class GetTasksObserved extends Observable {
 
     private static GetTasksObserved instance = new GetTasksObserved();
 
@@ -43,7 +43,7 @@ public class GetTasksObserved extends Observable{
 
                     // 等待幾秒後再重新送請求
                     try {
-                        sleep(2000);
+                        sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -57,10 +57,6 @@ public class GetTasksObserved extends Observable{
     private void getTaskAndUpdateTaskList() throws Exception {
         latestTasksList = taskApiService.getTasks();
         tasksList = latestTasksList;
-    }
-
-    public ArrayList<Task> getTasks() {
-        return tasksList;
     }
 
     public ArrayList<ShowTask> getShowTasks() {
