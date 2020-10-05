@@ -19,9 +19,10 @@ import java.util.Observer;
 
 import Task.ShowTask;
 import Task.GetTasksObserved;
-import Task.Task;
 
 public class ShowTaskActivity extends AppCompatActivity implements Observer {
+
+    ShowTaskActivity showTaskActivity = this;
 
     RecyclerView recyclerView;
     ArrayList<ShowTask> taskList = new ArrayList<>();
@@ -42,7 +43,10 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
-        recyclerViewAdapter.setTaskShowList(getTasksObserved.getShowTasks());
+
+        recyclerViewAdapter.setShowTaskList(getTasksObserved.getShowTasks());
+        // 未設定listener 所以第一次功能會失效
+
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
         this.getTasksObserved.addObserver(this);
@@ -80,7 +84,22 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
         if (o instanceof GetTasksObserved) {
             GetTasksObserved getTasksObserved = (GetTasksObserved) o;
-            recyclerViewAdapter.setTaskShowList(getTasksObserved.getShowTasks());
+
+            final ArrayList<ShowTask> showTaskList = getTasksObserved.getShowTasks();
+            recyclerViewAdapter.setShowTaskList(showTaskList);
+
+            recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
+
+                @Override
+                public void onClick(int position) {
+                    ShowTask showTask = showTaskList.get(position);
+
+                    Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
+                    intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, showTask.getTitle());
+                    showTaskActivity.startActivity(intent);
+                }
+            });
+
             showTaskUIUpdate();
         }
     }

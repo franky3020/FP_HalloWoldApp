@@ -54,7 +54,7 @@ public class GetTasksObserved extends Observable{
         getTasksAPIThread.start();
     }
 
-    private void getTaskAndUpdateTaskList() throws Exception{
+    private void getTaskAndUpdateTaskList() throws Exception {
         latestTasksList = taskApiService.getTasks();
         tasksList = latestTasksList;
     }
@@ -66,7 +66,7 @@ public class GetTasksObserved extends Observable{
     public ArrayList<ShowTask> getShowTasks() {
 
         ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
-        for(Task task:tasksList) {
+        for (Task task:tasksList) {
             ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
             tmpShowTaskList.add(showTask);
         }

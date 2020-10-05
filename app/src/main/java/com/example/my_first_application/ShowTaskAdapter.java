@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -18,8 +17,15 @@ import java.util.ArrayList;
 import Task.ShowTask;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
+
     private ArrayList<ShowTask> taskShowList;
-    private Context parentContext;
+    private Listener listener;
+
+    // 使用介面解耦
+    interface Listener {
+        void onClick(int position);
+    }
+
 
     public ShowTaskAdapter(ArrayList<ShowTask> taskList) {
         this.taskShowList = taskList;
@@ -31,13 +37,11 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_show_task_item, parent, false);
 
-        this.parentContext = parent.getContext();
-
         return new ViewHolder(cardView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final ShowTask task = taskShowList.get(position);
 
         CardView taskCardView = holder.taskCardView;
@@ -60,13 +64,22 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
         taskTime.setText(task.getTime());
 
-        // 這做法不好 要使用介面解耦
+//        // 這做法不好 要使用介面解耦
+//        taskCardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(parentContext, TaskDetailActivity.class);
+//                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTitle());
+//                parentContext.startActivity(intent);
+//            }
+//        });
+
         taskCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(parentContext, TaskDetailActivity.class);
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTitle());
-                parentContext.startActivity(intent);
+                if (listener != null) {
+                    listener.onClick(position);
+                }
             }
         });
 
@@ -77,8 +90,12 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         return taskShowList.size();
     }
 
-    public void setTaskShowList(ArrayList<ShowTask> taskShowList) {
+    public void setShowTaskList(ArrayList<ShowTask> taskShowList) {
         this.taskShowList = taskShowList;
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
