@@ -8,29 +8,45 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-import Task.ShowTask;
+import Task.GetTasksObserved;
+import Task.Task;
 
-public class HomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity implements Observer {
 
-    private ArrayList<ShowTask> taskList = new ArrayList<>();
+    private HomePageActivity homePageActivity = this;
+
+    Handler uiHandler;
+
+    private ArrayList<Task> taskList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ShowTaskAdapter recyclerViewAdapter;
+    private GetTasksObserved getTasksObserved = GetTasksObserved.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initTasks();
-        RecyclerView recyclerView = findViewById(R.id.homeTaskShow);
+
+        this.uiHandler = new Handler();
+
+        this.recyclerView = findViewById(R.id.homeTaskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        HomePageAdapter adapter = new HomePageAdapter(this, taskList);
-        recyclerView.setAdapter(adapter);
+        this.recyclerView.setLayoutManager(layoutManager);
+        this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
+        this.recyclerView.setAdapter(recyclerViewAdapter);
+
+        this.getTasksObserved.addObserver(this);
+
     }
 
     @Override
@@ -51,12 +67,36 @@ public class HomePageActivity extends AppCompatActivity {
         }
     }
 
-    private void initTasks() {
-        for(int i = 0; i <= 10; i++){
-            ShowTask user1 = new ShowTask(R.drawable.ic_user_show_task, "買xxx的滷肉飯", "買便當", "台中市西屯區", "2020/9/11", "上午 11:00", "50 分鐘後截止");
-            taskList.add(user1);
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task, "打掃庭院", "做家務", "台中市北屯區", "2020/10/11", "上午 10:00", "30 分鐘後截止"));
-            taskList.add(new ShowTask(R.drawable.ic_user_show_task, "裝燈泡", "修理", "台中市南屯區", "2020/11/11", "下午 2:00", " 1 小時後截止"));
+    public void showTaskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
+
+        recyclerViewAdapter.setShowTaskList(taskList); // taskStatus 還沒設定
+
+        recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
+
+            @Override
+            public void onClick(int position) {
+                Task task = taskList.get(position);
+
+                Intent intent = new Intent(homePageActivity, TaskDetailActivity.class);
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
+                homePageActivity.startActivity(intent);
+            }
+        });
+
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                recyclerViewAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof GetTasksObserved) {
+            GetTasksObserved getTasksObserved = (GetTasksObserved) o;
+            ArrayList<Task> taskList = getTasksObserved.getTasks();
+            showTaskUIUpdate(taskList);
         }
     }
 }

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import Task.ShowTask;
 import Task.GetTasksObserved;
 import Task.Task;
 
