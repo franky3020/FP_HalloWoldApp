@@ -59,13 +59,17 @@ public class GetTasksObserved extends Observable {
         tasksList = latestTasksList;
     }
 
-    public ArrayList<ShowTask> getShowTasks() {
-
-        ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
-        for (Task task:tasksList) {
-            ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
-            tmpShowTaskList.add(showTask);
-        }
-        return tmpShowTaskList;
+    public ArrayList<Task> getTasks() {
+        return tasksList;
     }
+
+//    public ArrayList<ShowTask> getShowTasks() {
+//
+//        ArrayList<ShowTask> tmpShowTaskList = new ArrayList<>();
+//        for (Task task:tasksList) {
+//            ShowTask showTask = new ShowTask(R.drawable.ic_user_show_task, task.getName(), "買便當(未完成)", "未完成", task.getStartData().toString(), "上午 11:00(未完成)");
+//            tmpShowTaskList.add(showTask);
+//        }
+//        return tmpShowTaskList;
+//    }
 }

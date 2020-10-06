@@ -19,13 +19,14 @@ import java.util.Observer;
 
 import Task.ShowTask;
 import Task.GetTasksObserved;
+import Task.Task;
 
 public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
     ShowTaskActivity showTaskActivity = this;
 
     RecyclerView recyclerView;
-    ArrayList<ShowTask> taskList = new ArrayList<>();
+    ArrayList<Task> taskList = new ArrayList<>();
     ShowTaskAdapter recyclerViewAdapter;
     Handler uiHandler;
 
@@ -69,18 +70,18 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public void showTaskUIUpdate(final ArrayList<ShowTask> showTaskList) { //必須要在主執行緒上更新UI, 才不會出錯
+    public void showTaskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
 
-        recyclerViewAdapter.setShowTaskList(showTaskList);
+        recyclerViewAdapter.setShowTaskList(taskList);
 
         recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
 
             @Override
             public void onClick(int position) {
-                ShowTask showTask = showTaskList.get(position);
+                Task task = taskList.get(position);
 
                 Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, showTask.getTitle());
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
                 showTaskActivity.startActivity(intent);
             }
         });
@@ -97,8 +98,8 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
         if (o instanceof GetTasksObserved) {
             GetTasksObserved getTasksObserved = (GetTasksObserved) o;
-            ArrayList<ShowTask> showTaskList = getTasksObserved.getShowTasks();
-            showTaskUIUpdate(showTaskList);
+            ArrayList<Task> taskList = getTasksObserved.getTasks();
+            showTaskUIUpdate(taskList);
         }
     }
 }
