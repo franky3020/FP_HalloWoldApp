@@ -1,6 +1,7 @@
 package com.example.my_first_application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,40 +17,63 @@ import java.util.ArrayList;
 import Task.ShowTask;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
-    private Context mContext;
-    private ArrayList<ShowTask> taskShowList;
 
-    public ShowTaskAdapter(Context context, ArrayList<ShowTask> taskList) {
-        this.mContext = context;
-        this.taskShowList = taskList; // 不太確定是不是這樣綁定的 或是有其他種做法比較好
+    private ArrayList<ShowTask> taskShowList;
+    private Listener listener;
+
+    // 使用介面解耦
+    interface Listener {
+        void onClick(int position);
+    }
+
+
+    public ShowTaskAdapter(ArrayList<ShowTask> taskList) {
+        this.taskShowList = taskList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext)
+    public ShowTaskAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
+        CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_show_task_item, parent, false);
-        final ViewHolder holder = new ViewHolder((CardView) view);
-//        holder.taskView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                int position = holder.getAdapterPosition();
-//                ShowTask task = mTaskShowList.get(position);
-//                Toast.makeText(view.getContext(), "View"+ task.getName(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-        return holder;
+
+        return new ViewHolder(cardView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ShowTask task = taskShowList.get(position);
-        holder.userImage.setImageResource(task.getImageId());
-        holder.taskTitle.setText(task.getTitle());
-        holder.taskType.setText(task.getType());
-        holder.taskAddress.setText(task.getAddress());
-        holder.taskDate.setText(task.getDate());
-        holder.taskTime.setText(task.getTime());
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        final ShowTask task = taskShowList.get(position);
+
+        CardView taskCardView = holder.taskCardView;
+
+        ImageView userImage = taskCardView.findViewById(R.id.imageView_user_pic);
+        userImage.setImageResource(task.getImageId());
+
+        TextView taskTitle = taskCardView.findViewById(R.id.textView_showTask_title);
+        taskTitle.setText(task.getTitle());
+
+        TextView taskType = taskCardView.findViewById(R.id.textView_showTask_type);
+        taskType.setText(task.getType());
+
+        TextView taskAddress = taskCardView.findViewById(R.id.textView_showTask_address);
+        taskAddress.setText(task.getAddress());
+
+        TextView taskDate = taskCardView.findViewById(R.id.textView_showTask_date);
+        taskDate.setText(task.getDate());
+
+        TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
+        taskTime.setText(task.getTime());
+
+
+        taskCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onClick(position);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -57,28 +81,20 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         return taskShowList.size();
     }
 
-    public void setTaskShowList(ArrayList<ShowTask> taskShowList) {
+    public void setShowTaskList(ArrayList<ShowTask> taskShowList) {
         this.taskShowList = taskShowList;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView taskView;
-        private ImageView userImage;
-        private TextView taskTitle;
-        private TextView taskType;
-        private TextView taskAddress;
-        private TextView taskDate;
-        private TextView taskTime;
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
 
-        public ViewHolder(CardView view) {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private CardView taskCardView;
+
+        public ViewHolder(CardView view) { //每一個 ViewHolder都會顯示一個CardView
             super(view);
-            this.taskView = view;
-            this.userImage = view.findViewById(R.id.imageView_user_pic);
-            this.taskTitle = view.findViewById(R.id.textView_showTask_title);
-            this.taskType = view.findViewById(R.id.textView_showTask_type);
-            this.taskAddress = view.findViewById(R.id.textView_showTask_address);
-            this.taskDate = view.findViewById(R.id.textView_showTask_date);
-            this.taskTime = view.findViewById(R.id.textView_showTask_time);
+            this.taskCardView = view;
         }
     }
 }
