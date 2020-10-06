@@ -1,6 +1,6 @@
 package Task;
 
-public class ShowTask {
+public class ShowTask { // 不要再用這類別, 通一用 Task 類別
     private int imageId;
     private String title;
     private String type;
