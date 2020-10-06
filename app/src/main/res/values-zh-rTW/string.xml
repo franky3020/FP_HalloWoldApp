@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">任務APP</string>
-    <string name="create_new_task">創建任務</string>
-    <string name="hello_world">哈摟世界?</string>
+    <string name="main_toolbar_title">老人長照</string>
+    <string name="homePage_toolbar_title">所有任務</string>
+    <string name="showTask_toolbar_title">我的任務</string>
+    <string name="releaseTask_toolbar_title">創建任務</string>
     <string name="email_address">電子郵件帳號</string>
     <string name="password">密碼</string>
     <string name="password_again">再次輸入密碼</string>
@@ -24,4 +25,10 @@
     <string name="click_to_release_task">前往發布介面</string>
     <string name="click_to_show_task">前往顯示任務介面</string>
     <string name="click_to_main_page">前往主介面</string>
+
+    <!-- bottom navigation bar -->
+    <string name="home">主頁</string>
+    <string name="search">搜尋</string>
+    <string name="message">訊息</string>
+    <string name="user">個人</string>
 </resources>

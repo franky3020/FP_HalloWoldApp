@@ -7,19 +7,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_background">
 
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar_login"/>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_login_page_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="24dp" />
+        app:layout_constraintGuide_begin="25dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_login_page_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="24dp" />
+        app:layout_constraintGuide_end="25dp" />
 
     <!-- both layout_width/layout_height are wrap_content -->
     <ImageView
