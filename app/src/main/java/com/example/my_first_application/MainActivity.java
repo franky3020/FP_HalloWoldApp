@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
         intent.setClass(MainActivity.this, HomePageActivity.class);
         startActivity(intent);
     }
+    public void onClickToChatPage(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ChatActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onStart() {

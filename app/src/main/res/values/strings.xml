@@ -23,4 +23,6 @@
     <string name="click_to_release_task">Click to Release Task</string>
     <string name="click_to_show_task">Click to Show Task</string>
     <string name="click_to_main_page">Click to Main Page</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

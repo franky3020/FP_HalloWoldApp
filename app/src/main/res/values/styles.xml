@@ -7,11 +7,15 @@
         <item name="colorPrimaryDark">@color/dark_blue</item> <!-- 改變 Tool Bar 顏色，讓它與背景顏色一致 -->
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <!--<style name="MySpinnerDatePickerStyle" parent="android:Theme.Material.Dialog">
-        <item name="android:datePickerStyle">@style/MySpinnerDatePicker</item>
+
+    <style name="AppThemeNo" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="MySpinnerDatePicker" parent="android:Widget.Material.DatePicker">
-        <item name="android:datePickerMode">spinner</item>
-    </style>   -->
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"></style>
+
 
 </resources>
