@@ -1,9 +1,9 @@
 package Task;
 
-import android.icu.text.SimpleDateFormat; //時間未完成
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -88,23 +88,36 @@ public class TaskAPIService {
 
         ArrayList<Task> taskList = new ArrayList<>();
 
+        // 因為API 拿到的字串是這種格式
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
         Iterator<String> taskKeys = tasksJSONObject.keys();
         while (taskKeys.hasNext()) {
             String key = taskKeys.next();
-
-
             JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
 
             int taskId = Integer.parseInt(key);
+
             String taskName = aJSONTask.getString("TaskName");
 
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 應該要用這個轉換
+            /////////////////// 轉換與處理 startPostTime  /////////////////////////////////
+            String startPostTimeString = aJSONTask.getString("StartPostTime");
+            Date startPostDate = simpleDateFormat.parse(startPostTimeString);
+            Timestamp startPostTime = new Timestamp(startPostDate.getTime());
+            ////////////////////////////////////////////////////////////////////////////
 
-            Timestamp startPostTime = new Timestamp(new Date().getTime()); // 先不處理
             int salary = aJSONTask.getInt("Salary");
+
             String typeName = aJSONTask.getString("TypeName");
+
             int releaseUserID = aJSONTask.getInt("ReleaseUserID");
-            Timestamp releaseTime = new Timestamp(new Date().getTime()); // 先不處理
+
+            Timestamp releaseTime = startPostTime; // 未處理 ReleaseTime 是null 時的情況, 如果有一個API找錯, 就會全部失效 這要修正
+//            /////////////////// 轉換與處理 releaseTime  /////////////////////////////////
+//            String releaseTimeString = aJSONTask.getString("ReleaseTime");
+//            Date releaseDate = simpleDateFormat.parse(releaseTimeString);
+//            Timestamp releaseTime = new Timestamp(releaseDate.getTime());
+//            ////////////////////////////////////////////////////////////////////////////
 
             Task task = new Task(taskId, taskName, startPostTime, salary, typeName, releaseUserID, releaseTime); // 時間未完成
             taskList.add(task);

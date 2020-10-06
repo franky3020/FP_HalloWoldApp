@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import Task.Task;
 
@@ -60,11 +62,19 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         taskAddress.setText(task.getTaskAddress());
 
         TextView taskDate = taskCardView.findViewById(R.id.textView_showTask_date);
-        taskDate.setText("未加上");
-
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
-        taskTime.setText("未加上");
 
+        Timestamp startPostTime = task.getStartPostTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startPostTime);
+        int year = calendar.get(calendar.YEAR);
+        int month = calendar.get(calendar.MONTH) + 1 ;
+        int day = calendar.get(calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        taskDate.setText( "" + year + "/" + month + "/" + day);
+        taskTime.setText(" " + hour + ":" + minute);
 
         taskCardView.setOnClickListener(new View.OnClickListener() {
             @Override
