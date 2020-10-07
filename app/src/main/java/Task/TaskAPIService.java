@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Objects;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -62,6 +63,69 @@ public class TaskAPIService {
                         "&" + releaseUserIDParameter + "&" + taskAddressParameter + "&" + taskCityParameter)
                 .post(body)
                 .build();
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            response.close();
+            return true;
+        } else {
+            response.close();
+            return false;
+        }
+    }
+
+    public boolean post(Task task) throws IOException {
+
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create("", JSON);
+
+        String API_version = "ms-provider-develop";
+        String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
+        String taskNameParameter = "TaskName=" + task.getTaskName();
+        String messageParameter = "Message=" + task.getMessage();
+        String startPostTimeParameter = "StartPostTime=" + task;
+        String endPostTimeParameter = "EndPostTime=" + postTime;
+        String salaryParameter = "Salary=" + salary;
+        String taskTypeParameter = "TypeName=" + taskType;
+        String releaseUserIDParameter = "ReleaseUserID=" + 1;
+        String taskAddressParameter = "TaskAddress=" + taskAddress;
+        String taskCityParameter = "TaskCity=" + taskCity;
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("TaskName", task.getTaskName())
+                .add("Message", task.getMessage())
+                .add("StartPostTime", task.getStartPostTime())
+                .add("Message", task.getMessage())
+                .add("Message", task.getMessage())
+                .add("Message", task.getMessage())
+                .add("Message", task.getMessage())
+                .add("Message", task.getMessage())
+                .add("Message", task.getMessage())
+                .add("Message", task.getMessage())
+                .build();
+
+        Request.Builder requestBuilder = new Request.Builder().url(base_URL);
+        requestBuilder.post(RequestBody.create(MEDIA_TYPE_JSON, json))
+
+
+
+//
+//                .url(base_URL + taskNameParameter + "&" + messageParameter + "&" + startPostTimeParameter +
+//                        "&" + endPostTimeParameter + "&" + salaryParameter + "&" + taskTypeParameter +
+//                        "&" + releaseUserIDParameter + "&" + taskAddressParameter + "&" + taskCityParameter)
+//                .post(body)
+//                .build();
+
+
+//        Request request = new Request.Builder()
+//                .url(base_URL + taskNameParameter + "&" + messageParameter + "&" + startPostTimeParameter +
+//                        "&" + endPostTimeParameter + "&" + salaryParameter + "&" + taskTypeParameter +
+//                        "&" + releaseUserIDParameter + "&" + taskAddressParameter + "&" + taskCityParameter)
+//                .post(body)
+//                .build();
+
         Response response = client.newCall(request).execute();
         if (response.isSuccessful()) {
             response.close();
