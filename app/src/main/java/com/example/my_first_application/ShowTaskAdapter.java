@@ -74,7 +74,7 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         int minute = calendar.get(Calendar.MINUTE);
 
         taskDate.setText( "" + year + "/" + month + "/" + day);
-        taskTime.setText(" " + hour + ":" + minute);
+        taskTime.setText("" + hour + ":" + minute);
 
         taskCardView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Objects;
 
-import User.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,7 +33,7 @@ public class TaskAPIService {
         ).start();
     }
 
-
+    // 要改成傳入Task 與 送出成功會跳回畫面
     public boolean post(final String taskName, final String message, final String salary , final String postTime
             , final String taskType, final String taskAddress, final String taskCity) throws IOException { // 這應該改成傳入Task
 
@@ -52,6 +51,7 @@ public class TaskAPIService {
         String endPostTimeParameter = "EndPostTime=" + postTime;
         String salaryParameter = "Salary=" + salary;
         String taskTypeParameter = "TypeName=" + taskType;
+        String releaseUserIDParameter = "ReleaseUserID=" + 1;
         String taskAddressParameter = "TaskAddress=" + taskAddress;
         String taskCityParameter = "TaskCity=" + taskCity;
 
@@ -59,7 +59,7 @@ public class TaskAPIService {
         Request request = new Request.Builder()
                 .url(base_URL + taskNameParameter + "&" + messageParameter + "&" + startPostTimeParameter +
                         "&" + endPostTimeParameter + "&" + salaryParameter + "&" + taskTypeParameter +
-                        "&" + taskAddressParameter + "&" + taskCityParameter)
+                        "&" + releaseUserIDParameter + "&" + taskAddressParameter + "&" + taskCityParameter)
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
@@ -112,12 +112,12 @@ public class TaskAPIService {
 
             int releaseUserID = aJSONTask.getInt("ReleaseUserID");
 
-            Timestamp releaseTime = startPostTime; // 未處理 ReleaseTime 是null 時的情況, 如果有一個API找錯, 就會全部失效 這要修正
-//            /////////////////// 轉換與處理 releaseTime  /////////////////////////////////
-//            String releaseTimeString = aJSONTask.getString("ReleaseTime");
-//            Date releaseDate = simpleDateFormat.parse(releaseTimeString);
-//            Timestamp releaseTime = new Timestamp(releaseDate.getTime());
-//            ////////////////////////////////////////////////////////////////////////////
+//            Timestamp releaseTime = startPostTime; // 未處理 ReleaseTime 是null 時的情況, 如果有一個API找錯, 就會全部失效 這要修正
+            /////////////////// 轉換與處理 releaseTime  /////////////////////////////////
+            String releaseTimeString = aJSONTask.getString("ReleaseTime");
+            Date releaseDate = simpleDateFormat.parse(releaseTimeString);
+            Timestamp releaseTime = new Timestamp(releaseDate.getTime());
+            ////////////////////////////////////////////////////////////////////////////
 
             Task task = new Task(taskId, taskName, startPostTime, salary, typeName, releaseUserID, releaseTime); // 時間未完成
             taskList.add(task);
