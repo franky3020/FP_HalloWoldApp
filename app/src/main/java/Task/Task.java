@@ -9,7 +9,7 @@ public class Task {
     private int taskID;
     private String taskName;
     private String message = "";
-    private Timestamp startPostTime;
+    private Timestamp startPostTime; // 要改成localTime 反正存到資料庫的是timestamp 但拿出來要轉成localTime
     private Timestamp endPostTime = new Timestamp(new Date().getTime());
     private int salary;
     private String typeName;

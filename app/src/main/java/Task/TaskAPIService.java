@@ -93,7 +93,11 @@ public class TaskAPIService {
         String taskAddressParameter = "TaskAddress=" + taskAddress;
         String taskCityParameter = "TaskCity=" + taskCity;
 
-        RequestBody formBody = new FormBody.Builder()
+
+        Date date = new Date();
+
+
+        RequestBody formBody = new FormBody.Builder() // 沒資料的應該傳送null出去
                 .add("TaskName", task.getTaskName())
                 .add("Message", task.getMessage())
                 .add("StartPostTime", task.getStartPostTime())
@@ -153,7 +157,7 @@ public class TaskAPIService {
         ArrayList<Task> taskList = new ArrayList<>();
 
         // 因為API 拿到的字串是這種格式
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"); // 這裡也要改
 
         Iterator<String> taskKeys = tasksJSONObject.keys();
         while (taskKeys.hasNext()) {
