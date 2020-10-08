@@ -1,6 +1,7 @@
 package com.example.my_first_application;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import  androidx.appcompat.widget.Toolbar;
 
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -19,6 +22,8 @@ public class ChatActivity extends AppCompatActivity {
     EditText messageET;
     ImageButton sendBtn;
 
+    List<ModelChat> chatList;
+    AdapterChat adapterChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +39,11 @@ public class ChatActivity extends AppCompatActivity {
         userStatusTV = findViewById(R.id.userStatusTV);
         messageET = findViewById(R.id.messageEt);
         sendBtn = findViewById(R.id.sendBtn);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 }
