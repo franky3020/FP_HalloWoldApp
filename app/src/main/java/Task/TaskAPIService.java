@@ -80,54 +80,36 @@ public class TaskAPIService {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        String taskNameParameter = task.getTaskName();
-        String messageParameter = task.getMessage();
-
-        String startPostTimeParameter = dateTimeFormatter.format(task.getStartPostTime());
-        String endPostTimeParameter = dateTimeFormatter.format(task.getEndPostTime());
-        String salaryParameter = String.valueOf(task.getSalary());
-        String taskTypeParameter = task.getTypeName();
-
-        String releaseUserIDParameter = String.valueOf(task.getReleaseUserID());
-        String releaseTimeParameter = dateTimeFormatter.format(task.getReleaseTime());
-
-        String receiveUserIDParameter = String.valueOf(task.getReceiveUserID());
-        String receiveTimeParameter = dateTimeFormatter.format(task.getReceiveTime());
-
-        String taskAddressParameter = task.getTaskAddress();
-        String taskCityParameter = String.valueOf(task.getTaskCity());
-
         JSONObject jsonEntity = new JSONObject();
         jsonEntity.put("taskName", task.getTaskName());
         jsonEntity.put("message", task.getMessage());
+
+        String startPostTimeParameter = dateTimeFormatter.format(task.getStartPostTime());
         jsonEntity.put("startPostTime", startPostTimeParameter);
+
+        String endPostTimeParameter = dateTimeFormatter.format(task.getEndPostTime());
         jsonEntity.put("endPostTime", endPostTimeParameter);
-        jsonEntity.put("salary", salaryParameter);
-        jsonEntity.put("typeName", taskTypeParameter);
+
+
+        jsonEntity.put("salary", task.getSalary());
+        jsonEntity.put("typeName", task.getTypeName());
         jsonEntity.put("releaseUserID", task.getReleaseUserID());
+
+        String releaseTimeParameter = dateTimeFormatter.format(task.getReleaseTime());
         jsonEntity.put("releaseTime", releaseTimeParameter);
+
+
         jsonEntity.put("receiveUserID", task.getReceiveUserID());
+
+        String receiveTimeParameter = dateTimeFormatter.format(task.getReceiveTime());
         jsonEntity.put("receiveTime", receiveTimeParameter);
-        jsonEntity.put("taskAddress", taskAddressParameter);
-        jsonEntity.put("taskCity", taskCityParameter);
+
+        jsonEntity.put("taskAddress", task.getTaskAddress());
+        jsonEntity.put("taskCity", task.getTaskCity());
 
         //參考 https://www.jianshu.com/p/1133389c1f75
-        RequestBody requestBody = RequestBody.create(JSON, String.valueOf(jsonEntity)); // 被棄用了
-//
-//        RequestBody formBody = new FormBody.Builder() // 沒資料的應該傳送null出去
-//                .add("taskName", taskNameParameter)
-//                .add("message", messageParameter)
-//                .add("startPostTime", startPostTimeParameter)
-//                .add("endPostTime", endPostTimeParameter)
-//                .add("salary", salaryParameter)
-//                .add("typeName", taskTypeParameter)
-//                .add("releaseUserID", releaseUserIDParameter)
-//                .add("releaseTime", releaseTimeParameter)
-//                .add("receiveUserID", receiveUserIDParameter)
-//                .add("receiveTime", receiveTimeParameter)
-//                .add("taskAddress", taskAddressParameter)
-//                .add("taskCity", taskCityParameter)
-//                .build();
+        // 與  https://stackoverflow.com/questions/57100451/okhttp3-requestbody-createcontenttype-content-deprecated
+        RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON);
 
         Request request = new Request.Builder().url(base_URL).post(requestBody).build();
 

@@ -36,7 +36,7 @@ public class TaskAPIServiceTest {
     @Test
     public void post() {
 
-        Task task = new Task("franky-108", "franky-108", LocalDateTime.now(),
+        Task task = new Task("franky-109", "franky-108", LocalDateTime.now(),
                 500, "測試", 1, LocalDateTime.now());
         TaskAPIService taskApiService = new TaskAPIService();
         try {
