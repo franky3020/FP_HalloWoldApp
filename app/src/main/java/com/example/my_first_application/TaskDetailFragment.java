@@ -14,7 +14,7 @@ import android.widget.TextView;
  * Use the {@link TaskDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TaskDetailFragment extends Fragment {
+public class TaskDetailFragment extends Fragment { // 任務細節還沒做完誠
 
     private String taskTitle = "";
 
@@ -28,7 +28,7 @@ public class TaskDetailFragment extends Fragment {
         View view = getView();
         if(view != null) {
             TextView taskTitle = view.findViewById(R.id.taskTitle);
-            taskTitle.setText(this.taskTitle);
+            taskTitle.setText(this.taskTitle); // 把從activity設定的 設定到該TextView
         }
     }
 

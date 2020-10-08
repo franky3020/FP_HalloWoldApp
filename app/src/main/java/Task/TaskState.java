@@ -1,6 +1,6 @@
 package Task;
 
-public enum TaskState {
+public enum TaskState { // 即將要實作, 這目前是重點
     BOSS_RELEASE,
     WORKER_WORKING,
     BOSS_DONE_CHECK,

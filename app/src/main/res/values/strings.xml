@@ -1,14 +1,15 @@
 <resources>
-    <string name="app_name">All Task</string>
-    <string name="create_new_task">Create new task</string>
-    <string name="hello_world">hello_world</string>
+    <string name="main_toolbar_title">xxx</string>
+    <string name="homePage_toolbar_title">All Task</string>
+    <string name="showTask_toolbar_title">My Task</string>
+    <string name="releaseTask_toolbar_title">Create new task</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="password_again">Confirm Password</string>
     <string name="login">LOGIN</string>
     <string name="forgot_your_password">Forgot your Password?</string>
     <string name="or">OR</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up">Register</string>
     <string name="show_task_title">Task Title</string>
     <string name="show_task_type">Task type</string>
     <string name="show_task_status">Task time</string>
@@ -23,6 +24,10 @@
     <string name="click_to_release_task">Click to Release Task</string>
     <string name="click_to_show_task">Click to Show Task</string>
     <string name="click_to_main_page">Click to Main Page</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- bottom navigation bar -->
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="message">Message</string>
+    <string name="user">User</string>
 </resources>

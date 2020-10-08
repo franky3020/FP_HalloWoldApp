@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "498124236885",
+    "firebase_url": "https://fcu-graduate-project-demo.firebaseio.com",
+    "project_id": "fcu-graduate-project-demo",
+    "storage_bucket": "fcu-graduate-project-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498124236885:android:3397f6497e5660327c8cdc",
+        "android_client_info": {
+          "package_name": "com.example.my_first_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498124236885-54ctcolmb8qu5uumb3v8hscljoemj9ke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_first_application",
+            "certificate_hash": "0d1d0f24efb3160a8bf2a1895d9914b8f8ea7bc4"
+          }
+        },
+        {
+          "client_id": "498124236885-5cifpa81i2q0u4gp191mhheigf0gui55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDWjcEvb9TuzkzUlSXSIIh5mKUFS-QYmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498124236885-5cifpa81i2q0u4gp191mhheigf0gui55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

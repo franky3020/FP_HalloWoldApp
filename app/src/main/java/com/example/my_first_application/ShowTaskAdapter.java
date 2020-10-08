@@ -12,13 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-import Task.ShowTask;
+import Task.Task;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
 
-    private ArrayList<ShowTask> taskShowList;
+//    private ArrayList<ShowTask> taskShowList;
+    private ArrayList<Task> taskList;
     private Listener listener;
 
     // 使用介面解耦
@@ -27,8 +30,8 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
     }
 
 
-    public ShowTaskAdapter(ArrayList<ShowTask> taskList) {
-        this.taskShowList = taskList;
+    public ShowTaskAdapter(ArrayList<Task> taskList) {
+        this.taskList = taskList;
     }
 
     @NonNull
@@ -42,28 +45,36 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final ShowTask task = taskShowList.get(position);
+        final Task task = taskList.get(position);
 
         CardView taskCardView = holder.taskCardView;
 
         ImageView userImage = taskCardView.findViewById(R.id.imageView_user_pic);
-        userImage.setImageResource(task.getImageId());
+        userImage.setImageResource(R.drawable.ic_user_show_task);
 
         TextView taskTitle = taskCardView.findViewById(R.id.textView_showTask_title);
-        taskTitle.setText(task.getTitle());
+        taskTitle.setText(task.getTaskName());
 
         TextView taskType = taskCardView.findViewById(R.id.textView_showTask_type);
-        taskType.setText(task.getType());
+        taskType.setText(task.getTypeName());
 
         TextView taskAddress = taskCardView.findViewById(R.id.textView_showTask_address);
-        taskAddress.setText(task.getAddress());
+        taskAddress.setText(task.getTaskAddress());
 
         TextView taskDate = taskCardView.findViewById(R.id.textView_showTask_date);
-        taskDate.setText(task.getDate());
-
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
-        taskTime.setText(task.getTime());
 
+        Timestamp startPostTime = task.getStartPostTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startPostTime);
+        int year = calendar.get(calendar.YEAR);
+        int month = calendar.get(calendar.MONTH) + 1 ;
+        int day = calendar.get(calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        taskDate.setText( "" + year + "/" + month + "/" + day);
+        taskTime.setText("" + hour + ":" + minute);
 
         taskCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +89,11 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return taskShowList.size();
+        return taskList.size();
     }
 
-    public void setShowTaskList(ArrayList<ShowTask> taskShowList) {
-        this.taskShowList = taskShowList;
+    public void setShowTaskList(ArrayList<Task> taskList) {
+        this.taskList = taskList;
     }
 
     public void setListener(Listener listener) {
