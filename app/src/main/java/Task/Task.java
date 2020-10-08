@@ -20,10 +20,11 @@ public class Task {
 //    private TaskState state; // 目前後端無這資料 但之後必須加上
 
 
-    public Task(int taskID, String taskName, LocalDateTime startPostTime, int salary,
+    public Task(int taskID, String taskName, String message, LocalDateTime startPostTime, int salary,
                 String typeName, int releaseUserID, LocalDateTime releaseTime) {
         this.taskID = taskID;
         this.taskName = taskName;
+        this.message = message;
         this.startPostTime = startPostTime;
         this.salary = salary;
         this.typeName = typeName;
