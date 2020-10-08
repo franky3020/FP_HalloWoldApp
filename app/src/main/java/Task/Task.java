@@ -1,29 +1,27 @@
 package Task;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import User.User;
+import java.time.LocalDateTime;
 
 public class Task {
 
     private int taskID;
     private String taskName;
     private String message = "";
-    private Timestamp startPostTime; // 要改成localTime 反正存到資料庫的是timestamp 但拿出來要轉成localTime
-    private Timestamp endPostTime = new Timestamp(new Date().getTime());
+    private LocalDateTime startPostTime; // 要改成localTime 反正存到資料庫的是timestamp 但拿出來要轉成localTime
+    private LocalDateTime endPostTime = LocalDateTime.now();
     private int salary;
     private String typeName;
     private int releaseUserID;
-    private Timestamp releaseTime;
+    private LocalDateTime releaseTime;
     private int receiveUserID = -1;
-    private Timestamp receiveTime = new Timestamp(new Date().getTime());
+    private LocalDateTime receiveTime = LocalDateTime.now();;
     private String taskAddress = "";
     private int taskCity = -1;
 //    private TaskState state; // 目前後端無這資料 但之後必須加上
 
 
-    public Task(int taskID, String taskName, Timestamp startPostTime, int salary,
-                String typeName, int releaseUserID, Timestamp releaseTime) {
+    public Task(int taskID, String taskName, LocalDateTime startPostTime, int salary,
+                String typeName, int releaseUserID, LocalDateTime releaseTime) {
         this.taskID = taskID;
         this.taskName = taskName;
         this.startPostTime = startPostTime;
@@ -57,19 +55,19 @@ public class Task {
         this.message = message;
     }
 
-    public Timestamp getStartPostTime() {
+    public LocalDateTime getStartPostTime() {
         return startPostTime;
     }
 
-    public void setStartPostTime(Timestamp startPostTime) {
+    public void setStartPostTime(LocalDateTime startPostTime) {
         this.startPostTime = startPostTime;
     }
 
-    public Timestamp getEndPostTime() {
+    public LocalDateTime getEndPostTime() {
         return endPostTime;
     }
 
-    public void setEndPostTime(Timestamp endPostTime) {
+    public void setEndPostTime(LocalDateTime endPostTime) {
         this.endPostTime = endPostTime;
     }
 
@@ -97,11 +95,11 @@ public class Task {
         this.releaseUserID = releaseUserID;
     }
 
-    public Timestamp getReleaseTime() {
+    public LocalDateTime getReleaseTime() {
         return releaseTime;
     }
 
-    public void setReleaseTime(Timestamp releaseTime) {
+    public void setReleaseTime(LocalDateTime releaseTime) {
         this.releaseTime = releaseTime;
     }
 
@@ -113,11 +111,11 @@ public class Task {
         this.receiveUserID = receiveUserID;
     }
 
-    public Timestamp getReceiveTime() {
+    public LocalDateTime getReceiveTime() {
         return receiveTime;
     }
 
-    public void setReceiveTime(Timestamp receiveTime) {
+    public void setReceiveTime(LocalDateTime receiveTime) {
         this.receiveTime = receiveTime;
     }
 

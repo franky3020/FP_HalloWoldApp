@@ -1,7 +1,5 @@
 package com.example.my_first_application;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -64,7 +62,7 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         TextView taskDate = taskCardView.findViewById(R.id.textView_showTask_date);
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
 
-        Timestamp startPostTime = task.getStartPostTime();
+        LocalDateTime startPostTime = task.getStartPostTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startPostTime);
         int year = calendar.get(calendar.YEAR);

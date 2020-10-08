@@ -2,6 +2,7 @@ package Task;
 
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,7 +16,7 @@ public class TaskTest {
     @Test
     public void constructTest() {
 
-        User assignerUser = new User("May",1,"0");
+        LocalDateTime assignerUser = new User("May",1,"0");
         User accepterUser = new User("John",2,"1");
         Date date = new GregorianCalendar(2020, 3, 24).getTime();
         Calendar cal = Calendar.getInstance();
@@ -32,7 +33,7 @@ public class TaskTest {
     @Test
     public void setTest() {
 
-        User assignerUser = new User("May",1,"0");
+        LocalDateTime assignerUser = new User("May",1,"0");
         User accepterUser = new User("John",2,"1");
         Date date = new GregorianCalendar(2020, 3, 24).getTime();
         Task task = new Task("Buying Lunch", 1, assignerUser, accepterUser,TaskState.BOSS_RELEASE, date);

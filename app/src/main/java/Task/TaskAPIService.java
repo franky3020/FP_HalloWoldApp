@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -157,7 +158,7 @@ public class TaskAPIService {
         ArrayList<Task> taskList = new ArrayList<>();
 
         // 因為API 拿到的字串是這種格式
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"); // 這裡也要改
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); // 這裡也要改
 
         Iterator<String> taskKeys = tasksJSONObject.keys();
         while (taskKeys.hasNext()) {
@@ -171,7 +172,7 @@ public class TaskAPIService {
             /////////////////// 轉換與處理 startPostTime  /////////////////////////////////
             String startPostTimeString = aJSONTask.getString("StartPostTime");
             Date startPostDate = simpleDateFormat.parse(startPostTimeString);
-            Timestamp startPostTime = new Timestamp(startPostDate.getTime());
+            LocalDateTime startPostTime = new Timestamp(startPostDate.getTime());
             ////////////////////////////////////////////////////////////////////////////
 
             int salary = aJSONTask.getInt("Salary");
@@ -184,7 +185,7 @@ public class TaskAPIService {
             /////////////////// 轉換與處理 releaseTime  /////////////////////////////////
             String releaseTimeString = aJSONTask.getString("ReleaseTime");
             Date releaseDate = simpleDateFormat.parse(releaseTimeString);
-            Timestamp releaseTime = new Timestamp(releaseDate.getTime());
+            LocalDateTime releaseTime = new Timestamp(releaseDate.getTime());
             ////////////////////////////////////////////////////////////////////////////
 
             Task task = new Task(taskId, taskName, startPostTime, salary, typeName, releaseUserID, releaseTime); // 時間未完成
