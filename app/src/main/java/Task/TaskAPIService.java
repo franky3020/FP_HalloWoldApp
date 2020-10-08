@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
-import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -18,6 +16,11 @@ import okhttp3.Response;
 
 public class TaskAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+    //String API_version = "ms-provider-develop";
+    public static final String API_version = "ms-provider-test-franky-fix-message-108";
+
+    public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
 
     public void postUseThread(final String taskName, final String message, final String salary , final String postTime
                         , final String taskType, final String taskAddress, final String taskCity) { // 這應該改成傳入Task
@@ -74,9 +77,6 @@ public class TaskAPIService {
     }
 
     public boolean post(Task task) throws Exception {
-//        String API_version = "ms-provider-develop";
-        String API_version = "ms-provider-test-franky-fix-message-108"; //這應該改成統一的API
-        String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -130,12 +130,8 @@ public class TaskAPIService {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
-//        String API_version = "ms-provider-develop";
-        String API_version = "ms-provider-test-franky-fix-message-108";
-        String apiUrl = "http://140.134.26.71:46557/" + API_version + "/tasks";
-
         Request request = new Request.Builder()
-                .url(apiUrl)
+                .url(base_URL)
                 .method("GET", null)
                 .build();
         Response response = client.newCall(request).execute();
