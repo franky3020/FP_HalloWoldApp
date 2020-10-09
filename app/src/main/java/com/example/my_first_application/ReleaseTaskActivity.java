@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 
+import Task.Task;
 import Task.TaskAPIService;
 
 
@@ -18,7 +19,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 public class ReleaseTaskActivity extends AppCompatActivity {
@@ -172,7 +175,14 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         }
 
         TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.postUseThread(taskName, message, salary, postTime, taskType, taskAddress, taskCity);
+        Task task = new Task(taskName, message, LocalDateTime.now(), Integer.valueOf(salary), taskType, 20, LocalDateTime.now());
+        try {
+            if(taskApiService.post(task)) {
+                Toast.makeText(this, "成功post任務", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

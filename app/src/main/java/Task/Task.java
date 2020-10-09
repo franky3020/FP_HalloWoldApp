@@ -7,14 +7,14 @@ public class Task {
     private int taskID;
     private String taskName;
     private String message = "";
-    private LocalDateTime startPostTime; // 要改成localTime 反正存到資料庫的是timestamp 但拿出來要轉成localTime
-    private LocalDateTime endPostTime = LocalDateTime.now();
+    private LocalDateTime startPostTime;
+    private LocalDateTime endPostTime;
     private int salary;
     private String typeName;
     private int releaseUserID;
     private LocalDateTime releaseTime;
     private int receiveUserID = -1;
-    private LocalDateTime receiveTime = LocalDateTime.now();;
+    private LocalDateTime receiveTime;
     private String taskAddress = "";
     private int taskCity = -1;
 //    private TaskState state; // 目前後端無這資料 但之後必須加上
