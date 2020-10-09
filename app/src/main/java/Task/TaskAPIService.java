@@ -43,7 +43,7 @@ public class TaskAPIService {
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         RequestBody body = RequestBody.create("", JSON);
 
-        String API_version = "ms-provider-develop";
+        String API_version = "ms-provider-release-1-0-1";
         String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
         String taskNameParameter = "TaskName=" + taskName;
         String messageParameter = "Message=" + message;
@@ -76,7 +76,7 @@ public class TaskAPIService {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
-        String API_version = "ms-provider-develop";
+        String API_version = "ms-provider-release-1-0-1";
         String apiUrl = "http://140.134.26.71:46557/" + API_version + "/tasks";
 
         Request request = new Request.Builder()
