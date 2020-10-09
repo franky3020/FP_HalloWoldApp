@@ -1,7 +1,5 @@
 package com.example.my_first_application;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import Task.Task;
 
 public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHolder> {
 
-//    private ArrayList<ShowTask> taskShowList;
     private ArrayList<Task> taskList;
     private Listener listener;
 
@@ -64,14 +60,13 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         TextView taskDate = taskCardView.findViewById(R.id.textView_showTask_date);
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
 
-        Timestamp startPostTime = task.getStartPostTime();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startPostTime);
-        int year = calendar.get(calendar.YEAR);
-        int month = calendar.get(calendar.MONTH) + 1 ;
-        int day = calendar.get(calendar.DAY_OF_MONTH);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+        LocalDateTime startPostTime = task.getStartPostTime();
+
+        int year = startPostTime.getYear();
+        int month = startPostTime.getMonthValue() ;
+        int day = startPostTime.getDayOfMonth();
+        int hour = startPostTime.getHour();
+        int minute = startPostTime.getMinute();
 
         taskDate.setText( "" + year + "/" + month + "/" + day);
         taskTime.setText("" + hour + ":" + minute);

@@ -1,7 +1,5 @@
 package Task;
 
-import com.example.my_first_application.R;
-
 import java.util.ArrayList;
 import java.util.Observable;
 
