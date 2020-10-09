@@ -18,7 +18,7 @@ public class TaskAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     //String API_version = "ms-provider-develop";
-    public static final String API_version = "ms-provider-test-franky-fix-message-108";
+    public static final String API_version = "ms-provider-develop";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
 
