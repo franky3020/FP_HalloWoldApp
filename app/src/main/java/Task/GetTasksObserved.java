@@ -1,9 +1,13 @@
 package Task;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Observable;
 
 public class GetTasksObserved extends Observable {
+    private static final String LOG_TAG = GetTasksObserved.class.getSimpleName();
 
     private static GetTasksObserved instance = new GetTasksObserved();
 
@@ -43,7 +47,7 @@ public class GetTasksObserved extends Observable {
                     try {
                         sleep(1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
                     }
                 }
 

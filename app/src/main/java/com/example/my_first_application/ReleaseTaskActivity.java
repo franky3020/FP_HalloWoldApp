@@ -4,12 +4,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 
 import Task.Task;
 import Task.TaskAPIService;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 
 import android.app.DatePickerDialog;
@@ -21,10 +26,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class ReleaseTaskActivity extends AppCompatActivity {
+    private static final String LOG_TAG = ReleaseTaskActivity.class.getSimpleName();
+    ReleaseTaskActivity releaseTaskActivity = this;
 
     String taskName;
     String message;
@@ -175,13 +186,26 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         }
 
         TaskAPIService taskApiService = new TaskAPIService();
+        salary = "200";
         Task task = new Task(taskName, message, LocalDateTime.now(), Integer.valueOf(salary), taskType, 20, LocalDateTime.now());
         try {
-            if(taskApiService.post(task)) {
-                Toast.makeText(this, "成功post任務", Toast.LENGTH_LONG).show();
-            }
+            taskApiService.post(task, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if(response.isSuccessful()) {
+                        Intent intent = new Intent();
+                        intent.setClass(releaseTaskActivity, ShowTaskActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
 
