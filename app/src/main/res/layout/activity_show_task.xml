@@ -38,13 +38,35 @@
             android:text="@string/show_task_spinner_address"
             android:layout_marginRight="10dp" />
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/taskShow"
-        android:padding="5dp"
-        android:clipToPadding="false"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/activity_show_task_item"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/taskShow"
+            android:padding="5dp"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/activity_show_task_item"/>
 
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/baseline_add_black_24"
+        android:layout_margin="16dp"
+        android:onClick="onClickToReleaseTask"
+        />
+    </RelativeLayout>
 </LinearLayout>

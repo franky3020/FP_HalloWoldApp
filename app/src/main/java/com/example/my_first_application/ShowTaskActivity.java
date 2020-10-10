@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -101,5 +102,11 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
             showTaskUIUpdate(taskList);
         }
     }
+
+    public void onClickToReleaseTask(View view) {
+        Intent intent = new Intent(this, ReleaseTaskActivity.class);
+        startActivity(intent);
+    }
+
 }
 
