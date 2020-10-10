@@ -7,7 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,22 +24,8 @@ public class TaskAPIService {
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
 
-    // 這之後要開發 讓post使用多執行緒
-//    public void postUseThread(Task Task) { // 這應該改成傳入Task
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    post(Task);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        ).start();
-//    }
 
-    public boolean post(Task task) throws Exception {
+    public void post(Task task, Callback callback) throws Exception {
         JSONObject jsonEntity = new JSONObject();
         jsonEntity.put("taskName", task.getTaskName());
         jsonEntity.put("message", task.getMessage());
@@ -57,18 +45,9 @@ public class TaskAPIService {
         RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON);
 
         Request request = new Request.Builder().url(base_URL).post(requestBody).build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Response response = client.newCall(request).execute();
-
-        if (response.isSuccessful()) {
-            response.close();
-            return true;
-        } else {
-            response.close();
-            return false;
-        }
     }
 
     public ArrayList<Task> getTasks() throws Exception {
