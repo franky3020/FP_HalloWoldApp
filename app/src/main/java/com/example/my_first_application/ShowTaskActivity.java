@@ -81,6 +81,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
                 Task task = taskList.get(position);
 
                 Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
                 showTaskActivity.startActivity(intent);
             }

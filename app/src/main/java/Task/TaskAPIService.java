@@ -22,7 +22,7 @@ public class TaskAPIService {
     //String API_version = "ms-provider-develop";
     public static final String API_version = "ms-provider-develop";
 
-    public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks?";
+    public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks";
 
 
     public void post(Task task, Callback callback) throws Exception {
@@ -62,8 +62,6 @@ public class TaskAPIService {
         JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
 
         ArrayList<Task> taskList = new ArrayList<>();
-
-        // 因為API 拿到的字串是這種格式
 
 
         Iterator<String> taskKeys = tasksJSONObject.keys();
@@ -109,6 +107,16 @@ public class TaskAPIService {
         } else {
             return null;
         }
+    }
+
+    public void deleteTask(int taskId, Callback callback) {
+        Request request = new Request.Builder()
+                .url(base_URL + "/" + taskId)
+                .method("DELETE", null)
+                .build();
+
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
     }
 
 }
