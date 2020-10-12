@@ -22,10 +22,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText mEmail;
-    EditText mPassword;
-    EditText mCPassword;
-    Button mSignUpBtn;
+    EditText email;
+    EditText password;
+    EditText cPassword;
+    Button signUpBtn;
 
     //progressbar to display while registering user
     ProgressDialog progressDialog;
@@ -43,10 +43,10 @@ public class SignUpActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mEmail = findViewById(R.id.editText_sign_up_email);
-        mPassword = findViewById(R.id.editText_sign_up_password);
-        mCPassword = findViewById(R.id.editText_sign_up_password_again);
-        mSignUpBtn = findViewById(R.id.button_sign_up);
+        email = findViewById(R.id.editText_sign_up_email);
+        password = findViewById(R.id.editText_sign_up_password);
+        cPassword = findViewById(R.id.editText_sign_up_password_again);
+        signUpBtn = findViewById(R.id.button_sign_up);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registering User");
@@ -54,22 +54,22 @@ public class SignUpActivity extends AppCompatActivity {
         //In the onCreate() method, initialize the FirebaseAuth instance.
         mAuth = FirebaseAuth.getInstance();
 
-        mSignUpBtn.setOnClickListener(new View.OnClickListener() {
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mail = mEmail.getText().toString().trim();
-                String pwd = mPassword.getText().toString().trim();
-                String cPwd = mCPassword.getText().toString().trim();
+                String mail = email.getText().toString().trim();
+                String pwd = password.getText().toString().trim();
+                String cPwd = cPassword.getText().toString().trim();
 
                 if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
-                    mEmail.setError("Invalid Email");
-                    mEmail.setFocusable(true);
+                    email.setError("Invalid Email");
+                    email.setFocusable(true);
                 } else if (pwd.length() < 8) {
-                    mPassword.setError("Password length at least 8 characters");
-                    mPassword.setFocusable(true);
+                    password.setError("Password length at least 8 characters");
+                    password.setFocusable(true);
                 } else if (!cPwd.equals(pwd)) {
-                    mCPassword.setError("Password not equal");
-                    mCPassword.setFocusable(true);
+                    cPassword.setError("Password not equal");
+                    cPassword.setFocusable(true);
                 }else {
                     registerUser(mail, pwd);
                 }
@@ -113,5 +113,4 @@ public class SignUpActivity extends AppCompatActivity {
         onBackPressed();
         return super.onSupportNavigateUp();
     }
-
 }
