@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,6 +21,8 @@ import Task.GetTasksObserved;
 import Task.Task;
 
 public class HomePageActivity extends AppCompatActivity implements Observer {
+
+    private static final String LOG_TAG = HomePageActivity.class.getSimpleName();
 
     private HomePageActivity homePageActivity = this;
 
@@ -45,8 +48,26 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
-        this.getTasksObserved.addObserver(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "onStart");
+        this.getTasksObserved.addObserver(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(LOG_TAG, "onStop");
+        this.getTasksObserved.deleteObserver(this);
     }
 
     @Override

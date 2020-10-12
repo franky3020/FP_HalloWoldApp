@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,8 @@ import Task.Task;
 
 public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
+    private static final String LOG_TAG = ShowTaskActivity.class.getSimpleName();
+
     ShowTaskActivity showTaskActivity = this;
 
     RecyclerView recyclerView;
@@ -32,10 +35,37 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
 
     GetTasksObserved getTasksObserved = GetTasksObserved.getInstance();
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "onStart");
+        this.getTasksObserved.addObserver(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(LOG_TAG, "onStop");
+        this.getTasksObserved.deleteObserver(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG, "onDestroy");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(LOG_TAG, "onCreate");
+
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,7 +78,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
-        this.getTasksObserved.addObserver(this);
+
 
     }
 

@@ -32,6 +32,7 @@ public class GetTasksObserved extends Observable {
 
                     if(countObservers() > 0) {
                         // 送API請求
+                        Log.d(LOG_TAG, "start send API");
                         try {
                             getTaskAndUpdateTaskList();
                         } catch (Exception e) {
@@ -45,6 +46,7 @@ public class GetTasksObserved extends Observable {
 
                     // 等待幾秒後再重新送請求
                     try {
+                        Log.d(LOG_TAG, "start sleep");
                         sleep(1000);
                     } catch (InterruptedException e) {
                         Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
