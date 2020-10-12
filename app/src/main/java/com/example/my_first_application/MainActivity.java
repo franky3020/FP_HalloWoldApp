@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToProfile(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();

@@ -32,16 +32,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:theme="@style/SignTheme"></activity>
 
-        <activity android:name=".SignUpActivity"
+        <activity
+            android:name=".SignUpActivity"
             android:theme="@style/SignTheme"></activity>
 
         <activity
             android:name=".ReleaseTaskActivity"
             android:label="@string/releaseTask_toolbar_title"
             android:parentActivityName=".ShowTaskActivity"></activity>
-    </application>
 
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/profile_toolbar_title"></activity>
+
+    </application>
 </manifest>
