@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -48,6 +50,25 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
+        BottomNavigationView bottomNavigationView
+                = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.icon_search:
+                        break;
+                    case R.id.icon_message:
+                        break;
+                    case R.id.icon_profile:
+                        Intent intent = new Intent();
+                        intent.setClass(HomePageActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override

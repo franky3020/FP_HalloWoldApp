@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToProfile(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -72,16 +78,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.page_1:
+                    case R.id.icon_home:
                         Intent intent = new Intent();
                         intent.setClass(MainActivity.this, HomePageActivity.class);
                         startActivity(intent);
                         break;
-                    case R.id.page_2:
+                    case R.id.icon_search:
                         break;
-                    case R.id.page_3:
+                    case R.id.icon_message:
                         break;
-                    case R.id.page_4:
+                    case R.id.icon_profile:
+                        intent = new Intent();
+                        intent.setClass(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent);
                         break;
                 }
                 return true;
