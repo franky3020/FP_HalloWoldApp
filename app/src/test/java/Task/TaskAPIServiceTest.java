@@ -18,33 +18,23 @@ import static org.junit.Assert.assertTrue;
 
 public class TaskAPIServiceTest {
 
-
     @Test
     public void getTasks_test() {
         final TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
+            @Override
+            public void onResponseOK(ArrayList<Task> tasks) {
+                System.out.println(tasks.size());
+                for(Task task: tasks) {
+                    System.out.println(task.getTaskID());
+                }
+                assertTrue(tasks.size() > 0);
+            }
+        });
+
         try {
-            taskApiService.getTasksV2(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    try {
-                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                        ArrayList<Task> taskList = taskApiService.parseTasksFromJson(tasksJSONObject);
-                        System.out.println(taskList);
-                        assertTrue(taskList.size() > 0);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
             Thread.sleep(5000); // 為了等Get完成, 不然這個test會被突然中斷, 導致失敗
-
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

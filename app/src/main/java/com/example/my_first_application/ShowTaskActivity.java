@@ -40,35 +40,6 @@ public class ShowTaskActivity extends AppCompatActivity {
     ShowTaskAdapter recyclerViewAdapter;
     Handler getTasksAPI_Handler;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "onResume");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "onStart");
-
-        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(LOG_TAG, "onStop");
-
-        this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +60,30 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     }
 
+    private final Runnable getTaskAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetTasksAPI();
+            int delayMillis = 1000;
+            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "onStart");
+
+        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(LOG_TAG, "onStop");
+
+        this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -107,7 +102,21 @@ public class ShowTaskActivity extends AppCompatActivity {
         }
     }
 
-    public void taskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
+    private void sendGetTasksAPI() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
+
+            @Override
+            public void onResponseOK(ArrayList<Task> tasks) {
+                taskList = tasks;
+                taskUIUpdate(taskList);
+                Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
+            }
+        });
+    }
+
+    private void taskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
 
         recyclerViewAdapter.setShowTaskList(taskList);
 
@@ -132,44 +141,21 @@ public class ShowTaskActivity extends AppCompatActivity {
         });
     }
 
-
     public void onClickToReleaseTask(View view) {
         Intent intent = new Intent(this, ReleaseTaskActivity.class);
         startActivity(intent);
     }
 
-    private final Runnable getTaskAPI_Runnable = new Runnable() {
-        public void run() {
-            sendGetTasksAPI();
-            int delayMillis = 1000;
-            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
-        }
-    };
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "onResume");
+    }
 
-    private void sendGetTasksAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-
-        taskApiService.getTasksV2( new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.d(LOG_TAG, "sendGetTasksAPI onFailure");
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                try {
-
-                    JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                    taskList = taskApiService.parseTasksFromJson(tasksJSONObject);
-                    taskUIUpdate(taskList);
-                    Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
-
-                } catch (JSONException e) {
-                    Log.d(LOG_TAG, e.getMessage());
-                }
-            }
-        });
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG, "onDestroy");
     }
 
 }
