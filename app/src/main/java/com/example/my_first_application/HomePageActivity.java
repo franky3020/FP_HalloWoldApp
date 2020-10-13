@@ -15,25 +15,31 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Objects;
 
-import Task.GetTasksObserved;
+import Task.TaskAPIService;
 import Task.Task;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
-public class HomePageActivity extends AppCompatActivity implements Observer {
+public class HomePageActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = HomePageActivity.class.getSimpleName();
 
     private HomePageActivity homePageActivity = this;
 
-    Handler uiHandler;
+    Handler getTasksAPI_Handler;
 
     private ArrayList<Task> taskList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ShowTaskAdapter recyclerViewAdapter;
-    private GetTasksObserved getTasksObserved = GetTasksObserved.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,7 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.uiHandler = new Handler();
+        this.getTasksAPI_Handler = new Handler();
 
         this.recyclerView = findViewById(R.id.homeTaskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
@@ -81,14 +87,14 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
     protected void onStart() {
         super.onStart();
         Log.d(LOG_TAG, "onStart");
-        this.getTasksObserved.addObserver(this);
+        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(LOG_TAG, "onStop");
-        this.getTasksObserved.deleteObserver(this);
+        this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
 
     @Override
@@ -109,9 +115,8 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public void showTaskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
-
-        recyclerViewAdapter.setShowTaskList(taskList); // taskStatus 還沒設定
+    public void taskUIUpdate() {
+        recyclerViewAdapter.setShowTaskList(taskList);
 
         recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
 
@@ -125,21 +130,49 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
             }
         });
 
-        uiHandler.post(new Runnable() {
+        runOnUiThread( new Runnable() { //必須要在主執行緒上更新UI, 才不會出錯
             @Override
             public void run() {
                 recyclerViewAdapter.notifyDataSetChanged();
+                Log.d(LOG_TAG, "over recyclerViewAdapter.notifyDataSetChanged()");
             }
         });
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof GetTasksObserved) {
-            GetTasksObserved getTasksObserved = (GetTasksObserved) o;
-            ArrayList<Task> taskList = getTasksObserved.getTasks();
-            showTaskUIUpdate(taskList);
+    private final Runnable getTaskAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetTasksAPI();
+            int delayMillis = 1000;
+            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
         }
+    };
+
+    private void sendGetTasksAPI() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        taskApiService.getTasksV2( new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.d(LOG_TAG, "sendGetTasksAPI onFailure");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                try {
+
+                    JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                    taskList = taskApiService.parseTasksFromJson(tasksJSONObject);
+                    taskUIUpdate();
+                    Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
+
+                } catch (JSONException e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                }
+            }
+        });
+
     }
+
+
 }
 
