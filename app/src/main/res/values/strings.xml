@@ -3,6 +3,7 @@
     <string name="homePage_toolbar_title">All Task</string>
     <string name="showTask_toolbar_title">My Task</string>
     <string name="releaseTask_toolbar_title">Create new task</string>
+    <string name="profile_toolbar_title">Profile</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="password_again">Confirm Password</string>
@@ -18,12 +19,20 @@
     <string name="show_task_spinner_type">Task Type</string>
     <string name="show_task_spinner_address">Address</string>
 
+    <!-- Profile 頁面 -->
+    <string name="profile_member_point">Points remaining</string>
+    <string name="profile_member_points_number">654321</string>
+    <string name="profile_user_mode">User Mode</string>
+    <string name="profile_points_record">Points Record</string>
+    <string name="profile_logout">Log Out</string>
+
     <!-- 暫時的 button，為了進入 Login 頁面 -->
     <string name="click_to_login">Click to Login page</string>
     <string name="click_to_sign_up">Click to Sign Up page</string>
     <string name="click_to_release_task">Click to Release Task</string>
     <string name="click_to_show_task">Click to Show Task</string>
     <string name="click_to_main_page">Click to Main Page</string>
+    <string name="click_to_profile_page">Click to Profile Page</string>
 
     <!-- bottom navigation bar -->
     <string name="home">Home</string>
