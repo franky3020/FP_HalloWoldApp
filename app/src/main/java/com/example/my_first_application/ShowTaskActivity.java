@@ -149,24 +149,13 @@ public class ShowTaskActivity extends AppCompatActivity {
     private void sendGetTasksAPI() {
         final TaskAPIService taskApiService = new TaskAPIService();
 
-        taskApiService.getTasksV2( new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.d(LOG_TAG, "sendGetTasksAPI onFailure");
-            }
+        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                try {
-
-                    JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                    taskList = taskApiService.parseTasksFromJson(tasksJSONObject);
-                    taskUIUpdate(taskList);
-                    Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
-
-                } catch (JSONException e) {
-                    Log.d(LOG_TAG, e.getMessage());
-                }
+            public void onResponseOK(ArrayList<Task> tasks) {
+                taskList = tasks;
+                taskUIUpdate(taskList);
+                Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
             }
         });
 

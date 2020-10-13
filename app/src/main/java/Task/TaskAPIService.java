@@ -2,15 +2,20 @@ package Task;
 
 import android.util.Log;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
+
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class TaskAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -55,6 +60,37 @@ public class TaskAPIService {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         client.newCall(request).enqueue(callback);
     }
+
+
+    public interface TaskListener {
+        void onResponseOK(ArrayList<Task> tasks);
+    }
+
+    public void getTasksV3(final TaskListener taskListener) {
+
+        Thread getTaskThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+                    JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                    ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                    taskListener.onResponseOK(taskList);
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                }
+
+            }
+        };
+        getTaskThread.start();
+    }
+
+
 
     public ArrayList<Task> parseTasksFromJson(JSONObject tasksJSONObject) {
         ArrayList<Task> taskList = new ArrayList<>();
