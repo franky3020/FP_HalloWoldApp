@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
     Context context;
     List<ModelChat> chatList;
     String imageUrl;
+
+//    FirebaseUser fUser;
 
 
     public AdapterChat(Context context, List<ModelChat> chatList, String imageUrl) {
@@ -67,8 +71,16 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
         else {
             holder.isSeenTV.setVisibility(View.GONE);
         }
-
     }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        fUser = FirebaseAuth.getInstance().getCurrentUser();
+//        if (chatList.get(position).getSender().equals(fUser.getUid())){
+//            return MSG_TYPE_RIGHT;
+//        }
+//        else return  MSG_TYPE_LEFT;
+//    }
 
     @Override
     public int getItemCount() {
