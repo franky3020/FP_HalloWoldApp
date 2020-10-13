@@ -1,23 +1,20 @@
 package Task;
 
+import android.util.Log;
 import org.json.JSONObject;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class TaskAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final String LOG_TAG = TaskAPIService.class.getSimpleName();
 
     //String API_version = "ms-provider-develop";
     public static final String API_version = "ms-provider-develop";
@@ -50,45 +47,52 @@ public class TaskAPIService {
 
     }
 
-    public ArrayList<Task> getTasks() throws Exception {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
+    public void getTasksV2(Callback callback) {
         Request request = new Request.Builder()
                 .url(base_URL)
                 .method("GET", null)
                 .build();
-        Response response = client.newCall(request).execute();
-        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
+    }
 
+    public ArrayList<Task> parseTasksFromJson(JSONObject tasksJSONObject) {
         ArrayList<Task> taskList = new ArrayList<>();
-
-
         Iterator<String> taskKeys = tasksJSONObject.keys();
+
         while (taskKeys.hasNext()) {
-            String key = taskKeys.next();
-            JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
-
-            int taskId = Integer.parseInt(key);
-
-            String taskName = aJSONTask.getString("TaskName");
-
-            String taskMessage = aJSONTask.getString("Message");
-
-            LocalDateTime startPostTime = transitTimeStampFromGetAPI(aJSONTask.getString("StartPostTime"));
-
-            int salary = aJSONTask.getInt("Salary");
-
-            String typeName = aJSONTask.getString("TypeName");
-
-            int releaseUserID = aJSONTask.getInt("ReleaseUserID");
-
-            LocalDateTime releaseTime = transitTimeStampFromGetAPI(aJSONTask.getString("ReleaseTime"));
-
-            Task task = new Task(taskId, taskName,taskMessage, startPostTime, salary, typeName, releaseUserID, releaseTime);
-            taskList.add(task);
+            try {
+                String key = taskKeys.next();
+                JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
+                Task task = parse_a_Task(aJSONTask, key);
+                taskList.add(task);
+            } catch (Exception e) {
+                Log.d(LOG_TAG, e.getMessage());
+            }
         }
+
         return taskList;
+    }
+
+    private Task parse_a_Task(JSONObject aJSONTask, String taskKey) throws Exception {
+
+        int taskId = Integer.parseInt(taskKey);
+
+        String taskName = aJSONTask.getString("TaskName");
+
+        String taskMessage = aJSONTask.getString("Message");
+
+        LocalDateTime startPostTime = transitTimeStampFromGetAPI(aJSONTask.getString("StartPostTime"));
+
+        int salary = aJSONTask.getInt("Salary");
+
+        String typeName = aJSONTask.getString("TypeName");
+
+        int releaseUserID = aJSONTask.getInt("ReleaseUserID");
+
+        LocalDateTime releaseTime = transitTimeStampFromGetAPI(aJSONTask.getString("ReleaseTime"));
+
+        return new Task(taskId, taskName,taskMessage, startPostTime, salary, typeName, releaseUserID, releaseTime);
     }
 
     private LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 則會傳出 null

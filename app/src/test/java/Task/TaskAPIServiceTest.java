@@ -1,11 +1,14 @@
 package Task;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -18,10 +21,29 @@ public class TaskAPIServiceTest {
 
     @Test
     public void getTasks_test() {
-        TaskAPIService taskApiService = new TaskAPIService();
+        final TaskAPIService taskApiService = new TaskAPIService();
         try {
-            ArrayList<Task> tasks = taskApiService.getTasks();
-            assertTrue(tasks.size() > 0);
+            taskApiService.getTasksV2(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    try {
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = taskApiService.parseTasksFromJson(tasksJSONObject);
+                        System.out.println(taskList);
+                        assertTrue(taskList.size() > 0);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            Thread.sleep(5000); // 為了等Get完成, 不然這個test會被突然中斷, 導致失敗
+
         } catch (Exception e) {
             e.printStackTrace();
         }
