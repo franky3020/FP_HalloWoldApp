@@ -52,14 +52,6 @@ public class TaskAPIService {
 
     }
 
-    public void getTasksV2(Callback callback) {
-        Request request = new Request.Builder()
-                .url(base_URL)
-                .method("GET", null)
-                .build();
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
-        client.newCall(request).enqueue(callback);
-    }
 
 
     public interface TaskListener {
@@ -100,7 +92,7 @@ public class TaskAPIService {
             try {
                 String key = taskKeys.next();
                 JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
-                Task task = parse_a_Task(aJSONTask, key);
+                Task task = parse_a_Task(aJSONTask, key); //還不確定如果這裡丟出例外 會發生什麼事
                 taskList.add(task);
             } catch (Exception e) {
                 Log.d(LOG_TAG, e.getMessage());
