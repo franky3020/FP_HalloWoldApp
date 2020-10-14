@@ -14,20 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.View;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.Objects;
-
 import Task.TaskAPIService;
 import Task.Task;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
@@ -63,7 +53,7 @@ public class ShowTaskActivity extends AppCompatActivity {
     private final Runnable getTaskAPI_Runnable = new Runnable() {
         public void run() {
             sendGetTasksAPI();
-            int delayMillis = 1000;
+            int delayMillis = 3000;
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
         }
     };
@@ -112,6 +102,16 @@ public class ShowTaskActivity extends AppCompatActivity {
                 taskList = tasks;
                 taskUIUpdate(taskList);
                 Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
+            }
+
+            @Override
+            public void onFailure() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(showTaskActivity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
+                    }
+                });
             }
         });
     }

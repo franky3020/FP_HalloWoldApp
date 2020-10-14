@@ -3,7 +3,6 @@ package Task;
 import android.util.Log;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -53,9 +52,9 @@ public class TaskAPIService {
     }
 
 
-
     public interface TaskListener {
         void onResponseOK(ArrayList<Task> tasks);
+        void onFailure();
     }
 
     public void getTasksV3(final TaskListener taskListener) {
@@ -70,13 +69,19 @@ public class TaskAPIService {
 
                 try {
                     Response response= client.newCall(request).execute();
-                    JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                    ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
-                    taskListener.onResponseOK(taskList);
+
+                    if(response.isSuccessful()) {
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                        taskListener.onResponseOK(taskList);
+                    } else {
+                        taskListener.onFailure();
+                    }
+
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
+                    taskListener.onFailure();
                 }
-
             }
         };
         getTaskThread.start();

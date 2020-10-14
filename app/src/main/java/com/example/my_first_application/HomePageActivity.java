@@ -12,22 +12,13 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
-
 import Task.TaskAPIService;
 import Task.Task;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -142,7 +133,7 @@ public class HomePageActivity extends AppCompatActivity {
     private final Runnable getTaskAPI_Runnable = new Runnable() {
         public void run() {
             sendGetTasksAPI();
-            int delayMillis = 1000;
+            int delayMillis = 3000;
             getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
         }
     };
@@ -157,6 +148,16 @@ public class HomePageActivity extends AppCompatActivity {
                 taskList = tasks;
                 taskUIUpdate(taskList);
                 Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
+            }
+
+            @Override
+            public void onFailure() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(homePageActivity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
+                    }
+                });
             }
         });
 

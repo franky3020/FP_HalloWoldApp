@@ -30,6 +30,11 @@ public class TaskAPIServiceTest {
                 }
                 assertTrue(tasks.size() > 0);
             }
+
+            @Override
+            public void onFailure() {
+                assertTrue(false);
+            }
         });
 
         try {
