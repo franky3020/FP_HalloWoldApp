@@ -72,7 +72,8 @@
             android:background="@null"
             android:src="@drawable/ic_send"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:onClick="onClickToSendMessage"/>
     </LinearLayout>
 
 </RelativeLayout>

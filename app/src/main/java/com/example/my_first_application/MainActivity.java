@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.icon_search:
                         break;
                     case R.id.icon_message:
+                        intent = new Intent();
+                        intent.setClass(MainActivity.this, ChatActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.icon_profile:
                         intent = new Intent();
