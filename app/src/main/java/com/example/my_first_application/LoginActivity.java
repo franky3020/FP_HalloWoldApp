@@ -1,8 +1,10 @@
 package com.example.my_first_application;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,28 +43,34 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickToSingIn(View view) {
-        String email = "m2315zx1@yahoo.com.tw";
-        String password = "m2315zx1@yahoo.com.tw"; // 因為目前註冊帳密都是email
+        EditText emailField = findViewById(R.id.editText_login_username);
+        EditText passwordField = findViewById(R.id.editText_login_password);
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(LOG_TAG, "signInWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            toShowTask();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(LOG_TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            // ...
                         }
-
-                        // ...
                     }
                 });
+    }
+
+    public void toShowTask() {
+        Intent intent = new Intent();
+        intent.setClass(this, ShowTaskActivity.class);
+        startActivity(intent);
     }
 
     @Override
