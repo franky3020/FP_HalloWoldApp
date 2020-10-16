@@ -77,6 +77,7 @@ public class TaskAPIService {
                     } else {
                         taskListener.onFailure();
                     }
+                    response.close();
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());

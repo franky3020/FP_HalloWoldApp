@@ -70,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if (!cPwd.equals(pwd)) {
                     cPassword.setError("Password not equal");
                     cPassword.setFocusable(true);
-                }else {
+                } else {
                     registerUser(mail, pwd);
                 }
             }
@@ -80,15 +80,13 @@ public class SignUpActivity extends AppCompatActivity {
     private void registerUser(String mail, String pwd) {
         progressDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(mail, mail)
+        mAuth.createUserWithEmailAndPassword(mail, pwd) // 這應該是password
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, dismiss dialog and start register
                             progressDialog.dismiss();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(SignUpActivity.this, "Registered...\n"+user.getEmail(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignUpActivity.this, HomePageActivity.class));
                             finish();
                         } else {
@@ -103,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 //error, dismiss progress dialog and get and show the error message
                 progressDialog.dismiss();
-                Toast.makeText(SignUpActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
