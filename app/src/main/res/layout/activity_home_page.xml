@@ -48,6 +48,7 @@
             android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_navigation"
             tools:listitem="@layout/activity_home_page_item"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -23,7 +23,7 @@
     <!-- Profile 頁面 -->
     <string name="profile_member_point">點數剩餘</string>
     <string name="profile_member_points_number">654321</string>
-    <string name="profile_user_mode">使用者模式</string>
+    <string name="profile_user_mode">使用者模式切換</string>
     <string name="profile_points_record">點數紀錄</string>
     <string name="profile_logout">登出</string>
 
