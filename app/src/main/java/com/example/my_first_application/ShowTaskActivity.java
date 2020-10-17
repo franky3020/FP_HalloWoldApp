@@ -14,15 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.View;
-
+import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
-import Task.GetTasksObserved;
+import Task.TaskAPIService;
 import Task.Task;
 
-public class ShowTaskActivity extends AppCompatActivity implements Observer {
+public class ShowTaskActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = ShowTaskActivity.class.getSimpleName();
 
@@ -31,35 +28,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
     RecyclerView recyclerView;
     ArrayList<Task> taskList = new ArrayList<>();
     ShowTaskAdapter recyclerViewAdapter;
-    Handler uiHandler;
-
-    GetTasksObserved getTasksObserved = GetTasksObserved.getInstance();
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "onResume");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "onStart");
-        this.getTasksObserved.addObserver(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(LOG_TAG, "onStop");
-        this.getTasksObserved.deleteObserver(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy");
-    }
+    Handler getTasksAPI_Handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +39,7 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.uiHandler = new Handler();
+        this.getTasksAPI_Handler = new Handler();
 
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
@@ -79,7 +48,30 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
 
+    }
 
+    private final Runnable getTaskAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetTasksAPI();
+            int delayMillis = 3000;
+            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "onStart");
+
+        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(LOG_TAG, "onStop");
+
+        this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
 
     @Override
@@ -100,7 +92,31 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public void showTaskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
+    private void sendGetTasksAPI() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
+
+            @Override
+            public void onResponseOK(ArrayList<Task> tasks) {
+                taskList = tasks;
+                taskUIUpdate(taskList);
+                Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
+            }
+
+            @Override
+            public void onFailure() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(showTaskActivity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
+                    }
+                });
+            }
+        });
+    }
+
+    private void taskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
 
         recyclerViewAdapter.setShowTaskList(taskList);
 
@@ -113,11 +129,15 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
                 Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
                 showTaskActivity.startActivity(intent);
             }
         });
 
-        uiHandler.post(new Runnable() {
+        runOnUiThread( new Runnable() {
             @Override
             public void run() {
                 recyclerViewAdapter.notifyDataSetChanged();
@@ -125,18 +145,21 @@ public class ShowTaskActivity extends AppCompatActivity implements Observer {
         });
     }
 
-    @Override
-    public void update(Observable o, Object arg) { // 實作觀察者, 當拿任務api有拿到任務時會接著執行這函式
-        if (o instanceof GetTasksObserved) {
-            GetTasksObserved getTasksObserved = (GetTasksObserved) o;
-            ArrayList<Task> taskList = getTasksObserved.getTasks();
-            showTaskUIUpdate(taskList);
-        }
-    }
-
     public void onClickToReleaseTask(View view) {
         Intent intent = new Intent(this, ReleaseTaskActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "onResume");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG, "onDestroy");
     }
 
 }

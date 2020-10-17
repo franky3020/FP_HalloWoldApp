@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background">
+    android:background="@drawable/login_background"
+    tools:context=".LoginActivity">
 
     <include
         layout="@layout/toolbar_main"
@@ -75,10 +76,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:background="@drawable/login_button_background"
+        android:onClick="onClickToSingIn"
         android:text="@string/login"
         android:textAllCaps="false"
         android:textColor="@color/login_form_details_medium"
-        android:background="@drawable/login_button_background"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
         app:layout_constraintTop_toBottomOf="@id/editText_login_password" />
