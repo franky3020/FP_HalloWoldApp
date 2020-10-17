@@ -53,47 +53,65 @@ android:background="@drawable/login_background">
         app:layout_constraintTop_toBottomOf="@+id/TextView_sign_up" />
 
     <!-- Asset 教學 : https://developer.android.com/studio/write/image-asset-studio?hl=zh-cn -->
-    <EditText
-        android:id="@+id/editText_sign_up_password"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/sign_up_password_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inputType="textPassword"
-        android:background="@drawable/login_edit_text_background"
-        android:drawablePadding="8dp"
-        android:hint="@string/password"
+        android:layout_marginTop="10dp"
+        app:endIconMode="password_toggle"
         android:textColorHint="@color/login_form_details"
-        android:padding="16dp"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_sign_up_email" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_sign_up_email">
 
-    <EditText
-        android:id="@+id/editText_sign_up_password_again"
+        <EditText
+            android:id="@+id/editText_sign_up_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:background="@drawable/login_edit_text_background"
+            android:drawablePadding="8dp"
+            android:hint="@string/password"
+            android:textColor="@color/login_form_details"
+            android:textColorHint="@color/login_form_details"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/sign_up_password_again_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inputType="textPassword"
-        android:background="@drawable/login_edit_text_background"
-        android:drawablePadding="8dp"
-        android:hint="@string/password_again"
+        android:layout_marginTop="10dp"
+        app:endIconMode="password_toggle"
         android:textColorHint="@color/login_form_details"
-        android:padding="16dp"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_sign_up_password" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_password_layout">
+
+        <EditText
+            android:id="@+id/editText_sign_up_password_again"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:background="@drawable/login_edit_text_background"
+            android:drawablePadding="8dp"
+            android:hint="@string/password_again"
+            android:textColor="@color/login_form_details"
+            android:textColorHint="@color/login_form_details" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button_sign_up"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="@string/sign_up"
         android:textAllCaps="false"
         android:textColor="@color/login_form_details_medium"
         android:background="@drawable/login_button_background"
         app:layout_constraintEnd_toStartOf="@+id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_sign_up_page_left"
-        app:layout_constraintTop_toBottomOf="@id/editText_sign_up_password_again" />
+        app:layout_constraintTop_toBottomOf="@id/sign_up_password_again_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
