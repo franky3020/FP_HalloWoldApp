@@ -62,7 +62,7 @@
                 android:layout_height="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
+                android:layout_marginRight="18dp"
                 android:src="@drawable/arrow_white"/>
         </RelativeLayout>
 
