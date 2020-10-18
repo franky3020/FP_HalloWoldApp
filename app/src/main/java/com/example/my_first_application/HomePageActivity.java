@@ -12,28 +12,25 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
-import Task.GetTasksObserved;
+import Task.TaskAPIService;
 import Task.Task;
 
-public class HomePageActivity extends AppCompatActivity implements Observer {
+public class HomePageActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = HomePageActivity.class.getSimpleName();
 
     private HomePageActivity homePageActivity = this;
 
-    Handler uiHandler;
+    Handler getTasksAPI_Handler;
 
     private ArrayList<Task> taskList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ShowTaskAdapter recyclerViewAdapter;
-    private GetTasksObserved getTasksObserved = GetTasksObserved.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +39,7 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.uiHandler = new Handler();
+        this.getTasksAPI_Handler = new Handler();
 
         this.recyclerView = findViewById(R.id.homeTaskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
@@ -81,14 +78,14 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
     protected void onStart() {
         super.onStart();
         Log.d(LOG_TAG, "onStart");
-        this.getTasksObserved.addObserver(this);
+        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(LOG_TAG, "onStop");
-        this.getTasksObserved.deleteObserver(this);
+        this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
 
     @Override
@@ -109,9 +106,8 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    public void showTaskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
-
-        recyclerViewAdapter.setShowTaskList(taskList); // taskStatus 還沒設定
+    public void taskUIUpdate(final ArrayList<Task> taskList) {
+        recyclerViewAdapter.setShowTaskList(taskList);
 
         recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
 
@@ -125,21 +121,48 @@ public class HomePageActivity extends AppCompatActivity implements Observer {
             }
         });
 
-        uiHandler.post(new Runnable() {
+        runOnUiThread( new Runnable() { //必須要在主執行緒上更新UI, 才不會出錯
             @Override
             public void run() {
                 recyclerViewAdapter.notifyDataSetChanged();
+                Log.d(LOG_TAG, "over recyclerViewAdapter.notifyDataSetChanged()");
             }
         });
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof GetTasksObserved) {
-            GetTasksObserved getTasksObserved = (GetTasksObserved) o;
-            ArrayList<Task> taskList = getTasksObserved.getTasks();
-            showTaskUIUpdate(taskList);
+    private final Runnable getTaskAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetTasksAPI();
+            int delayMillis = 3000;
+            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
         }
+    };
+
+    private void sendGetTasksAPI() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
+
+            @Override
+            public void onResponseOK(ArrayList<Task> tasks) {
+                taskList = tasks;
+                taskUIUpdate(taskList);
+                Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
+            }
+
+            @Override
+            public void onFailure() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(homePageActivity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
+                    }
+                });
+            }
+        });
+
     }
+
+
 }
 
