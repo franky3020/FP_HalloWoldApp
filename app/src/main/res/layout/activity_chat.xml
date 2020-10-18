@@ -69,11 +69,10 @@
             android:hint="Chat Now!"/>
         <ImageButton
             android:id="@+id/sendBtn"
-            android:background="@null"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_send"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:onClick="onClickToSendMessage"/>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </RelativeLayout>
