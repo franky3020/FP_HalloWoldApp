@@ -49,7 +49,7 @@
                     android:src="@drawable/ic_money_symbol"/>
 
                 <TextView
-                    android:id="@+id/textView_showTask_type"
+                    android:id="@+id/textView_showTask_salary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XXX"
