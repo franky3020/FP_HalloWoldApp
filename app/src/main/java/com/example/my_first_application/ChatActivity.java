@@ -82,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
         MessageAPIService messageAPIService = new MessageAPIService();
         Message message = new Message(content,1, 1,200, LocalDateTime.now());
         try {
-            messageAPIService.post(message, new Callback() {
+             messageAPIService.post(message, new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 }
@@ -91,11 +91,11 @@ public class ChatActivity extends AppCompatActivity {
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     if(response.isSuccessful()) {
                         Intent intent = new Intent();
-                        intent.setClass(chatActivity, ShowTaskActivity.class);
                         startActivity(intent);
                     }
                 }
             });
+
 
         } catch (Exception e) {
             Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
