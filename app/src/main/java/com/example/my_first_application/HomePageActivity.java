@@ -116,7 +116,7 @@ public class HomePageActivity extends AppCompatActivity {
                 Task task = taskList.get(position);
 
                 Intent intent = new Intent(homePageActivity, TaskDetailActivity.class);
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
                 homePageActivity.startActivity(intent);
             }
         });

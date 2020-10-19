@@ -1,9 +1,9 @@
 package com.example.my_first_application;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,14 +45,12 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
         CardView taskCardView = holder.taskCardView;
 
-        ImageView userImage = taskCardView.findViewById(R.id.imageView_user_pic);
-        userImage.setImageResource(R.drawable.ic_user_show_task);
 
         TextView taskTitle = taskCardView.findViewById(R.id.textView_showTask_title);
         taskTitle.setText(task.getTaskName());
 
-        TextView taskType = taskCardView.findViewById(R.id.textView_showTask_type);
-        taskType.setText(task.getTypeName());
+        TextView taskType = taskCardView.findViewById(R.id.textView_showTask_salary);
+        taskType.setText(String.valueOf(task.getSalary()));
 
         TextView taskAddress = taskCardView.findViewById(R.id.textView_showTask_address);
         taskAddress.setText(task.getTaskAddress());
@@ -81,6 +79,8 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         });
 
     }
+
+
 
     @Override
     public int getItemCount() {

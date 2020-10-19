@@ -50,14 +50,6 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     }
 
-    private final Runnable getTaskAPI_Runnable = new Runnable() {
-        public void run() {
-            sendGetTasksAPI();
-            int delayMillis = 3000;
-            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
-        }
-    };
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -73,6 +65,16 @@ public class ShowTaskActivity extends AppCompatActivity {
 
         this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
+
+
+    private final Runnable getTaskAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetTasksAPI();
+            int delayMillis = 3000;
+            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,11 +130,6 @@ public class ShowTaskActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_TITLE, task.getTaskName());
                 showTaskActivity.startActivity(intent);
             }
         });

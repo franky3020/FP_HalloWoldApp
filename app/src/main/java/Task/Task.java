@@ -147,4 +147,23 @@ public class Task {
     public void setTaskCity(int taskCity) {
         this.taskCity = taskCity;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskID=" + taskID +
+                ", taskName='" + taskName + '\'' +
+                ", message='" + message + '\'' +
+                ", startPostTime=" + startPostTime +
+                ", endPostTime=" + endPostTime +
+                ", salary=" + salary +
+                ", typeName='" + typeName + '\'' +
+                ", releaseUserID=" + releaseUserID +
+                ", releaseTime=" + releaseTime +
+                ", receiveUserID=" + receiveUserID +
+                ", receiveTime=" + receiveTime +
+                ", taskAddress='" + taskAddress + '\'' +
+                ", taskCity=" + taskCity +
+                '}';
+    }
 }

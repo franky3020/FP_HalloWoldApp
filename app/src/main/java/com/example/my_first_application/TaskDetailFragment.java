@@ -1,5 +1,6 @@
 package com.example.my_first_application;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import Task.Task;
 import Task.TaskAPIService;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -27,23 +30,63 @@ import okhttp3.Response;
 public class TaskDetailFragment extends Fragment implements View.OnClickListener { // 任務細節還沒做完誠
 
     private int taskID = 0;
-    private String taskTitle = "";
+    private String taskTitle = "XXX";
 
     public void setTaskID(int taskID) {
         this.taskID = taskID;
-    }
-    public void setTaskTitle(String taskTitle) {
-        this.taskTitle = taskTitle;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        View view = getView();
+        final View view = getView();
         if(view != null) {
-            TextView taskTitle = view.findViewById(R.id.taskTitle);
-            taskTitle.setText(this.taskTitle); // 把從activity設定的 設定到該TextView
+            TaskAPIService taskApiService = new TaskAPIService();
+
+            taskApiService.getATask(taskID, new TaskAPIService.A_TaskListener() {
+                @Override
+                public void onResponseOK(Task task) {
+                    uIUpdate(task);
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
         }
+    }
+
+    private void uIUpdate(final Task task) { //必須要在主執行緒上更新UI, 才不會出錯
+
+        getActivity().runOnUiThread( new Runnable() {
+            @Override
+            public void run() {
+                final View view = getView();
+
+                TextView taskTitle = view.findViewById(R.id.taskTitle);
+                taskTitle.setText(task.getTaskName());
+//
+//                TextView releaseUserID = view.findViewById(R.id.releaseUserID);
+//                releaseUserID.setText(task.getReceiveUserID());
+
+//                    TextView releaseTime = view.findViewById(R.id.releaseTime);
+//                    releaseTime.setText(task.getReceiveTime());
+
+//                TextView typeName = view.findViewById(R.id.typeName);
+//                typeName.setText(task.getTypeName());
+
+                TextView salary = view.findViewById(R.id.salary);
+                salary.setText(String.valueOf(task.getSalary()));
+
+//                TextView taskAddress = view.findViewById(R.id.taskAddress);
+//                taskAddress.setText(task.getTaskAddress());
+
+                TextView message = view.findViewById(R.id.message);
+                message.setText(task.getMessage());
+
+            }
+        });
     }
 
     @Override
