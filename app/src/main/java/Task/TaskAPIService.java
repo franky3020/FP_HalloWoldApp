@@ -88,6 +88,44 @@ public class TaskAPIService {
         getTaskThread.start();
     }
 
+    public interface A_TaskListener {
+        void onResponseOK(Task task);
+        void onFailure();
+    }
+
+    public void getATask(final int taskID, final A_TaskListener a_taskListener) {
+
+        Thread getTaskThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + taskID)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        String key = String.valueOf(taskID);
+                        JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
+                        Task task = parse_a_Task(aJSONTask, key);
+                        a_taskListener.onResponseOK(task);
+                    } else {
+                        a_taskListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    a_taskListener.onFailure();
+                }
+            }
+        };
+        getTaskThread.start();
+    }
+
 
 
     public ArrayList<Task> parseTasksFromJson(JSONObject tasksJSONObject) {

@@ -90,4 +90,27 @@ public class TaskAPIServiceTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void getATask() {
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getATask(200, new TaskAPIService.A_TaskListener() {
+            @Override
+            public void onResponseOK(Task task) {
+                System.out.println(task);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("ERROR");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

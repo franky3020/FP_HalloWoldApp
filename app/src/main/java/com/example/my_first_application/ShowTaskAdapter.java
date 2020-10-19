@@ -80,6 +80,8 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
 
     }
 
+
+
     @Override
     public int getItemCount() {
         return taskList.size();
