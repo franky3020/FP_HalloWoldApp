@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent = new Intent();
                 switch (item.getItemId()) {
                     case R.id.icon_home:
-                        Intent intent = new Intent();
                         intent.setClass(MainActivity.this, HomePageActivity.class);
                         startActivity(intent);
                         break;
@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.icon_message:
                         break;
                     case R.id.icon_profile:
-                        intent = new Intent();
                         intent.setClass(MainActivity.this, ProfileActivity.class);
                         startActivity(intent);
                         break;

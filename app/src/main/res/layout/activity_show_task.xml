@@ -1,49 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ShowTaskActivity">
+
 
     <include
         layout="@layout/toolbar_main"
         android:id="@+id/toolbar"/>
 
     <LinearLayout
+        android:id="@+id/typeAndAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginVertical="3dp"
+        android:layout_marginHorizontal="5dp"
         android:gravity="right">
 
         <Spinner
             android:id="@+id/button_task_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
             android:dropDownWidth="fill_parent"
             android:entries="@array/task_type_array"
             android:background="@drawable/show_task_spinner"
-            android:text="@string/show_task_spinner_type"
-            android:layout_marginRight="10dp" />
+            android:text="@string/show_task_spinner_type" />
 
         <Spinner
             android:id="@+id/button_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
             android:entries="@array/task_region_array"
             android:background="@drawable/show_task_spinner"
-            android:text="@string/show_task_spinner_address"
-            android:layout_marginRight="10dp" />
+            android:text="@string/show_task_spinner_address"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_below="@id/typeAndAddress"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginVertical="3dp">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/taskShow"
             android:padding="5dp"
@@ -54,18 +59,25 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:backgroundTint="@color/colorPrimary"
-            android:src="@drawable/baseline_add_black_24"
-            android:layout_margin="16dp"
-            android:onClick="onClickToReleaseTask" />
-    </RelativeLayout>
-</LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/bottom_navigation"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/baseline_add_black_24"
+        android:layout_margin="16dp"
+        android:onClick="onClickToReleaseTask" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:labelVisibilityMode="labeled"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_main_bottom_navigation" />
+
+</RelativeLayout>

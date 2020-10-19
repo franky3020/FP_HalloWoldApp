@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import Task.TaskAPIService;
 import Task.Task;
@@ -46,6 +49,33 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
+
+        BottomNavigationView bottomNavigationView
+                = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent = new Intent();
+                switch (item.getItemId()) {
+                    case R.id.icon_home:
+                        intent.setClass(ShowTaskActivity.this, HomePageActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case R.id.icon_search:
+                        break;
+
+                    case R.id.icon_message:
+                        break;
+
+                    case R.id.icon_profile:
+                        intent.setClass(ShowTaskActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
 
 
     }
