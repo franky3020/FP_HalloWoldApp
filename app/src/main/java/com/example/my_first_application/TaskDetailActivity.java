@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,21 +35,17 @@ public class TaskDetailActivity extends AppCompatActivity {
         taskDetailFragment.setTaskID(taskID);
 
 
-        TaskStateButtonFragment taskStateButtonFragment = new TaskStateButtonFragment();
-        taskStateButtonFragment.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickDeleteTask(taskID);
-            }
-        });
-        replaceFragmentTest(taskStateButtonFragment);
-    }
+        // 加上button
+        LinearLayout stateButtonsLayout = (LinearLayout)findViewById(R.id.task_state_buttons_container);
+        Button stateButton = new Button(this);
+        stateButton.setText("Delete");
 
-    private void replaceFragmentTest(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.task_state_button, fragment);
-        transaction.commit();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        stateButton.setLayoutParams(params);
+
+        stateButton.setBackgroundResource(R.color.colorAccent);
+        stateButtonsLayout.addView(stateButton); // 不能重複加同一實例
     }
 
     private void onClickDeleteTask(int taskID) {
