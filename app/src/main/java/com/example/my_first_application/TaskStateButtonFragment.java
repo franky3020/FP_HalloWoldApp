@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,7 @@ public class TaskStateButtonFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private View.OnClickListener onClickListener;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -71,9 +74,31 @@ public class TaskStateButtonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         Log.d(LOG_TAG, "onCreateView");
-        return inflater.inflate(R.layout.fragment_task_state_button, container, false);
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_task_state_button, container, false);
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.rootLinearLayout);
+
+
+        Button button = view.findViewById(R.id.taskStateButton);
+        button.setOnClickListener(onClickListener);
+
+        // 以下都沒作用
+//        Button button2 = new Button(view.getContext());
+//        button2.setText("TEST");
+//        linearLayout.addView(button2, 500, 500);
+//
+//        linearLayout.removeAllViewsInLayout();
+
+//        linearLayout.addView(button2);
+
+
+        return view;
+    }
+
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     @Override
