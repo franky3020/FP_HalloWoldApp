@@ -43,10 +43,9 @@ public class TaskDetailActivity extends AppCompatActivity {
         LinearLayout stateButtonsLayout = (LinearLayout)findViewById(R.id.task_state_buttons_container);
 
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
-        MaterialButton materialButton = CreateTaskStateButtonFactory.getMaterialButton(contextThemeWrapper);
-        stateButtonsLayout.addView(materialButton);
-        MaterialButton materialButton2 = CreateTaskStateButtonFactory.getMaterialButton(contextThemeWrapper);
-        stateButtonsLayout.addView(materialButton2);
+        CreateTaskStateButtonFactory createTaskStateButtonFactory = new CreateTaskStateButtonFactory(taskID, contextThemeWrapper);
+        stateButtonsLayout.addView ( createTaskStateButtonFactory.createTasksButton("OK") );
+        stateButtonsLayout.addView ( createTaskStateButtonFactory.createTasksButton("Delete") );
     }
 
     private void onClickDeleteTask(int taskID) {
