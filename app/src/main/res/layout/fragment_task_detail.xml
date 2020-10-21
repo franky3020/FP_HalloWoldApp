@@ -76,6 +76,24 @@
         android:layout_weight="12"
         android:text="message" />
 
+    <FrameLayout
+        android:id="@+id/task_state_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="12dp">
+    </FrameLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/selectReceiveUserButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="select ReceiveUser" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/deleteButton"
         android:layout_width="match_parent"

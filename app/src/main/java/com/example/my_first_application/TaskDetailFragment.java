@@ -3,7 +3,11 @@ package com.example.my_first_application;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +17,11 @@ import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileDescriptor;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import Task.Task;
 import Task.TaskAPIService;
@@ -55,6 +62,8 @@ public class TaskDetailFragment extends Fragment implements View.OnClickListener
                 }
             });
         }
+
+        replaceFragmentTest(new TaskStateButtonFragment());
     }
 
     private void uIUpdate(final Task task) { //必須要在主執行緒上更新UI, 才不會出錯
@@ -88,6 +97,15 @@ public class TaskDetailFragment extends Fragment implements View.OnClickListener
             }
         });
     }
+
+    private void replaceFragmentTest(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.task_state_button, fragment);
+        transaction.commit();
+
+    }
+
 
     @Override
     public void onClick(View v) {
