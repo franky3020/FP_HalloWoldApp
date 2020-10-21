@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import Task.CreateTaskStateButtonFactory;
 import Task.TaskAPIService;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,38 +43,10 @@ public class TaskDetailActivity extends AppCompatActivity {
         LinearLayout stateButtonsLayout = (LinearLayout)findViewById(R.id.task_state_buttons_container);
 
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
-
-        MaterialButton materialButton = new MaterialButton(contextThemeWrapper);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(12, 12, 12, 12);
-        materialButton.setLayoutParams(params);
-
-        materialButton.setBackgroundResource(R.color.colorAccent);
-        materialButton.setText("Delete");
-
+        MaterialButton materialButton = CreateTaskStateButtonFactory.getMaterialButton(contextThemeWrapper);
         stateButtonsLayout.addView(materialButton);
-
-
-
-
-
-//        // 加上button
-//        LinearLayout stateButtonsLayout = (LinearLayout)findViewById(R.id.task_state_buttons_container);
-//        Button stateButton = new Button(this);
-//        stateButton.setText("Delete");
-//
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT);
-//        params.setMargins(12, 12, 12, 12);
-//
-//        stateButton.setLayoutParams(params);
-//
-//
-//
-//        stateButton.setBackgroundResource(R.color.colorAccent);
-//        stateButtonsLayout.addView(stateButton); // 不能重複加同一實例
+        MaterialButton materialButton2 = CreateTaskStateButtonFactory.getMaterialButton(contextThemeWrapper);
+        stateButtonsLayout.addView(materialButton2);
     }
 
     private void onClickDeleteTask(int taskID) {
