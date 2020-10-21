@@ -1,6 +1,7 @@
 package com.example.my_first_application;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import com.google.android.material.button.MaterialButton;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,17 +38,41 @@ public class TaskDetailActivity extends AppCompatActivity {
         taskDetailFragment.setTaskID(taskID);
 
 
-        // 加上button
         LinearLayout stateButtonsLayout = (LinearLayout)findViewById(R.id.task_state_buttons_container);
-        Button stateButton = new Button(this);
-        stateButton.setText("Delete");
+
+        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
+
+        MaterialButton materialButton = new MaterialButton(contextThemeWrapper);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        stateButton.setLayoutParams(params);
+        params.setMargins(12, 12, 12, 12);
+        materialButton.setLayoutParams(params);
 
-        stateButton.setBackgroundResource(R.color.colorAccent);
-        stateButtonsLayout.addView(stateButton); // 不能重複加同一實例
+        materialButton.setBackgroundResource(R.color.colorAccent);
+        materialButton.setText("Delete");
+
+        stateButtonsLayout.addView(materialButton);
+
+
+
+
+
+//        // 加上button
+//        LinearLayout stateButtonsLayout = (LinearLayout)findViewById(R.id.task_state_buttons_container);
+//        Button stateButton = new Button(this);
+//        stateButton.setText("Delete");
+//
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT);
+//        params.setMargins(12, 12, 12, 12);
+//
+//        stateButton.setLayoutParams(params);
+//
+//
+//
+//        stateButton.setBackgroundResource(R.color.colorAccent);
+//        stateButtonsLayout.addView(stateButton); // 不能重複加同一實例
     }
 
     private void onClickDeleteTask(int taskID) {
