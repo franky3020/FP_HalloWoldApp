@@ -44,7 +44,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
         CreateTaskStateButtonFactory createTaskStateButtonFactory = new CreateTaskStateButtonFactory(taskID, contextThemeWrapper);
-        stateButtonsLayout.addView ( createTaskStateButtonFactory.createTasksButton("OK") );
+        stateButtonsLayout.addView ( createTaskStateButtonFactory.createTasksButton("OK") ); // 應該再用一個類別 包裝加入按鈕的動作
         stateButtonsLayout.addView ( createTaskStateButtonFactory.createTasksButton("Delete") );
     }
 
