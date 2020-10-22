@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import Task.CreateTaskStateButtonFactory;
 import Task.TaskAPIService;
+import TaskState.ReceiveUser.ReceiveUserTaskStateContext;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -41,11 +42,12 @@ public class TaskDetailActivity extends AppCompatActivity {
 
 
         LinearLayout stateButtonsLayout = (LinearLayout)findViewById(R.id.task_state_buttons_container);
-
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
-        CreateTaskStateButtonFactory createTaskStateButtonFactory = new CreateTaskStateButtonFactory(taskID, contextThemeWrapper);
-        stateButtonsLayout.addView ( createTaskStateButtonFactory.createTasksButton("OK") ); // 應該再用一個類別 包裝加入按鈕的動作
-        stateButtonsLayout.addView ( createTaskStateButtonFactory.createTasksButton("Delete") );
+
+        ReceiveUserTaskStateContext receiveUserTaskStateContext = new ReceiveUserTaskStateContext(taskID, contextThemeWrapper, stateButtonsLayout);
+        receiveUserTaskStateContext.setTaskState(ReceiveUserTaskStateContext.BOOS_RELEASE_STATE);
+        receiveUserTaskStateContext.updateUI();
+
     }
 
     private void onClickDeleteTask(int taskID) {
