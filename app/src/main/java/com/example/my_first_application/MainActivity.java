@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
         intent.setClass(MainActivity.this, HomePageActivity.class);
         startActivity(intent);
     }
+    public void onClickToChatPage(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ChatActivity.class);
+        startActivity(intent);
+    }
 
     public void onClickToProfile(View view) {
         Intent intent = new Intent();
@@ -86,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.icon_search:
                         break;
                     case R.id.icon_message:
+                        intent = new Intent();
+                        intent.setClass(MainActivity.this, ChatActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.icon_profile:
                         intent.setClass(MainActivity.this, ProfileActivity.class);
