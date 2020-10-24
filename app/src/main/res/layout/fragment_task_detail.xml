@@ -76,13 +76,6 @@
         android:layout_weight="12"
         android:text="message" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/deleteButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:layout_weight="1"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Delete" />
+
 
 </LinearLayout>

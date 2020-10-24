@@ -1,33 +1,19 @@
 package com.example.my_first_application;
-
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
 import Task.Task;
 import Task.TaskAPIService;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TaskDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TaskDetailFragment extends Fragment implements View.OnClickListener { // 任務細節還沒做完誠
+public class TaskDetailFragment extends Fragment {
 
     private int taskID = 0;
     private String taskTitle = "XXX";
@@ -89,32 +75,6 @@ public class TaskDetailFragment extends Fragment implements View.OnClickListener
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.deleteButton:
-                onClickDeleteTask();
-                break;
-        }
-    }
-
-    private void onClickDeleteTask() {
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.deleteTask(taskID, new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                System.out.println("franky-test ok");
-            }
-        });
-    }
-
-
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -158,14 +118,6 @@ public class TaskDetailFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View layout = inflater.inflate(R.layout.fragment_task_detail, container, false);
-        Button deleteButton = layout.findViewById(R.id.deleteButton);
-        deleteButton.setOnClickListener(this);
-
-        return layout;
+        return inflater.inflate(R.layout.fragment_task_detail, container, false);
     }
-
-
-
 }
