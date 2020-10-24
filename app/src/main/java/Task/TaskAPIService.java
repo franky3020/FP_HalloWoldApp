@@ -228,40 +228,46 @@ public class TaskAPIService {
             e.printStackTrace();
         }
     }
-//
-//    public void getTaskState(int taskId, final A_TaskListener a_taskListener) {
-//
-//        Thread getTaskStateThread = new Thread() {
-//            public void run() {
-//                Request request = new Request.Builder()
-//                        .url(base_URL)
-//                        .method("GET", null)
-//                        .build();
-//                OkHttpClient client = new OkHttpClient().newBuilder().build();
-//
-//                try {
-//                    Response response= client.newCall(request).execute();
-//
-//                    if(response.isSuccessful()) {
-//                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-//                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
-//                        taskListener.onResponseOK(taskList);
-//                    } else {
-//                        taskListener.onFailure();
-//                    }
-//                    response.close();
-//
-//                } catch (Exception e) {
-//                    Log.d(LOG_TAG, e.getMessage());
-//                    taskListener.onFailure();
-//                }
-//            }
-//        };
-//        getTaskThread.start();
-//    }
 
 
+    public interface GetAPIListener<T> {
+        void onResponseOK(T t);
+        void onFailure();
+    }
 
+    public void getTaskState(final int taskId, final GetAPIListener<TaskState> getAPIListener) {
 
+        Thread getTaskStateThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + taskId + "/" +"state")
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject aJSONTaskState = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        TaskStateEnum taskStateEnum = TaskStateEnum.valueOf(aJSONTaskState.optString("taskState"));
+                        LocalDateTime stepTime = transitTimeStampFromGetAPI(aJSONTaskState.optString("stepTime"));
+
+                        TaskState taskState = new TaskState(taskStateEnum, stepTime);
+                        getAPIListener.onResponseOK(taskState);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    e.printStackTrace();
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskStateThread.start();
+    }
 
 }

@@ -1,16 +1,38 @@
 package Task;
 
-public enum TaskState { // 即將要實作, 這目前是重點
-    BOSS_RELEASE,
-    WORKER_WORKING,
-    BOSS_DONE_CHECK,
-    BOSS_CHECK_PASS,
-    BOSS_CHECK_NOT_PASS,
-    CLOSE_AN_ACCOUNT_REWARD,
-    COORDINATION,
-    BOSS_REQUEST_STOP_TASK,
-    BOSS_CANCEL_STOP_TASK_REQUEST,
-    WORKER_AGREE_STOP_TASK,
-    WORKER_NOT_AGREE_STOP_TASK,
-    END
+import java.time.LocalDateTime;
+
+public class TaskState {
+
+    private TaskStateEnum taskStateEnum;
+    private LocalDateTime stepTime;
+
+    public TaskState(TaskStateEnum taskStateEnum, LocalDateTime stepTime) {
+        this.taskStateEnum = taskStateEnum;
+        this.stepTime = stepTime;
+    }
+
+    public TaskStateEnum getTaskStateEnum() {
+        return taskStateEnum;
+    }
+
+    public void setTaskStateEnum(TaskStateEnum taskStateEnum) {
+        this.taskStateEnum = taskStateEnum;
+    }
+
+    public LocalDateTime getStepTime() {
+        return stepTime;
+    }
+
+    public void setStepTime(LocalDateTime stepTime) {
+        this.stepTime = stepTime;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskState{" +
+                "taskStateEnum=" + taskStateEnum +
+                ", stepTime=" + stepTime +
+                '}';
+    }
 }

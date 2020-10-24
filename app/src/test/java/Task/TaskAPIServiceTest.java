@@ -131,4 +131,27 @@ public class TaskAPIServiceTest {
         }
 
     }
+
+    @Test
+    public void getTaskState() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getTaskState(325, new TaskAPIService.GetAPIListener<TaskState>() {
+            @Override
+            public void onResponseOK(TaskState taskState) {
+                System.out.println(taskState);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("Failure");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
