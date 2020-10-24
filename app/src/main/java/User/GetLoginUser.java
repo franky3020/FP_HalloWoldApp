@@ -28,6 +28,7 @@ public class GetLoginUser {
             Intent intent = new Intent();
             intent.setClass(activity, LoginActivity.class);
             activity.startActivity(intent);
+            activity.finish();
         }
     }
 

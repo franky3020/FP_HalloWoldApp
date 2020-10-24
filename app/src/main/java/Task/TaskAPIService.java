@@ -21,14 +21,14 @@ public class TaskAPIService {
     private static final String LOG_TAG = TaskAPIService.class.getSimpleName();
 
     //String API_version = "ms-provider-develop";
-    public static final String API_version = "ms-provider-develop";
+    public static final String API_version = "ms-provider-test-franky-update-api";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks";
 
 
     public void post(Task task, Callback callback) throws Exception {
         JSONObject jsonEntity = new JSONObject();
-        jsonEntity.put("taskName", task.getTaskName());
+        jsonEntity.put("name", task.getTaskName());
         jsonEntity.put("message", task.getMessage());
         jsonEntity.put("startPostTime", transitLocalDateTimeToStringForPostAPI(task.getStartPostTime()));
         jsonEntity.put("endPostTime", transitLocalDateTimeToStringForPostAPI(task.getEndPostTime()));
@@ -37,9 +37,7 @@ public class TaskAPIService {
         jsonEntity.put("releaseUserID", task.getReleaseUserID());
         jsonEntity.put("releaseTime", transitLocalDateTimeToStringForPostAPI(task.getReleaseTime()));
         jsonEntity.put("receiveUserID", task.getReceiveUserID());
-        jsonEntity.put("receiveTime", transitLocalDateTimeToStringForPostAPI(task.getReceiveTime()));
         jsonEntity.put("taskAddress", task.getTaskAddress());
-        jsonEntity.put("taskCity", task.getTaskCity());
 
         //參考 https://www.jianshu.com/p/1133389c1f75
         // 與  https://stackoverflow.com/questions/57100451/okhttp3-requestbody-createcontenttype-content-deprecated
@@ -126,8 +124,6 @@ public class TaskAPIService {
         getTaskThread.start();
     }
 
-
-
     public ArrayList<Task> parseTasksFromJson(JSONObject tasksJSONObject) {
         ArrayList<Task> taskList = new ArrayList<>();
         Iterator<String> taskKeys = tasksJSONObject.keys();
@@ -140,6 +136,7 @@ public class TaskAPIService {
                 taskList.add(task);
             } catch (Exception e) {
                 Log.d(LOG_TAG, e.getMessage());
+                e.printStackTrace();
             }
         }
 
@@ -150,25 +147,42 @@ public class TaskAPIService {
 
         int taskId = Integer.parseInt(taskKey);
 
-        String taskName = aJSONTask.getString("TaskName");
+        String taskName = aJSONTask.optString("TaskName");
 
-        String taskMessage = aJSONTask.getString("Message");
+        String taskMessage = aJSONTask.optString("Message");
 
-        LocalDateTime startPostTime = transitTimeStampFromGetAPI(aJSONTask.getString("StartPostTime"));
+        LocalDateTime startPostTime = transitTimeStampFromGetAPI(aJSONTask.optString("StartPostTime"));
 
-        int salary = aJSONTask.getInt("Salary");
+        LocalDateTime endPostTime = transitTimeStampFromGetAPI(aJSONTask.optString("EndPostTime"));
 
-        String typeName = aJSONTask.getString("TypeName");
+        int salary = aJSONTask.optInt("Salary");
 
-        int releaseUserID = aJSONTask.getInt("ReleaseUserID");
+        String typeName = aJSONTask.optString("TypeName");
 
-        LocalDateTime releaseTime = transitTimeStampFromGetAPI(aJSONTask.getString("ReleaseTime"));
+        int releaseUserID = aJSONTask.optInt("ReleaseUserID");
 
-        return new Task(taskId, taskName,taskMessage, startPostTime, salary, typeName, releaseUserID, releaseTime);
+        LocalDateTime releaseTime = transitTimeStampFromGetAPI(aJSONTask.optString("ReleaseTime"));
+
+        int receiveUserID = aJSONTask.optInt("ReceiveUserID");
+
+        String taskAddress = aJSONTask.optString("TaskAddress");
+
+        Task task = TaskBuilder.aTask(taskId, salary, releaseUserID)
+                .withTaskName(taskName)
+                .withMessage(taskMessage)
+                .withStartPostTime(startPostTime)
+                .withEndPostTime(endPostTime)
+                .withTypeName(typeName)
+                .withReleaseTime(releaseTime)
+                .withReceiveUserID(receiveUserID)
+                .withTaskAddress(taskAddress)
+                .build();
+
+        return task;
     }
 
-    private LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 則會傳出 null
-        if(timeStampString != null) {
+    private LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 或 null字串 則會傳出 null
+        if(timeStampString != null && timeStampString != "null") {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             return LocalDateTime.parse(timeStampString, dateTimeFormatter);
         } else {

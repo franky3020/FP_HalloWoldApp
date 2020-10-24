@@ -1,14 +1,11 @@
 package Task;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,7 +23,7 @@ public class TaskAPIServiceTest {
             public void onResponseOK(ArrayList<Task> tasks) {
                 System.out.println(tasks.size());
                 for(Task task: tasks) {
-                    System.out.println(task.getTaskID());
+                    System.out.println(task);
                 }
                 assertTrue(tasks.size() > 0);
             }
@@ -47,9 +44,9 @@ public class TaskAPIServiceTest {
 
     @Test
     public void post() {
+        LocalDateTime currentTime = LocalDateTime.now();
 
-        Task task = new Task("franky-1010", "franky-108", LocalDateTime.now(),
-                500, "測試", 1, LocalDateTime.now());
+        Task task = TaskBuilder.aTask(0, 400,14).build();
         TaskAPIService taskApiService = new TaskAPIService();
         try {
             taskApiService.post(task, new Callback() {
@@ -66,14 +63,12 @@ public class TaskAPIServiceTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
     public void deleteTask() {
         TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.deleteTask(223, new Callback() {
+        taskApiService.deleteTask(337, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 

@@ -19,29 +19,8 @@ public class Task {
     private int taskCity = -1;
 //    private TaskState state; // 目前後端無這資料 但之後必須加上
 
+    public Task() {
 
-    public Task(int taskID, String taskName, String message, LocalDateTime startPostTime, int salary,
-                String typeName, int releaseUserID, LocalDateTime releaseTime) {
-        this.taskID = taskID;
-        this.taskName = taskName;
-        this.message = message;
-        this.startPostTime = startPostTime;
-        this.salary = salary;
-        this.typeName = typeName;
-        this.releaseUserID = releaseUserID;
-        this.releaseTime = releaseTime;
-    }
-
-    public Task(String taskName, String message, LocalDateTime startPostTime, int salary, // 用來post 所以沒有id
-                String typeName, int releaseUserID, LocalDateTime releaseTime) {
-        this.taskID = taskID;
-        this.taskName = taskName;
-        this.message = message;
-        this.startPostTime = startPostTime;
-        this.salary = salary;
-        this.typeName = typeName;
-        this.releaseUserID = releaseUserID;
-        this.releaseTime = releaseTime;
     }
 
     public int getTaskID() {
