@@ -29,7 +29,7 @@ public class TaskDetailFragment extends Fragment {
         if(view != null) {
             TaskAPIService taskApiService = new TaskAPIService();
 
-            taskApiService.getATask(taskID, new TaskAPIService.A_TaskListener() {
+            taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
                 @Override
                 public void onResponseOK(Task task) {
                     uIUpdate(task);

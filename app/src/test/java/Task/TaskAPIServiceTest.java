@@ -18,7 +18,7 @@ public class TaskAPIServiceTest {
     @Test
     public void getTasks_test() {
         final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
+        taskApiService.getTasksV3(new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
             @Override
             public void onResponseOK(ArrayList<Task> tasks) {
                 System.out.println(tasks.size());
@@ -89,7 +89,7 @@ public class TaskAPIServiceTest {
     @Test
     public void getATask() {
         TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getATask(200, new TaskAPIService.A_TaskListener() {
+        taskApiService.getATask(325, new TaskAPIService.GetAPIListener<Task>() {
             @Override
             public void onResponseOK(Task task) {
                 System.out.println(task);

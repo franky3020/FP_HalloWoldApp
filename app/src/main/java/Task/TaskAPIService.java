@@ -27,6 +27,11 @@ public class TaskAPIService {
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks";
 
+    public interface GetAPIListener<T> {
+        void onResponseOK(T t);
+        void onFailure();
+    }
+
 
     public void post(Task task, Callback callback) throws Exception {
         JSONObject jsonEntity = new JSONObject();
@@ -51,13 +56,7 @@ public class TaskAPIService {
 
     }
 
-
-    public interface TaskListener {
-        void onResponseOK(ArrayList<Task> tasks);
-        void onFailure();
-    }
-
-    public void getTasksV3(final TaskListener taskListener) {
+    public void getTasksV3(final GetAPIListener< ArrayList<Task> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
             public void run() {
@@ -73,27 +72,22 @@ public class TaskAPIService {
                     if(response.isSuccessful()) {
                         JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
                         ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
-                        taskListener.onResponseOK(taskList);
+                        getAPIListener.onResponseOK(taskList);
                     } else {
-                        taskListener.onFailure();
+                        getAPIListener.onFailure();
                     }
                     response.close();
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
-                    taskListener.onFailure();
+                    getAPIListener.onFailure();
                 }
             }
         };
         getTaskThread.start();
     }
 
-    public interface A_TaskListener {
-        void onResponseOK(Task task);
-        void onFailure();
-    }
-
-    public void getATask(final int taskID, final A_TaskListener a_taskListener) {
+    public void getATask(final int taskID, final GetAPIListener<Task> getAPIListener) {
 
         Thread getTaskThread = new Thread() {
             public void run() {
@@ -111,15 +105,15 @@ public class TaskAPIService {
                         String key = String.valueOf(taskID);
                         JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
                         Task task = parse_a_Task(aJSONTask, key);
-                        a_taskListener.onResponseOK(task);
+                        getAPIListener.onResponseOK(task);
                     } else {
-                        a_taskListener.onFailure();
+                        getAPIListener.onFailure();
                     }
                     response.close();
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
-                    a_taskListener.onFailure();
+                    getAPIListener.onFailure();
                 }
             }
         };
@@ -184,7 +178,7 @@ public class TaskAPIService {
     }
 
     private LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 或 null字串 則會傳出 null
-        if(timeStampString != null && timeStampString != "null") {
+        if(timeStampString != null && timeStampString != "null" && timeStampString != "") { // Todo 這裡有壞味道
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             return LocalDateTime.parse(timeStampString, dateTimeFormatter);
         } else {
@@ -229,11 +223,6 @@ public class TaskAPIService {
         }
     }
 
-
-    public interface GetAPIListener<T> {
-        void onResponseOK(T t);
-        void onFailure();
-    }
 
     public void getTaskState(final int taskId, final GetAPIListener<TaskState> getAPIListener) {
 
