@@ -59,15 +59,17 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
         TextView taskTime = taskCardView.findViewById(R.id.textView_showTask_time);
 
         LocalDateTime startPostTime = task.getStartPostTime();
+        if (startPostTime != null) {
+            int year = startPostTime.getYear();
+            int month = startPostTime.getMonthValue() ;
+            int day = startPostTime.getDayOfMonth();
+            int hour = startPostTime.getHour();
+            int minute = startPostTime.getMinute();
 
-        int year = startPostTime.getYear();
-        int month = startPostTime.getMonthValue() ;
-        int day = startPostTime.getDayOfMonth();
-        int hour = startPostTime.getHour();
-        int minute = startPostTime.getMinute();
+            taskDate.setText( "" + year + "/" + month + "/" + day);
+            taskTime.setText("" + hour + ":" + minute);
+        }
 
-        taskDate.setText( "" + year + "/" + month + "/" + day);
-        taskTime.setText("" + hour + ":" + minute);
 
         taskCardView.setOnClickListener(new View.OnClickListener() {
             @Override

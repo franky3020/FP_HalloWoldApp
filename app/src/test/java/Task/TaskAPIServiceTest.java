@@ -1,14 +1,11 @@
 package Task;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -21,12 +18,12 @@ public class TaskAPIServiceTest {
     @Test
     public void getTasks_test() {
         final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
+        taskApiService.getTasksV3(new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
             @Override
             public void onResponseOK(ArrayList<Task> tasks) {
                 System.out.println(tasks.size());
                 for(Task task: tasks) {
-                    System.out.println(task.getTaskID());
+                    System.out.println(task);
                 }
                 assertTrue(tasks.size() > 0);
             }
@@ -47,9 +44,9 @@ public class TaskAPIServiceTest {
 
     @Test
     public void post() {
+        LocalDateTime currentTime = LocalDateTime.now();
 
-        Task task = new Task("franky-1010", "franky-108", LocalDateTime.now(),
-                500, "測試", 1, LocalDateTime.now());
+        Task task = TaskBuilder.aTask(0, 400,14).build();
         TaskAPIService taskApiService = new TaskAPIService();
         try {
             taskApiService.post(task, new Callback() {
@@ -66,14 +63,12 @@ public class TaskAPIServiceTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
     public void deleteTask() {
         TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.deleteTask(223, new Callback() {
+        taskApiService.deleteTask(337, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -94,7 +89,7 @@ public class TaskAPIServiceTest {
     @Test
     public void getATask() {
         TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getATask(200, new TaskAPIService.A_TaskListener() {
+        taskApiService.getATask(325, new TaskAPIService.GetAPIListener<Task>() {
             @Override
             public void onResponseOK(Task task) {
                 System.out.println(task);
@@ -103,6 +98,52 @@ public class TaskAPIServiceTest {
             @Override
             public void onFailure() {
                 System.out.println("ERROR");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void updateTaskState() {
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.updateTaskState(325, TaskStateEnum.BOOS_CANCEL_THE_REQUEST_STOP_TASK, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println(response);
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void getTaskState() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getTaskState(325, new TaskAPIService.GetAPIListener<TaskState>() {
+            @Override
+            public void onResponseOK(TaskState taskState) {
+                System.out.println(taskState);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("Failure");
             }
         });
 

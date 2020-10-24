@@ -6,42 +6,21 @@ public class Task {
 
     private int taskID;
     private String taskName;
-    private String message = "";
+    private String message;
     private LocalDateTime startPostTime;
     private LocalDateTime endPostTime;
     private int salary;
     private String typeName;
     private int releaseUserID;
     private LocalDateTime releaseTime;
-    private int receiveUserID = -1;
+    private int receiveUserID;
     private LocalDateTime receiveTime;
-    private String taskAddress = "";
-    private int taskCity = -1;
+    private String taskAddress;
+    private int taskCity;
 //    private TaskState state; // 目前後端無這資料 但之後必須加上
 
+    public Task() {
 
-    public Task(int taskID, String taskName, String message, LocalDateTime startPostTime, int salary,
-                String typeName, int releaseUserID, LocalDateTime releaseTime) {
-        this.taskID = taskID;
-        this.taskName = taskName;
-        this.message = message;
-        this.startPostTime = startPostTime;
-        this.salary = salary;
-        this.typeName = typeName;
-        this.releaseUserID = releaseUserID;
-        this.releaseTime = releaseTime;
-    }
-
-    public Task(String taskName, String message, LocalDateTime startPostTime, int salary, // 用來post 所以沒有id
-                String typeName, int releaseUserID, LocalDateTime releaseTime) {
-        this.taskID = taskID;
-        this.taskName = taskName;
-        this.message = message;
-        this.startPostTime = startPostTime;
-        this.salary = salary;
-        this.typeName = typeName;
-        this.releaseUserID = releaseUserID;
-        this.releaseTime = releaseTime;
     }
 
     public int getTaskID() {

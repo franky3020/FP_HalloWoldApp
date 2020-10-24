@@ -33,6 +33,8 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 
+import Task.TaskBuilder;
+
 public class ReleaseTaskActivity extends AppCompatActivity {
     private static final String LOG_TAG = ReleaseTaskActivity.class.getSimpleName();
     ReleaseTaskActivity releaseTaskActivity = this;
@@ -187,7 +189,12 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
         TaskAPIService taskApiService = new TaskAPIService();
         salary = "200";
-        Task task = new Task(taskName, message, LocalDateTime.now(), Integer.valueOf(salary), taskType, 20, LocalDateTime.now());
+
+        Task task = TaskBuilder.aTask(0, 200, 1).build();
+
+
+
+//        Task task = new Task(taskName, message, LocalDateTime.now(), Integer.valueOf(salary), taskType, 20, LocalDateTime.now());
         try {
             taskApiService.post(task, new Callback() {
                 @Override

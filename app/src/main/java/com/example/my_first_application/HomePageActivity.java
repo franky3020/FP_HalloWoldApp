@@ -141,7 +141,7 @@ public class HomePageActivity extends AppCompatActivity {
     private void sendGetTasksAPI() {
         final TaskAPIService taskApiService = new TaskAPIService();
 
-        taskApiService.getTasksV3(new TaskAPIService.TaskListener() {
+        taskApiService.getTasksV3(new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
 
             @Override
             public void onResponseOK(ArrayList<Task> tasks) {
