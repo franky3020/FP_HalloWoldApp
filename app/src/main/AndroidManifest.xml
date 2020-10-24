@@ -49,5 +49,9 @@
             android:name=".ProfileActivity"
             android:label="@string/profile_toolbar_title"></activity>
 
+        <activity
+            android:name=".ChatActivity"
+            android:label="ChatPage"></activity>
+
     </application>
 </manifest>
