@@ -21,6 +21,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+import User.User;
+import User.UserBuilder;
+import User.UserAPIService;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 public class SignUpActivity extends AppCompatActivity {
     EditText email;
     EditText password;
@@ -80,15 +91,42 @@ public class SignUpActivity extends AppCompatActivity {
     private void registerUser(String mail, String pwd) {
         progressDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(mail, pwd) // 這應該是password
+        mAuth.createUserWithEmailAndPassword(mail, pwd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, dismiss dialog and start register
-                            progressDialog.dismiss();
-                            startActivity(new Intent(SignUpActivity.this, HomePageActivity.class));
-                            finish();
+
+                            User user = UserBuilder.anUser(0)
+                                    .withFirebaseUID(mAuth.getUid())
+                                    .build();
+
+                            UserAPIService userAPIService = new UserAPIService();
+                            try {
+                                userAPIService.createUser(user, new Callback(){
+
+                                    @Override
+                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                        progressDialog.dismiss();
+                                        startActivity(new Intent(SignUpActivity.this, HomePageActivity.class));
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                progressDialog.dismiss();
+                                Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.dismiss();
