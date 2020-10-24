@@ -1,6 +1,8 @@
 package Task;
 
 import android.util.Log;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
@@ -208,5 +210,58 @@ public class TaskAPIService {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         client.newCall(request).enqueue(callback);
     }
+
+    public void updateTaskState(int taskId, TaskStateEnum taskStateEnum, Callback callback) {
+        try {
+            JSONObject jsonEntity = new JSONObject();
+            jsonEntity.put("taskState", taskStateEnum);
+            RequestBody body = RequestBody.create(String.valueOf(jsonEntity), JSON);
+
+            Request request = new Request.Builder()
+                    .url(base_URL + "/" + taskId + "/" + "state")
+                    .post(body)
+                    .build();
+            OkHttpClient client = new OkHttpClient();
+            client.newCall(request).enqueue(callback);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+//
+//    public void getTaskState(int taskId, final A_TaskListener a_taskListener) {
+//
+//        Thread getTaskStateThread = new Thread() {
+//            public void run() {
+//                Request request = new Request.Builder()
+//                        .url(base_URL)
+//                        .method("GET", null)
+//                        .build();
+//                OkHttpClient client = new OkHttpClient().newBuilder().build();
+//
+//                try {
+//                    Response response= client.newCall(request).execute();
+//
+//                    if(response.isSuccessful()) {
+//                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+//                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+//                        taskListener.onResponseOK(taskList);
+//                    } else {
+//                        taskListener.onFailure();
+//                    }
+//                    response.close();
+//
+//                } catch (Exception e) {
+//                    Log.d(LOG_TAG, e.getMessage());
+//                    taskListener.onFailure();
+//                }
+//            }
+//        };
+//        getTaskThread.start();
+//    }
+
+
+
+
 
 }

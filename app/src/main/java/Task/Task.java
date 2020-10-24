@@ -6,17 +6,17 @@ public class Task {
 
     private int taskID;
     private String taskName;
-    private String message = "";
+    private String message;
     private LocalDateTime startPostTime;
     private LocalDateTime endPostTime;
     private int salary;
     private String typeName;
     private int releaseUserID;
     private LocalDateTime releaseTime;
-    private int receiveUserID = -1;
+    private int receiveUserID;
     private LocalDateTime receiveTime;
-    private String taskAddress = "";
-    private int taskCity = -1;
+    private String taskAddress;
+    private int taskCity;
 //    private TaskState state; // 目前後端無這資料 但之後必須加上
 
     public Task() {
