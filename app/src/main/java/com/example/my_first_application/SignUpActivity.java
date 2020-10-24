@@ -97,35 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, dismiss dialog and start register
-
-                            User user = UserBuilder.anUser(0)
-                                    .withFirebaseUID(mAuth.getUid())
-                                    .build();
-
-                            UserAPIService userAPIService = new UserAPIService();
-                            try {
-                                userAPIService.createUser(user, new Callback(){
-
-                                    @Override
-                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                        progressDialog.dismiss();
-                                        startActivity(new Intent(SignUpActivity.this, HomePageActivity.class));
-                                        finish();
-                                    }
-
-                                    @Override
-                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                progressDialog.dismiss();
-                                Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
+                            createUserOnDB(mAuth.getUid());
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -134,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                }).addOnFailureListener( new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 //error, dismiss progress dialog and get and show the error message
@@ -149,4 +121,42 @@ public class SignUpActivity extends AppCompatActivity {
         onBackPressed();
         return super.onSupportNavigateUp();
     }
+
+    private void createUserOnDB(String firebaseUID) {
+        User user = UserBuilder.anUser(0)
+                .withFirebaseUID(firebaseUID)
+                .build();
+
+        UserAPIService userAPIService = new UserAPIService();
+        try {
+            userAPIService.createUser(user, new Callback(){
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    progressDialog.dismiss();
+                    startActivity(new Intent(SignUpActivity.this, HomePageActivity.class));
+                    finish();
+                }
+
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            progressDialog.dismiss();
+            Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
+
+
+
 }

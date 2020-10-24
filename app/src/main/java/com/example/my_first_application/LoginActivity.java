@@ -16,7 +16,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+// import com.google.firebase.auth.FirebaseUser;
+
+import User.User;
+import User.GetLoginUser;
+import User.UserAPIService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login);
+        Toolbar toolbar = findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -55,8 +59,22 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(LOG_TAG, "signInWithEmail:success");
-                            toShowTask();
+                            UserAPIService userAPIService = new UserAPIService();
+                            userAPIService.getAUserByFirebaseUID(firebaseAuth.getUid(), new UserAPIService.UserListener() {
+                                @Override
+                                public void onResponseOK(User user) {
+                                    GetLoginUser.registerUser(user); // 登記使用者已登入系統
+                                    toShowTask();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    Log.w(LOG_TAG, "userAPIService : failure");
+                                    Toast.makeText(LoginActivity.this, "userAPIService failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(LOG_TAG, "signInWithEmail:failure", task.getException());
@@ -67,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void toShowTask() {
+    private void toShowTask() {
         Intent intent = new Intent();
         intent.setClass(this, ShowTaskActivity.class);
         startActivity(intent);
