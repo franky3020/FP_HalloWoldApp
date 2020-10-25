@@ -21,6 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import Task.TaskAPIService;
 import Task.Task;
+import User.GetLoginUser;
+import User.User;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
@@ -33,10 +35,17 @@ public class ShowTaskActivity extends AppCompatActivity {
     ShowTaskAdapter recyclerViewAdapter;
     Handler getTasksAPI_Handler;
 
+    int loginUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(LOG_TAG, "onCreate");
+        Log.d(LOG_TAG, "onCreate start");
+
+        GetLoginUser.checkLoginIfNotThenGoToLogin(this);
+
+        this.loginUserId = GetLoginUser.getLoginUser().getId();
+
 
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -76,6 +85,8 @@ public class ShowTaskActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        Log.d(LOG_TAG, "onCreate over"); // 就算跳到 login 頁面, 這一行還是會跑完, onCreate() 完後 會執行 onDestroy
 
 
     }
@@ -127,7 +138,7 @@ public class ShowTaskActivity extends AppCompatActivity {
     private void sendGetTasksAPI() {
         final TaskAPIService taskApiService = new TaskAPIService();
 
-        taskApiService.getTasksV3(new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
+        taskApiService.getReleaseUserTasks(this.loginUserId, new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
 
             @Override
             public void onResponseOK(ArrayList<Task> tasks) {

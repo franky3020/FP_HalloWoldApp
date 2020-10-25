@@ -11,6 +11,11 @@ public class GetLoginUser {
     private User user;
     private boolean isLogin = false;
 
+    public static final String RELEASE_MODE_STR = "release";
+    public static final String RECEIVE_MODE_STR = "receive";
+
+    private String userMode = RELEASE_MODE_STR;
+
     private GetLoginUser() {
 
     }
@@ -19,7 +24,9 @@ public class GetLoginUser {
         if (instance.isLogin) {
             return instance.user;
         } else {
-            return null;
+            return UserBuilder.anUser(0)
+                    .withName("Not Login user")
+                    .build();
         }
     }
 
@@ -40,6 +47,22 @@ public class GetLoginUser {
     public static void unRegisterUser() {
         instance.user = null;
         instance.isLogin = false;
+    }
+
+    public static boolean isReleaseMode() {
+        if (instance.userMode == RELEASE_MODE_STR) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isReceiveMode() {
+        if (instance.userMode == RECEIVE_MODE_STR) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
