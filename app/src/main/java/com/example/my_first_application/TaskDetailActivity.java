@@ -53,12 +53,11 @@ public class TaskDetailActivity extends AppCompatActivity {
             @Override
             public void onResponseOK(Task task) {
                 if (task.getReleaseUserID() == loginUserId) {
-                    Log.d(LOG_TAG, "is loginUser");
+                    Log.d(LOG_TAG, "is loginUser"); // Todo 以下好像傳入太多參數了 有可能需要重構
                     ReceiveUserTaskStateContext receiveUserTaskStateContext = new ReceiveUserTaskStateContext(taskID, contextThemeWrapper, stateButtonsLayout, activity);
                     getTaskStateAndUpdate(receiveUserTaskStateContext);
                 } else {
                     Log.d(LOG_TAG, "is not loginUser");
-                    // do nothing
                 }
             }
 
