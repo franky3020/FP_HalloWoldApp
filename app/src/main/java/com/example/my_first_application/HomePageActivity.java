@@ -48,6 +48,8 @@ public class HomePageActivity extends AppCompatActivity {
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
+
+
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new NavigationItemListener(this));

@@ -11,9 +11,8 @@ public class GetLoginUser {
     private User user;
     private boolean isLogin = false;
 
-    public static final String RELEASE_MODE_STR = "release";
-    public static final String RECEIVE_MODE_STR = "receive";
-
+    public static final String RELEASE_MODE_STR = "releaseMode";
+    public static final String RECEIVE_MODE_STR = "receiveMode";
     private String userMode = RELEASE_MODE_STR;
 
     private GetLoginUser() {
@@ -23,7 +22,7 @@ public class GetLoginUser {
     public static User getLoginUser() {
         if (instance.isLogin) {
             return instance.user;
-        } else {
+        } else { // 以防回傳null 所以做個假的
             return UserBuilder.anUser(0)
                     .withName("Not Login user")
                     .build();
