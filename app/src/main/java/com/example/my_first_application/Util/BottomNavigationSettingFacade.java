@@ -25,15 +25,27 @@ public final class BottomNavigationSettingFacade {
                 Intent intent = new Intent();
                 switch (item.getItemId()) {
                     case R.id.icon_home:
-                        intent.setClass(activity, ShowTaskActivity.class);
+                        if ( activity.getClass() == ShowTaskActivity.class ) {
+                            return true;
+                        } else {
+                            intent.setClass(activity, ShowTaskActivity.class);
+                        }
                         break;
 
                     case R.id.icon_message:
-                        intent.setClass(activity, ChatActivity.class);
+                        if ( activity.getClass() == ChatActivity.class ) {
+                            return true;
+                        } else {
+                            intent.setClass(activity, ChatActivity.class);
+                        }
                         break;
 
                     case R.id.icon_profile:
-                        intent.setClass(activity, ProfileActivity.class);
+                        if ( activity.getClass() == ProfileActivity.class ) {
+                            return true;
+                        } else {
+                            intent.setClass(activity, ProfileActivity.class);
+                        }
                         break;
                 }
                 activity.startActivity(intent);
@@ -46,6 +58,7 @@ public final class BottomNavigationSettingFacade {
 
     public static void setReceiveModeNavigation(final Activity activity, BottomNavigationView bottomNavigationView) {
 
+
         bottomNavigationView.inflateMenu(R.menu.menu_main_bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,18 +68,30 @@ public final class BottomNavigationSettingFacade {
                 Intent intent = new Intent();
                 switch (item.getItemId()) {
                     case R.id.icon_home:
-                        intent.setClass(activity, HomePageActivity.class);
+                        if ( activity.getClass() == HomePageActivity.class ) {
+                            return true;
+                        } else {
+                            intent.setClass(activity, HomePageActivity.class);
+                        }
                         break;
 
                     case R.id.icon_search:
-                        break;
+                        return true;
 
                     case R.id.icon_message:
-                        intent.setClass(activity, ChatActivity.class);
+                        if ( activity.getClass() == ChatActivity.class ) {
+                            return true;
+                        } else {
+                            intent.setClass(activity, ChatActivity.class);
+                        }
                         break;
 
                     case R.id.icon_profile:
-                        intent.setClass(activity, ProfileActivity.class);
+                        if ( activity.getClass() == ProfileActivity.class ) {
+                            return true;
+                        } else {
+                            intent.setClass(activity, ProfileActivity.class);
+                        }
                         break;
                 }
 
@@ -77,6 +102,16 @@ public final class BottomNavigationSettingFacade {
         });
 
     }
+
+    private void startAnotherActivity(Activity activity, Class<Activity> activityClass) {
+        Intent intent = new Intent();
+        if ( activity.getClass() != activityClass ) {
+            intent.setClass(activity, activityClass);
+        }
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
 
 
 
