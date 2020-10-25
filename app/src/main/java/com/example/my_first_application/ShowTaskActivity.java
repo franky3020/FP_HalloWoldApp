@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +17,14 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import Task.TaskAPIService;
 import Task.Task;
+import User.GetLoginUser;
+
 
 public class ShowTaskActivity extends AppCompatActivity {
 
@@ -33,10 +37,17 @@ public class ShowTaskActivity extends AppCompatActivity {
     ShowTaskAdapter recyclerViewAdapter;
     Handler getTasksAPI_Handler;
 
+    int loginUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(LOG_TAG, "onCreate");
+        Log.d(LOG_TAG, "onCreate start");
+
+        GetLoginUser.checkLoginIfNotThenGoToLogin(this);
+
+        this.loginUserId = GetLoginUser.getLoginUser().getId();
+
 
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -50,34 +61,10 @@ public class ShowTaskActivity extends AppCompatActivity {
         this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
-        BottomNavigationView bottomNavigationView
-                = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Intent intent = new Intent();
-                switch (item.getItemId()) {
-                    case R.id.icon_home:
-                        intent.setClass(ShowTaskActivity.this, HomePageActivity.class);
-                        startActivity(intent);
-                        break;
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
 
-                    case R.id.icon_search:
-                        break;
-
-                    case R.id.icon_message:
-                        break;
-
-                    case R.id.icon_profile:
-                        intent.setClass(ShowTaskActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
-
-
+        Log.d(LOG_TAG, "onCreate over"); // 就算跳到 login 頁面, 這一行還是會跑完, onCreate() 完後 會執行 onDestroy
     }
 
     @Override
@@ -127,7 +114,7 @@ public class ShowTaskActivity extends AppCompatActivity {
     private void sendGetTasksAPI() {
         final TaskAPIService taskApiService = new TaskAPIService();
 
-        taskApiService.getTasksV3(new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
+        taskApiService.getReleaseUserTasks(this.loginUserId, new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
 
             @Override
             public void onResponseOK(ArrayList<Task> tasks) {

@@ -12,6 +12,7 @@ import android.view.View;
 
 import Task.Task;
 import Task.TaskAPIService;
+import User.GetLoginUser;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -24,12 +25,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -63,11 +62,20 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     boolean twice = false;
     boolean flag = false;
 
+    int loginUserId;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        GetLoginUser.checkLoginIfNotThenGoToLogin(this);
+
+        this.loginUserId = GetLoginUser.getLoginUser().getId();
+
+
+
         setContentView(R.layout.activity_release_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_release_task);
         setSupportActionBar(toolbar);
@@ -190,7 +198,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         TaskAPIService taskApiService = new TaskAPIService();
         salary = "200";
 
-        Task task = TaskBuilder.aTask(0, 200, 1).build();
+        Task task = TaskBuilder.aTask(0, 200, loginUserId).build();
 
 
 
@@ -215,8 +223,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
             Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
-
-
 
 
 }

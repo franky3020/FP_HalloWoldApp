@@ -23,7 +23,7 @@ public class TaskAPIService {
     private static final String LOG_TAG = TaskAPIService.class.getSimpleName();
 
     //String API_version = "ms-provider-develop";
-    public static final String API_version = "ms-provider-test-franky-update-api";
+    public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks";
 
@@ -62,6 +62,37 @@ public class TaskAPIService {
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                        getAPIListener.onResponseOK(taskList);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskThread.start();
+    }
+
+    public void getReleaseUserTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+
+        Thread getTaskThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + "ReleaseUser" + "/" + userId)
                         .method("GET", null)
                         .build();
                 OkHttpClient client = new OkHttpClient().newBuilder().build();

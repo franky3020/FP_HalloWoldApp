@@ -19,7 +19,7 @@ public class UserAPIService {
     private static final String LOG_TAG = UserAPIService.class.getSimpleName();
 
     //String API_version = "ms-provider-develop";
-    public static final String API_version = "ms-provider-test-franky-update-api";
+    public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/users";
 

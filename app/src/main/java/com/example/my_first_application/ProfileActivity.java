@@ -1,14 +1,14 @@
 package com.example.my_first_application;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import User.GetLoginUser;
@@ -27,23 +27,31 @@ public class ProfileActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        Switch userModeSwitch = findViewById(R.id.switch_user_mode);
+
+        if (GetLoginUser.isReleaseMode()) {
+            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
+            userModeSwitch.setChecked(false);
+
+        } else if (GetLoginUser.isReceiveMode()) {
+            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
+            userModeSwitch.setChecked(true);
+        }
+
+        userModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.icon_home:
-                        Intent intent = new Intent();
-                        intent.setClass(ProfileActivity.this, HomePageActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.icon_search:
-                        break;
-                    case R.id.icon_message:
-                        break;
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) { // to Receive
+                    GetLoginUser.setUserMode(GetLoginUser.RECEIVE_MODE_STR);
+                } else {
+                    GetLoginUser.setUserMode(GetLoginUser.RELEASE_MODE_STR);
                 }
-                return true;
+                finish();
+                startActivity(getIntent());
             }
         });
+
 
         // 以下為測試用, 如果系統有被登入 則會修改 memberPoints 的文字
         User loginUser = GetLoginUser.getLoginUser();

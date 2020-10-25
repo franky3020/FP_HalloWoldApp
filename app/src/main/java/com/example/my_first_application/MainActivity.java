@@ -1,17 +1,18 @@
 package com.example.my_first_application;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
+import com.example.my_first_application.Util.NavigationItemListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import User.GetLoginUser;
+import User.UserBuilder;
 
 /* 參考教學網頁 : https://codelabs.developers.google.com/codelabs/android-training-activity-lifecycle-and-state/index.html?index=..%2F..android-training#0 */
 public class MainActivity extends AppCompatActivity {
@@ -70,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        // Todo 注意: 此行為直接使用 ID 14 的使用者做登入, 測試用, 正式上線時 需要註解掉 /////////////
+        GetLoginUser.registerUser(UserBuilder.anUser(14).build());
+        /////////////////////////////////////////////////////////////////////////////////////////
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
@@ -79,30 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Intent intent = new Intent();
-                switch (item.getItemId()) {
-                    case R.id.icon_home:
-                        intent.setClass(MainActivity.this, HomePageActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.icon_search:
-                        break;
-                    case R.id.icon_message:
-                        intent = new Intent();
-                        intent.setClass(MainActivity.this, ChatActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.icon_profile:
-                        intent.setClass(MainActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(new NavigationItemListener(this));
+
+
 
         /*Button button = (Button)findViewById(R.id.button_tmp);
         button.setOnClickListener(new Button.OnClickListener(){
