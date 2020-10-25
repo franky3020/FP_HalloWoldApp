@@ -16,7 +16,5 @@ public class EndState implements TaskState {
     @Override
     public void showUIonLinearLayout(LinearLayout linearLayout) {
 //        // nothing
-        CreateTaskStateButtonFactory createTaskStateButtonFactory = new CreateTaskStateButtonFactory(context.getTaskID(), context.getContextThemeWrapper());
-        linearLayout.addView(createTaskStateButtonFactory.createTasksButton("OK"));
     }
 }

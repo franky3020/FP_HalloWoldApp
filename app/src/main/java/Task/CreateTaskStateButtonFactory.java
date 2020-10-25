@@ -1,5 +1,7 @@
 package Task;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 
+import com.example.my_first_application.ShowRequestUsersActivity;
 import com.google.android.material.button.MaterialButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,18 +23,20 @@ import okhttp3.Response;
 public class CreateTaskStateButtonFactory {
 
     ContextThemeWrapper contextThemeWrapper;
+    Activity activity;
     int taskID;
 
-    public CreateTaskStateButtonFactory(int taskID, ContextThemeWrapper contextThemeWrapper) {
+    public CreateTaskStateButtonFactory(int taskID, ContextThemeWrapper contextThemeWrapper, Activity activity) {
         this.contextThemeWrapper = contextThemeWrapper;
         this.taskID = taskID;
+        this.activity = activity;
     }
 
     public MaterialButton createTasksButton(String select) {
         if (select == "Delete") {
             return getDeleteButton();
-        } else if (select == "OK") {
-            return getOKButton();
+        } else if (select == "ToShowRequestUsers") {
+            return getSelectRequestUsersButton();
         }
         return new MaterialButton(contextThemeWrapper);
     }
@@ -66,6 +71,25 @@ public class CreateTaskStateButtonFactory {
         MaterialButton materialButton = getBaseButton();
         materialButton.setBackgroundColor(Color.parseColor("#00EC00"));
         materialButton.setText("OK");
+        return materialButton;
+    }
+
+    public MaterialButton getSelectRequestUsersButton() {
+        MaterialButton materialButton = getBaseButton();
+        materialButton.setBackgroundColor(Color.parseColor("#00EC00"));
+        materialButton.setText("SelectRequestUser"); // Todo 之後要改為用多國語言字串
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(activity, ShowRequestUsersActivity.class);
+                intent.putExtra(ShowRequestUsersActivity.EXTRA_TASK_ID, taskID);
+
+                activity.startActivity(intent);
+            }
+        });
+
         return materialButton;
     }
 

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.my_first_application.Util.NavigationItemListener;
+import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import User.GetLoginUser;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new NavigationItemListener(this));
+        BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
 
 
 

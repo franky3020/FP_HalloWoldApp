@@ -35,7 +35,7 @@ public class ShowTaskActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Task> taskList = new ArrayList<>();
     ShowTaskAdapter recyclerViewAdapter;
-    Handler getTasksAPI_Handler;
+    Handler getTasksAPI_Handler = new Handler();
 
     int loginUserId;
 
@@ -52,8 +52,6 @@ public class ShowTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        this.getTasksAPI_Handler = new Handler();
 
         this.recyclerView = findViewById(R.id.taskShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
