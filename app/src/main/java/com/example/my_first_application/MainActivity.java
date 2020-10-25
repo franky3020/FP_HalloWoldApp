@@ -11,6 +11,9 @@ import android.view.View;
 import com.example.my_first_application.Util.NavigationItemListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import User.GetLoginUser;
+import User.UserBuilder;
+
 /* 參考教學網頁 : https://codelabs.developers.google.com/codelabs/android-training-activity-lifecycle-and-state/index.html?index=..%2F..android-training#0 */
 public class MainActivity extends AppCompatActivity {
 
@@ -67,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // Todo 注意: 此行為直接使用 ID 14 的使用者做登入, 測試用, 正式上線時 需要註解掉 /////////////
+        GetLoginUser.registerUser(UserBuilder.anUser(14).build());
+        /////////////////////////////////////////////////////////////////////////////////////////
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
