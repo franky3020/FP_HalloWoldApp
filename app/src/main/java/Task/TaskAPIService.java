@@ -2,6 +2,7 @@ package Task;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import User.User;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -150,6 +152,50 @@ public class TaskAPIService {
         };
         getTaskThread.start();
     }
+
+
+    public void getTaskRequestUsersID(final int taskId, final GetAPIListener< ArrayList<Integer> > getAPIListener) {
+
+        Thread getTaskThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + taskId + "/" +  "RequestUsers")
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONArray usersJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Integer> userIdList = new ArrayList<>();
+
+                        for (int i = 0; i < usersJSONArray.length() ; i++ ) {
+                            JSONObject a_id = usersJSONArray.getJSONObject(i);
+                            userIdList.add(a_id.getInt("id"));
+                        }
+                        getAPIListener.onResponseOK(userIdList);
+
+
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskThread.start();
+    }
+
+
+
+
+
 
     public ArrayList<Task> parseTasksFromJson(JSONObject tasksJSONObject) {
         ArrayList<Task> taskList = new ArrayList<>();

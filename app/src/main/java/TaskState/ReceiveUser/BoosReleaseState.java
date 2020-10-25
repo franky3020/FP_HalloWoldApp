@@ -18,7 +18,9 @@ public class BoosReleaseState implements TaskState {
 
     @Override
     public void showUIonLinearLayout(LinearLayout linearLayout) {
-        CreateTaskStateButtonFactory createTaskStateButtonFactory = new CreateTaskStateButtonFactory(context.getTaskID(), context.getContextThemeWrapper());
+        CreateTaskStateButtonFactory createTaskStateButtonFactory = new CreateTaskStateButtonFactory(context.getTaskID(), context.getContextThemeWrapper(), context.getActivity());
+
+        linearLayout.addView(createTaskStateButtonFactory.createTasksButton("ToShowRequestUsers"));
         linearLayout.addView(createTaskStateButtonFactory.createTasksButton("Delete"));
     }
 }
