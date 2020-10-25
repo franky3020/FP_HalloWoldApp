@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import Task.TaskAPIService;
 import Task.Task;
 
-public class HomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity { // 此頁面為顯示所有任務區 如果是訪客 應該先看這頁
 
     private static final String LOG_TAG = HomePageActivity.class.getSimpleName();
 

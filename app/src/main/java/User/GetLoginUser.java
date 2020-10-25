@@ -23,7 +23,7 @@ public class GetLoginUser {
         if (instance.isLogin) {
             return instance.user;
         } else { // 以防回傳null 所以做個假的
-            return UserBuilder.anUser(0)
+            return UserBuilder.anUser(-1)
                     .withName("Not Login user")
                     .build();
         }

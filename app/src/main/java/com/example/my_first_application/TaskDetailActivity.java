@@ -3,15 +3,21 @@ package com.example.my_first_application;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 
+import Task.Task;
 import Task.TaskAPIService;
 import Task.TaskState;
 import TaskState.ReceiveUser.ReceiveUserTaskStateContext;
 import User.GetLoginUser;
 
 public class TaskDetailActivity extends AppCompatActivity {
+
+    private Activity activity = this;
+    private static final String LOG_TAG = TaskDetailActivity.class.getSimpleName();
 
     public static final String EXTRA_TASK_ID = "taskID";
     int taskID;
@@ -35,13 +41,32 @@ public class TaskDetailActivity extends AppCompatActivity {
         assert taskDetailFragment != null;
         taskDetailFragment.setTaskID(taskID);
 
-        LinearLayout stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
-        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
+        final LinearLayout stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
+        final ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
 
-        if( loginUserId == 14 ) {
-            ReceiveUserTaskStateContext receiveUserTaskStateContext = new ReceiveUserTaskStateContext(taskID, contextThemeWrapper, stateButtonsLayout, this);
-            getTaskStateAndUpdate(receiveUserTaskStateContext);
-        }
+
+
+        // 拿整個Task  Todo: 應該用享元模式, 不然需要一直發API 才知道任務細節 現在是應急用
+        TaskAPIService taskApiService = new TaskAPIService();
+
+        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
+            @Override
+            public void onResponseOK(Task task) {
+                if (task.getReleaseUserID() == loginUserId) {
+                    Log.d(LOG_TAG, "is loginUser");
+                    ReceiveUserTaskStateContext receiveUserTaskStateContext = new ReceiveUserTaskStateContext(taskID, contextThemeWrapper, stateButtonsLayout, activity);
+                    getTaskStateAndUpdate(receiveUserTaskStateContext);
+                } else {
+                    Log.d(LOG_TAG, "is not loginUser");
+                    // do nothing
+                }
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
 
