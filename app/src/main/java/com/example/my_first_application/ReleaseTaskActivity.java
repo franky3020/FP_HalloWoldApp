@@ -24,12 +24,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -215,8 +213,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
             Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
-
-
 
 
 }
