@@ -59,8 +59,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             app:labelVisibilityMode="labeled"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/menu_main_bottom_navigation" />
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 </LinearLayout>

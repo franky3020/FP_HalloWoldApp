@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.my_first_application.Util.NavigationItemListener;
+import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -50,9 +50,8 @@ public class HomePageActivity extends AppCompatActivity {
 
 
 
-        BottomNavigationView bottomNavigationView
-                = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new NavigationItemListener(this));
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
 
     }
 
