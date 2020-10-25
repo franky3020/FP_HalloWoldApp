@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import Task.TaskAPIService;
 import Task.Task;
 import User.GetLoginUser;
-import User.User;
 
 public class ShowTaskActivity extends AppCompatActivity {
 
