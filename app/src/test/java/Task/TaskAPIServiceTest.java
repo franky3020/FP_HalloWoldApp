@@ -46,7 +46,12 @@ public class TaskAPIServiceTest {
     public void post() {
         LocalDateTime currentTime = LocalDateTime.now();
 
-        Task task = TaskBuilder.aTask(0, 400,14).build();
+        Task task = TaskBuilder.aTask(0, 400,14)
+                .withTaskName("franky")
+                .build();
+
+
+
         TaskAPIService taskApiService = new TaskAPIService();
         try {
             taskApiService.post(task, new Callback() {

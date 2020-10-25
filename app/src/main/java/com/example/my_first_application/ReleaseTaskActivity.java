@@ -38,13 +38,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     private static final String LOG_TAG = ReleaseTaskActivity.class.getSimpleName();
     ReleaseTaskActivity releaseTaskActivity = this;
 
-    String taskName;
-    String message;
-    String salary;
-    String postTime;
-    String taskType;
-    String taskAddress;
-    String taskCity;
     String currentTime;
     String date1;
     String date2;
@@ -63,6 +56,11 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     boolean flag = false;
 
     int loginUserId;
+
+
+    EditText taskNameField;
+    EditText messageField;
+    EditText salaryField;
 
 
 
@@ -100,6 +98,27 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                 showDatePickerDialog();
             }
         });
+
+
+
+        taskNameField = findViewById(R.id.editText_title_content);
+        messageField = findViewById(R.id.editText_detail_content);
+        salaryField = findViewById(R.id.editText_pay_content);
+
+
+
+
+
+
+
+        Button releaseButton = findViewById(R.id.button3);
+        releaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postTask();
+            }
+        });
+
     }
 
 
@@ -153,56 +172,46 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         },  currentHour ,currentMinute,false).show();
     }
 
+    private void postTask() {
+        String taskName = taskNameField.getText().toString();
 
+        String message = messageField.getText().toString();
 
-
-    public void onClickToPostTask(View view) {
-        EditText TaskNameField = findViewById(R.id.editText_title_content);
-        taskName = TaskNameField.getText().toString();
-
-        EditText MessageField = findViewById(R.id.editText_detail_content);
-        message = MessageField.getText().toString();
-
-        EditText SalaryField = findViewById(R.id.editText_pay_content);
-        salary = SalaryField.getText().toString();
-
-        postTime = date1 + " " + currentTime + ":00";
-
-        Spinner taskTypeField = findViewById(R.id.spinner_task_type);
-        taskType = taskTypeField.getSelectedItem().toString();
-
-        switch (taskType){
-            case "食物代購":
-                taskType = "EatTask";
-                break;
-            case "家務":
-                taskType = "HouseworkTask";
-                break;
+        String salaryStr = salaryField.getText().toString();
+        int salary;
+        try {
+            salary = Integer.parseInt(salaryStr); // 防止空字串 程式會崩潰
+        } catch (Exception e) {
+            salary = 0;
         }
 
-        EditText TaskAddressField = findViewById(R.id.editText_task_region);
-        taskAddress = TaskAddressField.getText().toString();
+//        Spinner taskTypeField = findViewById(R.id.spinner_task_type);
+//
+//        String taskType = taskTypeField.getSelectedItem().toString();
+//        switch (taskType){
+//            case "食物代購":
+//                taskType = "EatTask";
+//                break;
+//
+//            case "家務":
+//                taskType = "HouseworkTask";
+//                break;
+//
+//            default:
+//                taskType = "其他";
+//        }
+//
+//        EditText TaskAddressField = findViewById(R.id.editText_task_region);
+//        String taskAddress = TaskAddressField.getText().toString();
+//
+//        postTime = date1 + " " + currentTime + ":00"; // Todo 時間需要改  所以先不處理
 
-        Spinner TaskCityField = findViewById(R.id.spinner_task_region);
-        taskCity = TaskCityField.getSelectedItem().toString();
-
-        switch (taskCity){
-            case "台中市":
-                taskCity = "1";
-                break;
-            case "台北市":
-                taskCity = "2";
-                break;
-        }
+        Task task = TaskBuilder.aTask(0, salary, loginUserId)
+                .withTaskName(taskName)
+                .withMessage(message)
+                .build();
 
         TaskAPIService taskApiService = new TaskAPIService();
-        salary = "200";
-
-        Task task = TaskBuilder.aTask(0, 200, loginUserId).build();
-
-
-
-//        Task task = new Task(taskName, message, LocalDateTime.now(), Integer.valueOf(salary), taskType, 20, LocalDateTime.now());
         try {
             taskApiService.post(task, new Callback() {
                 @Override
