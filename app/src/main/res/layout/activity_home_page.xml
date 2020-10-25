@@ -61,5 +61,6 @@
             app:labelVisibilityMode="labeled"
             android:layout_alignParentBottom="true"
             app:menu="@menu/menu_main_bottom_navigation" />
+
     </RelativeLayout>
 </LinearLayout>

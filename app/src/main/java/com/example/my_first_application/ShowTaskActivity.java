@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.my_first_application.Util.NavigationItemListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -61,30 +62,8 @@ public class ShowTaskActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Intent intent = new Intent();
-                switch (item.getItemId()) {
-                    case R.id.icon_home:
-                        intent.setClass(ShowTaskActivity.this, HomePageActivity.class);
-                        startActivity(intent);
-                        break;
+        bottomNavigationView.setOnNavigationItemSelectedListener(new NavigationItemListener(this));
 
-                    case R.id.icon_search:
-                        break;
-
-                    case R.id.icon_message:
-                        break;
-
-                    case R.id.icon_profile:
-                        intent.setClass(ShowTaskActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
 
         Log.d(LOG_TAG, "onCreate over"); // 就算跳到 login 頁面, 這一行還是會跑完, onCreate() 完後 會執行 onDestroy
 
