@@ -64,4 +64,7 @@ public class GetLoginUser {
         }
     }
 
+    public static void setUserMode(String userMode) {
+        instance.userMode = userMode;
+    }
 }

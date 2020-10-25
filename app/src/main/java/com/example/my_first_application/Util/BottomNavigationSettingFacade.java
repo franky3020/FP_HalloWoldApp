@@ -10,9 +10,10 @@ import com.example.my_first_application.ChatActivity;
 import com.example.my_first_application.HomePageActivity;
 import com.example.my_first_application.ProfileActivity;
 import com.example.my_first_application.R;
+import com.example.my_first_application.ShowTaskActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class BottomNavigationSettingFacade {
+public final class BottomNavigationSettingFacade {
 
     public static void setReleaseModeNavigation(final Activity activity, BottomNavigationView bottomNavigationView) {
         bottomNavigationView.inflateMenu(R.menu.menu_release_mode_bottom_navigation);
@@ -24,20 +25,20 @@ public class BottomNavigationSettingFacade {
                 Intent intent = new Intent();
                 switch (item.getItemId()) {
                     case R.id.icon_home:
-                        intent.setClass(activity, HomePageActivity.class);
-                        activity.startActivity(intent);
+                        intent.setClass(activity, ShowTaskActivity.class);
                         break;
 
                     case R.id.icon_message:
                         intent.setClass(activity, ChatActivity.class);
-                        activity.startActivity(intent);
                         break;
 
                     case R.id.icon_profile:
                         intent.setClass(activity, ProfileActivity.class);
-                        activity.startActivity(intent);
                         break;
                 }
+                activity.startActivity(intent);
+                activity.finish();
+
                 return true;
             }
         });
@@ -55,7 +56,6 @@ public class BottomNavigationSettingFacade {
                 switch (item.getItemId()) {
                     case R.id.icon_home:
                         intent.setClass(activity, HomePageActivity.class);
-                        activity.startActivity(intent);
                         break;
 
                     case R.id.icon_search:
@@ -63,14 +63,15 @@ public class BottomNavigationSettingFacade {
 
                     case R.id.icon_message:
                         intent.setClass(activity, ChatActivity.class);
-                        activity.startActivity(intent);
                         break;
 
                     case R.id.icon_profile:
                         intent.setClass(activity, ProfileActivity.class);
-                        activity.startActivity(intent);
                         break;
                 }
+
+                activity.startActivity(intent);
+                activity.finish();
                 return true;
             }
         });
