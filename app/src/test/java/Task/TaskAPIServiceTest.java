@@ -182,4 +182,61 @@ public class TaskAPIServiceTest {
         }
 
     }
+
+    @Test
+    public void addTaskRequestUser() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 348;
+        int userId = 14;
+        taskApiService.addTaskRequestUser(taskId, userId, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println("ok");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    @Test
+    public void deleteTaskRequestUser() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 348;
+        int userId = 14;
+        taskApiService.deleteTaskRequestUser(taskId, userId, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println("delete ok");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

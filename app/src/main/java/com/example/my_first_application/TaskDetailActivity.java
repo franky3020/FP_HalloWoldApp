@@ -42,6 +42,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         taskDetailFragment.setTaskID(taskID);
 
         final LinearLayout stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
+
+        // Todo 要修: 不用傳入這參數, 因為已經有傳入activity 就可以去生成這物件了
         final ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
 
 
