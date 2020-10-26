@@ -336,4 +336,23 @@ public class TaskAPIService {
         getTaskStateThread.start();
     }
 
+    public void addTaskRequestUser(int taskId, int userId, Callback callback) {
+        Request request = new Request.Builder()
+                .url(base_URL + "/" + taskId + "/" + "RequestUsers" + "/" + userId)
+                .method("POST", RequestBody.create("", JSON))
+                .build();
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public void deleteTaskRequestUser(int taskId, int userId, Callback callback) {
+        Request request = new Request.Builder()
+                .url(base_URL + "/" + taskId + "/" + "RequestUsers" + "/" + userId)
+                .method("DELETE", null)
+                .build();
+
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
+    }
+
 }
