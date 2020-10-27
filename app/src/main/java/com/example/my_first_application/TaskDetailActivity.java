@@ -124,7 +124,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.deleteTask(taskID, new Callback() {
 
                     @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    public void onResponse(@NotNull Call call, @NotNull Response response) {
                         finish();
                     }
 
@@ -173,7 +173,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public boolean isReleaseUser() {
-        if ( userMode == IS_RELEASE_USER ) {
+        if (userMode.equals(IS_RELEASE_USER)) {
             return true;
         } else {
             return false;
@@ -182,7 +182,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public boolean isReceiveUser() {
-        if ( userMode == IS_RECEIVE_USER ) {
+        if (userMode.equals(IS_RECEIVE_USER)) {
             return true;
         } else {
             return false;
