@@ -42,6 +42,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         taskDetailFragment.setTaskID(taskID);
 
         final LinearLayout stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
+
+        // Todo 要修: 不用傳入這參數, 因為已經有傳入activity 就可以去生成這物件了
         final ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
 
 
@@ -53,12 +55,11 @@ public class TaskDetailActivity extends AppCompatActivity {
             @Override
             public void onResponseOK(Task task) {
                 if (task.getReleaseUserID() == loginUserId) {
-                    Log.d(LOG_TAG, "is loginUser");
+                    Log.d(LOG_TAG, "is loginUser"); // Todo 以下好像傳入太多參數了 有可能需要重構
                     ReceiveUserTaskStateContext receiveUserTaskStateContext = new ReceiveUserTaskStateContext(taskID, contextThemeWrapper, stateButtonsLayout, activity);
                     getTaskStateAndUpdate(receiveUserTaskStateContext);
                 } else {
                     Log.d(LOG_TAG, "is not loginUser");
-                    // do nothing
                 }
             }
 

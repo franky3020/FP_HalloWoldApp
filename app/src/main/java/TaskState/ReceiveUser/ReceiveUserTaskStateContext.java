@@ -59,4 +59,7 @@ public class ReceiveUserTaskStateContext {
         return contextThemeWrapper;
     }
 
+    public Activity getActivity() {
+        return activity;
+    }
 }

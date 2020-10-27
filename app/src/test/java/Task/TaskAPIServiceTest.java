@@ -46,7 +46,12 @@ public class TaskAPIServiceTest {
     public void post() {
         LocalDateTime currentTime = LocalDateTime.now();
 
-        Task task = TaskBuilder.aTask(0, 400,14).build();
+        Task task = TaskBuilder.aTask(0, 400,14)
+                .withTaskName("franky")
+                .build();
+
+
+
         TaskAPIService taskApiService = new TaskAPIService();
         try {
             taskApiService.post(task, new Callback() {
@@ -152,6 +157,86 @@ public class TaskAPIServiceTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Test
+    public void getTaskRequestUsersID() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getTaskRequestUsersID(374, new TaskAPIService.GetAPIListener<ArrayList<Integer>>() {
+            @Override
+            public void onResponseOK(ArrayList<Integer> integers) {
+                System.out.println(integers);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void addTaskRequestUser() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 348;
+        int userId = 14;
+        taskApiService.addTaskRequestUser(taskId, userId, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println("ok");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    @Test
+    public void deleteTaskRequestUser() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 348;
+        int userId = 14;
+        taskApiService.deleteTaskRequestUser(taskId, userId, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println("delete ok");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

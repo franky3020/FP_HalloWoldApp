@@ -83,7 +83,7 @@ public final class TaskBuilder {
         task.setMessage(message);
         task.setStartPostTime(startPostTime);
         task.setSalary(salary);
-        task.setTaskName(typeName);
+        task.setTypeName(typeName);
         task.setReleaseUserID(releaseUserID);
         task.setReleaseTime(releaseTime);
 
