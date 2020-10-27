@@ -1,4 +1,4 @@
-package com.example.my_first_application;
+package Message;
 
 public class ModelChat {
     String message, receiver, sender, timestamp;

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import Task.Task;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -26,9 +27,14 @@ public class MessageAPIService {
     private static final String LOG_TAG = ChatActivity.class.getSimpleName();
 
     //String API_version = "ms-provider-develop";
-    public static final String API_version = "ms-provider-develop";
+    public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/message";
+
+    public interface GetAPIListener<T> {
+        void onResponseOK(T t);
+        void onFailure();
+    }
 
     public void getMessages(final MessageListener messageListener){
 
@@ -55,6 +61,36 @@ public class MessageAPIService {
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
                     messageListener.onFailure();
+                }
+            }
+        };
+        getMessageThread.start();
+    }
+    public void getUserMessages(final int userId, final GetAPIListener< ArrayList<Message> > getAPIListener) {
+
+        Thread getMessageThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + "conversationByUserID" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Message> messageList = parseMessagesFromJson(tasksJSONObject);
+                        getAPIListener.onResponseOK(messageList);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
                 }
             }
         };
