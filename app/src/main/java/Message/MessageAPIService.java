@@ -36,36 +36,6 @@ public class MessageAPIService {
         void onFailure();
     }
 
-    public void getMessages(final MessageListener messageListener){
-
-        Thread getMessageThread = new Thread() {
-            public void run() {
-                Request request = new Request.Builder()
-                        .url(base_URL)
-                        .method("GET", null)
-                        .build();
-                OkHttpClient client = new OkHttpClient().newBuilder().build();
-
-                try {
-                    Response response= client.newCall(request).execute();
-
-                    if(response.isSuccessful()) {
-                        JSONObject messagesJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                        ArrayList<Message> messageList = parseMessagesFromJson(messagesJSONObject);
-                        messageListener.onResponseOK(messageList);
-                    } else {
-                        messageListener.onFailure();
-                    }
-                    response.close();
-
-                } catch (Exception e) {
-                    Log.d(LOG_TAG, e.getMessage());
-                    messageListener.onFailure();
-                }
-            }
-        };
-        getMessageThread.start();
-    }
     public void getUserMessages(final int userId, final GetAPIListener< ArrayList<Message> > getAPIListener) {
 
         Thread getMessageThread = new Thread() {
@@ -163,11 +133,6 @@ public class MessageAPIService {
         LocalDateTime postTime = transitTimeStampFromGetAPI(aJSONMessage.getString("postTime"));
 
         return new Message(messageId, content, userID, receiverID, taskID, postTime);
-    }
-
-    public interface MessageListener {
-        void onResponseOK(ArrayList<Message> messages);
-        void onFailure();
     }
 
 }
