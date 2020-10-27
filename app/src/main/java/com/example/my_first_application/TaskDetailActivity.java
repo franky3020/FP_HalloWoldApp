@@ -1,22 +1,40 @@
 package com.example.my_first_application;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
+
+import com.google.android.material.button.MaterialButton;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 import Task.Task;
 import Task.TaskAPIService;
 import Task.TaskState;
-import TaskState.ReceiveUser.ReceiveUserTaskStateContext;
 import User.GetLoginUser;
 
-public class TaskDetailActivity extends AppCompatActivity {
+import TaskState.ITaskStateContext;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+import TaskState.ITaskStateAction;
+import TaskState.BoosReleaseState;
+import Task.TaskStateEnum;
+
+public class TaskDetailActivity extends AppCompatActivity implements ITaskStateContext {
 
     private Activity activity = this;
+    private ITaskStateContext thisContext = this;
+
     private static final String LOG_TAG = TaskDetailActivity.class.getSimpleName();
 
     public static final String EXTRA_TASK_ID = "taskID";
@@ -27,6 +45,10 @@ public class TaskDetailActivity extends AppCompatActivity {
     public static final String IS_RECEIVE_USER = "receiveUser";
 
     private String userMode = IS_RELEASE_USER;
+
+    LinearLayout stateButtonsLayout;
+    ITaskStateAction state = BoosReleaseState.getInstance();
+//    private TaskState taskState; // 我想這樣加 但還不行
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,43 +63,38 @@ public class TaskDetailActivity extends AppCompatActivity {
         assert taskDetailFragment != null;
         taskDetailFragment.setTaskID(taskID);
 
-        final LinearLayout stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
+        stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
 
-        // Todo 要修: 不用傳入這參數, 因為已經有傳入activity 就可以去生成這物件了
-        final ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.AppTheme);
-
-
-
-        // 拿整個Task  Todo: 應該用享元模式, 不然需要一直發API 才知道任務細節 現在是應急用
         TaskAPIService taskApiService = new TaskAPIService();
-
         taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
             @Override
             public void onResponseOK(Task task) {
                 if (task.getReleaseUserID() == loginUserId) {
-                    Log.d(LOG_TAG, "is loginUser"); // Todo 以下好像傳入太多參數了 有可能需要重構
-                    ReceiveUserTaskStateContext receiveUserTaskStateContext = new ReceiveUserTaskStateContext(taskID, contextThemeWrapper, stateButtonsLayout, activity);
-                    getTaskStateAndUpdate(receiveUserTaskStateContext);
+                    userMode = IS_RELEASE_USER;
+                    Log.d(LOG_TAG, "is loginUser");
                 } else {
+                    userMode = IS_RECEIVE_USER;
                     Log.d(LOG_TAG, "is not loginUser");
                 }
+                getTaskStateAndUpdate();
             }
 
             @Override
             public void onFailure() {
-
+                // nothing
             }
         });
     }
 
-
-    private void getTaskStateAndUpdate(final ReceiveUserTaskStateContext context) {
+    private void getTaskStateAndUpdate() {
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
             @Override
             public void onResponseOK(TaskState taskState) {
-                context.setTaskState(taskState.getTaskStateEnum());
-                context.updateUI();
+                if (taskState.getTaskStateEnum() == TaskStateEnum.BOOS_RELEASE_AND_SELECTING_WORKER) {
+                    changeTaskState(BoosReleaseState.getInstance());
+                }
+                state.showUI(thisContext);
             }
 
             @Override
@@ -87,4 +104,107 @@ public class TaskDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void changeTaskState(ITaskStateAction stateAction) {
+        state = stateAction;
+    }
+
+    @Override
+    public void addDeleteButton() {
+        final MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#C40C27"));
+        materialButton.setText("Delete");
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.deleteTask(taskID, new Callback() {
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+    }
+
+    @Override
+    public void addSelectedWorkerButton() {
+        final MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
+        materialButton.setText("SelectRequestUser"); // Todo 之後要改為用多國語言字串
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(activity, ShowRequestUsersActivity.class);
+                intent.putExtra(ShowRequestUsersActivity.EXTRA_TASK_ID, taskID);
+
+                activity.startActivity(intent);
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+    }
+
+    @Override
+    public boolean isReleaseUser() {
+        if ( userMode == IS_RELEASE_USER ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isReceiveUser() {
+        if ( userMode == IS_RECEIVE_USER ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private MaterialButton getBaseButton() {
+
+        //參考以下 獲得如何修改button 風格的
+        //https://stackoverflow.com/questions/52120168/programmatically-create-a-materialbutton-with-outline-style
+        MaterialButton materialButton = new MaterialButton(activity, null, R.attr.materialButtonOutlinedStyle);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(12, 12, 12, 12);
+        materialButton.setLayoutParams(params);
+        materialButton.setCornerRadius(5);
+        materialButton.setTextSize(24);
+
+        // 以下可以設定斜體字之類的 還需要查一下
+//        materialButton.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
+
+        return materialButton;
+    }
 }
