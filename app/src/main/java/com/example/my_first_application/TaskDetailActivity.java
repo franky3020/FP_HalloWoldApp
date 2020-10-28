@@ -51,7 +51,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 //    private TaskState taskState; // 我想這樣加 但還不行
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // Todo 要在初始化時就要知道此任務狀態 與 taskID
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail2);
 
@@ -65,6 +65,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
 
+        getTaskAndUpdate();
+    }
+
+    private void getTaskAndUpdate() {
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
             @Override
@@ -110,7 +114,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addDeleteButton() {
+    public void addBoosDeleteButton() {
         final MaterialButton materialButton = getBaseButton();
 
         materialButton.setBackgroundColor(Color.parseColor("#C40C27"));
@@ -145,7 +149,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addSelectedWorkerButton() {
+    public void addBoosSelectedWorkerButton() {
         final MaterialButton materialButton = getBaseButton();
 
         materialButton.setBackgroundColor(Color.parseColor("#32A852"));
@@ -169,6 +173,31 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 stateButtonsLayout.addView(materialButton);
             }
         });
+    }
+
+    @Override
+    public void addWorkerRequestTaskButton() {
+
+    }
+
+    @Override
+    public void addWorkerCancelRequestButton() {
+
+    }
+
+    @Override
+    public void addWorkerConfirmExecutionButton() {
+
+    }
+
+    @Override
+    public void addWorkerRequestCheckTheTaskDoneButton() {
+
+    }
+
+    @Override
+    public void addSendMessageButton() {
+
     }
 
     @Override

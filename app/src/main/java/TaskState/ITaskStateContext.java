@@ -3,8 +3,19 @@ package TaskState;
 public interface ITaskStateContext {
 
     void changeTaskState(ITaskStateAction stateAction);
-    void addDeleteButton();
-    void addSelectedWorkerButton();
+    void addBoosDeleteButton();
+    void addBoosSelectedWorkerButton();
+    void addWorkerRequestTaskButton();
+    void addWorkerCancelRequestButton();
+    void addWorkerConfirmExecutionButton();
+    void addWorkerRequestCheckTheTaskDoneButton();
+
+
+
+
+
+
+    void addSendMessageButton();
     boolean isReleaseUser();
     boolean isReceiveUser();
 

@@ -1,7 +1,5 @@
 package TaskState;
 
-import TaskState.ITaskStateContext;
-
 
 public class BoosReleaseState implements ITaskStateAction {
 
@@ -16,9 +14,12 @@ public class BoosReleaseState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) {
-        if(context.isReleaseUser()) {
-            context.addSelectedWorkerButton();
-            context.addDeleteButton();
+        if (context.isReleaseUser()) {
+            context.addBoosSelectedWorkerButton();
+            context.addBoosDeleteButton();
+        } else if (context.isReceiveUser()) {
+            // context.申請按鈕
+            // 聯絡按鈕
         }
     }
 }
