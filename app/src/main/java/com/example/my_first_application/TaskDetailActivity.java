@@ -34,16 +34,16 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     private Activity activity = this;
     private ITaskStateContext thisContext = this;
-
     private static final String LOG_TAG = TaskDetailActivity.class.getSimpleName();
 
     public static final String EXTRA_TASK_ID = "taskID";
+    public static final String EXTRA_TASK_RELEASE_USER_ID = "taskReleaseUserID";
     int taskID;
+    int taskReleaseUserID;
     int loginUserId;
 
     public static final String IS_RELEASE_USER = "releaseUser";
     public static final String IS_RECEIVE_USER = "receiveUser";
-
     private String userMode = IS_RELEASE_USER;
 
     LinearLayout stateButtonsLayout;
@@ -57,37 +57,18 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
         this.loginUserId = GetLoginUser.getLoginUser().getId();
 
-        TaskDetailFragment taskDetailFragment = (TaskDetailFragment) getSupportFragmentManager().findFragmentById(R.id.task_detail_frag);
+        // 初始化此頁面必要資訊
         taskID = getIntent().getExtras().getInt(EXTRA_TASK_ID);
 
+        taskReleaseUserID = getIntent().getExtras().getInt(EXTRA_TASK_RELEASE_USER_ID);
+        updateUserMode();
+
+        TaskDetailFragment taskDetailFragment = (TaskDetailFragment) getSupportFragmentManager().findFragmentById(R.id.task_detail_frag);
         assert taskDetailFragment != null;
         taskDetailFragment.setTaskID(taskID);
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
-
-        getTaskAndUpdate();
-    }
-
-    private void getTaskAndUpdate() {
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
-            @Override
-            public void onResponseOK(Task task) {
-                if (task.getReleaseUserID() == loginUserId) {
-                    userMode = IS_RELEASE_USER;
-                    Log.d(LOG_TAG, "is loginUser");
-                } else {
-                    userMode = IS_RECEIVE_USER;
-                    Log.d(LOG_TAG, "is not loginUser");
-                }
-                getTaskStateAndUpdate();
-            }
-
-            @Override
-            public void onFailure() {
-                // nothing
-            }
-        });
+        getTaskStateAndUpdate();
     }
 
     private void getTaskStateAndUpdate() {
@@ -235,5 +216,15 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 //        materialButton.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
 
         return materialButton;
+    }
+
+    private void updateUserMode() {
+        if (taskReleaseUserID == loginUserId) {
+            userMode = IS_RELEASE_USER;
+            Log.d(LOG_TAG, "is releaseUser");
+        } else {
+            userMode = IS_RECEIVE_USER;
+            Log.d(LOG_TAG, "is receiveUser");
+        }
     }
 }
