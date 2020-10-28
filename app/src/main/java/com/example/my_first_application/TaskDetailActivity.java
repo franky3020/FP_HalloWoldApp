@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -16,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
-import Task.Task;
 import Task.TaskAPIService;
 import Task.TaskState;
 import User.GetLoginUser;
@@ -28,6 +28,8 @@ import okhttp3.Response;
 
 import TaskState.ITaskStateAction;
 import TaskState.BoosReleaseState;
+import TaskState.BoosSelectedWorkerState;
+import TaskState.EmptyState;
 import Task.TaskStateEnum;
 
 public class TaskDetailActivity extends AppCompatActivity implements ITaskStateContext {
@@ -75,10 +77,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
             @Override
-            public void onResponseOK(TaskState taskState) {
-                if (taskState.getTaskStateEnum() == TaskStateEnum.BOOS_RELEASE_AND_SELECTING_WORKER) {
-                    changeTaskState(BoosReleaseState.getInstance());
-                }
+            public void onResponseOK(TaskState taskStateDate) {
+                ITaskStateAction newState = getTaskStateAction(taskStateDate);
+                changeTaskState(newState);
                 state.showUI(thisContext);
             }
 
@@ -88,6 +89,30 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             }
         });
     }
+
+    private ITaskStateAction getTaskStateAction(TaskState taskState) {
+
+        TaskStateEnum taskStateEnum = taskState.getTaskStateEnum();
+
+        switch (taskStateEnum) {
+            case BOOS_RELEASE_AND_SELECTING_WORKER:
+                return BoosReleaseState.getInstance();
+
+            case BOOS_SELECTED_WORKER:
+                return BoosSelectedWorkerState.getInstance();
+
+            case BOOS_CANCEL_RELEASE:
+
+            case WORKER_CONFIRM_EXECUTION:
+
+            case WORKER_CANCEL_REQUEST:
+
+            default:
+                return EmptyState.getInstance();
+                // no thing
+        }
+    }
+
 
     @Override
     public void changeTaskState(ITaskStateAction stateAction) {
@@ -158,6 +183,45 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addWorkerRequestTaskButton() {
+
+        final MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
+        materialButton.setText("RequestTask");
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.addTaskRequestUser(taskID, loginUserId, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(activity, "已申請", Toast.LENGTH_SHORT).show(); // 這之後要用string
+                            }
+                        });
+
+                    }
+                });
+
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
 
     }
 

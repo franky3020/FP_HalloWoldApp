@@ -1,6 +1,8 @@
 package com.example.my_first_application;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -62,4 +64,12 @@ public class ProfileActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////
 
     }
+
+    public void onClickToTestMain(View view) {
+        GetLoginUser.unRegisterUser();
+        Intent intent = new Intent();
+        intent.setClass(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
