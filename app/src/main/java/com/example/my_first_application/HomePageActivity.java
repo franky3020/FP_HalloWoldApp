@@ -104,6 +104,7 @@ public class HomePageActivity extends AppCompatActivity { // 此頁面為顯示�
 
                 Intent intent = new Intent(homePageActivity, TaskDetailActivity.class);
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
+                intent.putExtra(TaskDetailActivity.EXTRA_TASK_RELEASE_USER_ID, task.getReleaseUserID());
                 homePageActivity.startActivity(intent);
             }
         });

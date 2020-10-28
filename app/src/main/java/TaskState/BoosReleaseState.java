@@ -18,8 +18,9 @@ public class BoosReleaseState implements ITaskStateAction {
             context.addBoosSelectedWorkerButton();
             context.addBoosDeleteButton();
         } else if (context.isReceiveUser()) {
-            // context.申請按鈕
-            // 聯絡按鈕
+            context.addWorkerRequestTaskButton();
+            context.addWorkerCancelRequestButton();
+            // 缺聯絡按鈕
         }
     }
 }

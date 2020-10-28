@@ -60,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToLogin14(View view) {
+        GetLoginUser.registerUser(UserBuilder.anUser(14).build());
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ShowTaskActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickToLogin21(View view) {
+        GetLoginUser.registerUser(UserBuilder.anUser(21).build());
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ShowTaskActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -72,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // Todo 注意: 此行為直接使用 ID 14 的使用者做登入, 測試用, 正式上線時 需要註解掉 /////////////
-        GetLoginUser.registerUser(UserBuilder.anUser(14).build());
-        /////////////////////////////////////////////////////////////////////////////////////////
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
