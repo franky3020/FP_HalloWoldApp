@@ -239,4 +239,32 @@ public class TaskAPIServiceTest {
 
 
     }
+
+    @Test
+    public void setTaskReceiveUser() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 418;
+        int userId = 13;
+
+        taskApiService.setTaskReceiveUser(taskId, userId, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println("set ok");
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

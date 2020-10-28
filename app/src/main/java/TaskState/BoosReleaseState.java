@@ -19,6 +19,7 @@ public class BoosReleaseState implements ITaskStateAction {
             context.addBoosDeleteButton();
         } else if (context.isReceiveUser()) {
             context.addWorkerRequestTaskButton();
+            context.addWorkerCancelRequestButton();
             // 缺聯絡按鈕
         }
     }

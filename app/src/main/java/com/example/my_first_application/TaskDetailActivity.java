@@ -228,10 +228,63 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerCancelRequestButton() {
 
+        final MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#C40C27"));
+        materialButton.setText("Cancel_Request");
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.deleteTaskRequestUser(taskID, loginUserId, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(activity, "已取消申請", Toast.LENGTH_SHORT).show(); // 這之後要用string
+                            }
+                        });
+
+                    }
+                });
+
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
     }
 
     @Override
     public void addWorkerConfirmExecutionButton() {
+
+        final MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
+        materialButton.setText("Confirm_Execution");
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
 
     }
 

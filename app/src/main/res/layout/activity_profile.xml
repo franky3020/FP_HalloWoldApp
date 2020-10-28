@@ -199,7 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClickToTestMain"
-            android:text="(測試用的) 可以登出並到測試的主頁面" />
+            android:text="(測試用的) 可以使用此使用者到測試的主頁面" />
 
     </LinearLayout>
 

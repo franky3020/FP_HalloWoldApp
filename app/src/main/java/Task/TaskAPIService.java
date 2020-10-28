@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.SortedMap;
 
 import User.User;
 import okhttp3.Callback;
@@ -353,6 +354,32 @@ public class TaskAPIService {
 
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         client.newCall(request).enqueue(callback);
+    }
+
+    public void setTaskReceiveUser(int taskId, int userId, Callback callback) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("op", "replace");
+            jsonObject.put("path", "/receiveUserID");
+            jsonObject.put("value", userId);
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonObject);
+
+            MediaType patchJSON = MediaType.parse("application/json-patch+json");
+            RequestBody body = RequestBody.create(String.valueOf(jsonArray), patchJSON);
+            System.out.println(String.valueOf(jsonArray));
+
+            Request request = new Request.Builder()
+                    .url(base_URL + "/" + taskId)
+                    .patch(body)
+                    .build();
+            OkHttpClient client = new OkHttpClient();
+            client.newCall(request).enqueue(callback);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

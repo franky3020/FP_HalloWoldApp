@@ -15,12 +15,19 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Task.Task;
 import Task.TaskAPIService;
 import User.User;
 import User.UserBuilder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import Task.TaskStateEnum;
 
 
 public class ShowRequestUsersActivity extends AppCompatActivity {
@@ -131,6 +138,42 @@ public class ShowRequestUsersActivity extends AppCompatActivity {
 
     private void userListUIUpdate(final ArrayList<User> userList) { //必須要在主執行緒上更新UI, 才不會出錯
         showRequestUsersAdapter.setRequestUsers(userList);
+
+        showRequestUsersAdapter.setListener(new ShowRequestUsersAdapter.Listener() {
+            @Override
+            public void onClick(int position) {
+                User user = userList.get(position);
+
+                final TaskAPIService taskApiService = new TaskAPIService();
+                // Todo 這邊需要更新任務的接收者為該使用者
+                taskApiService.setTaskReceiveUser(taskID, user.getId(), new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        Log.d(LOG_TAG, "setTaskReceiveUser Ok");
+
+                        TaskAPIService taskApiService = new TaskAPIService();
+                        taskApiService.updateTaskState(taskID, TaskStateEnum.BOOS_SELECTED_WORKER, new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                Log.d(LOG_TAG, "updateTaskState Ok");
+                                finish();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         runOnUiThread( new Runnable() {
             @Override
             public void run() {

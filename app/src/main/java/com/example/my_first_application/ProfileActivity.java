@@ -66,7 +66,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onClickToTestMain(View view) {
-        GetLoginUser.unRegisterUser();
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
         startActivity(intent);
