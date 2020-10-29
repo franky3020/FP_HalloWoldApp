@@ -13,12 +13,14 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
     @Override
     public void showUI(ITaskStateContext context) {
         if (context.isReleaseUser()) {
-
+            // 加上 刪除該請求
+            // 與刪除任務
         } else if (context.isReceiveUser()) { // Todo 需要判斷是不是該使用者
 
+            if (context.isBoosSelectThatUserToDoTask()) {
+                context.addWorkerConfirmExecutionButton();
+            }
 
-            context.addWorkerConfirmExecutionButton();
-            context.addWorkerCancelRequestButton(); // Todo 這要改
             // 缺聯絡按鈕
         }
 

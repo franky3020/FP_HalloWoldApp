@@ -19,6 +19,7 @@ public interface ITaskStateContext {
     boolean isReleaseUser();
     boolean isReceiveUser();
     boolean hasRequestTask();
+    boolean isBoosSelectThatUserToDoTask();
 
     // 加上各種按鈕, 因為是Activity需要實做出來的, 這樣就不需要一直傳遞Activity 去生成按鈕了, Activity 只耦合介面
 
