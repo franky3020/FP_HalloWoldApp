@@ -43,6 +43,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     int taskID;
     int taskReleaseUserID;
     int loginUserId;
+    boolean isUserAlreadyRequest = false;
 
     public static final String IS_RELEASE_USER = "releaseUser";
     public static final String IS_RECEIVE_USER = "receiveUser";
@@ -70,7 +71,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         taskDetailFragment.setTaskID(taskID);
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
-        getTaskStateAndUpdate();
+        getTaskStateAndUpdate(); // 須持續同步更新
+        updateTheUserIsAlreadyRequest(); // 須持續同步更新
     }
 
     private void getTaskStateAndUpdate() {
@@ -86,6 +88,20 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onFailure() {
 
+            }
+        });
+    }
+    private void updateTheUserIsAlreadyRequest() {
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.checkUserAlreadyRequest(taskID, loginUserId, new TaskAPIService.GetAPIListener<Boolean>() {
+            @Override
+            public void onResponseOK(Boolean aBoolean) {
+                isUserAlreadyRequest = aBoolean;
+            }
+
+            @Override
+            public void onFailure() {
+                isUserAlreadyRequest = false;
             }
         });
     }
@@ -314,6 +330,11 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean hasRequestTask() {
+        return isUserAlreadyRequest;
     }
 
     private MaterialButton getBaseButton() {

@@ -382,4 +382,42 @@ public class TaskAPIService {
         }
     }
 
+
+    public void checkUserAlreadyRequest(final int taskId, final int userId, final GetAPIListener<Boolean> getAPIListener) {
+
+        Thread getTaskStateThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + taskId + "/" +"checkUserAlreadyRequest" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        String responseStr = Objects.requireNonNull(response.body()).string();
+                        if (responseStr.equals("true")) {
+                            getAPIListener.onResponseOK(true);
+                        } else { // responseStr.equals("false")
+                            getAPIListener.onResponseOK(false);
+                        }
+
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    e.printStackTrace();
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskStateThread.start();
+    }
+
+
 }

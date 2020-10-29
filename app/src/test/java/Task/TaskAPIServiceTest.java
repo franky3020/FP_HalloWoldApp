@@ -267,4 +267,33 @@ public class TaskAPIServiceTest {
         }
 
     }
+
+    @Test
+    public void checkUserAlreadyRequest() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 420;
+        int userId = 21;
+
+        taskApiService.checkUserAlreadyRequest(taskId, userId, new TaskAPIService.GetAPIListener<Boolean>(){
+
+            @Override
+            public void onResponseOK(Boolean aBoolean) {
+                System.out.println(aBoolean);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("onFailure");
+            }
+        });
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
