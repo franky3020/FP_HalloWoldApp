@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import Task.Task;
 import Task.TaskAPIService;
 import Task.TaskState;
 import User.GetLoginUser;
@@ -31,6 +33,7 @@ import TaskState.BoosReleaseState;
 import TaskState.BoosSelectedWorkerState;
 import TaskState.EmptyState;
 import Task.TaskStateEnum;
+import Task.TaskBuilder;
 
 public class TaskDetailActivity extends AppCompatActivity implements ITaskStateContext {
 
@@ -41,8 +44,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     public static final String EXTRA_TASK_ID = "taskID";
     public static final String EXTRA_TASK_RELEASE_USER_ID = "taskReleaseUserID";
     int taskID;
-    int taskReleaseUserID;
-    int loginUserId;
+    int taskReleaseUserID; // 因為有task 變數了 所以此行考慮拿掉
+    int loginUserID;
+    boolean isUserAlreadyRequest = false;
+    Task mTask = TaskBuilder.aTask(0,0,0).build(); // 初始化假的任務
 
     public static final String IS_RELEASE_USER = "releaseUser";
     public static final String IS_RECEIVE_USER = "receiveUser";
@@ -50,14 +55,14 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     LinearLayout stateButtonsLayout;
     ITaskStateAction state = BoosReleaseState.getInstance();
-//    private TaskState taskState; // 我想這樣加 但還不行
+//    private TaskState taskState; // 我想這樣加 但還不行 之後要顯示修改狀態的時間
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Todo 要在初始化時就要知道此任務狀態 與 taskID
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail2);
 
-        this.loginUserId = GetLoginUser.getLoginUser().getId();
+        this.loginUserID = GetLoginUser.getLoginUser().getId();
 
         // 初始化此頁面必要資訊
         taskID = getIntent().getExtras().getInt(EXTRA_TASK_ID);
@@ -70,22 +75,71 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         taskDetailFragment.setTaskID(taskID);
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
-        getTaskStateAndUpdate();
+
+        getTaskStateAndUpdate(); // 須持續同步更新  updateMTask() > updateTheUserIsAlreadyRequest() > state.showUI(thisContext);
+        // 以上這行需重構,
     }
 
-    private void getTaskStateAndUpdate() {
+    private void addATaskStateForTest() {
+        final TextView taskStateTextView = new TextView(this);
+        taskStateTextView.setText(state.toString());
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(taskStateTextView);
+            }
+        });
+
+    }
+
+    private void getTaskStateAndUpdate() { // Todo 這邊需要重構, 現在順序有點複雜, 拿狀態 > 更新狀態 > 加狀態標籤 > 在更新整個任務 > 更新UI
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
             @Override
             public void onResponseOK(TaskState taskStateDate) {
                 ITaskStateAction newState = getTaskStateAction(taskStateDate);
                 changeTaskState(newState);
-                state.showUI(thisContext);
+                addATaskStateForTest();
+                updateMTask();
             }
 
             @Override
             public void onFailure() {
 
+            }
+        });
+    }
+    private void updateMTask() { // 會等 getTaskStateAndUpdate() 做完在過來這邊
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
+
+            @Override
+            public void onResponseOK(Task task) {
+                mTask = task;
+                updateTheUserIsAlreadyRequest();
+
+            }
+
+            @Override
+            public void onFailure() {
+                // 先假設網路都正常
+            }
+        });
+    }
+
+    private void updateTheUserIsAlreadyRequest() { // 這裡有時候會還沒更新到 狀態就去更新UI了
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
+            @Override
+            public void onResponseOK(Boolean aBoolean) {
+                isUserAlreadyRequest = aBoolean;
+                state.showUI(thisContext);
+            }
+
+            @Override
+            public void onFailure() {
+                isUserAlreadyRequest = false;
             }
         });
     }
@@ -195,7 +249,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             public void onClick(View v) {
 
                 TaskAPIService taskApiService = new TaskAPIService();
-                taskApiService.addTaskRequestUser(taskID, loginUserId, new Callback() {
+                taskApiService.addTaskRequestUser(taskID, loginUserID, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -240,7 +294,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             public void onClick(View v) {
 
                 TaskAPIService taskApiService = new TaskAPIService();
-                taskApiService.deleteTaskRequestUser(taskID, loginUserId, new Callback() {
+                taskApiService.deleteTaskRequestUser(taskID, loginUserID, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -316,6 +370,20 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         }
     }
 
+    @Override
+    public boolean hasRequestTask() {
+        return isUserAlreadyRequest;
+    }
+
+    @Override
+    public boolean isBoosSelectThatUserToDoTask() {
+        if ( mTask.getReceiveUserID() == loginUserID) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private MaterialButton getBaseButton() {
 
         //參考以下 獲得如何修改button 風格的
@@ -336,7 +404,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void updateUserMode() {
-        if (taskReleaseUserID == loginUserId) {
+        if (taskReleaseUserID == loginUserID) {
             userMode = IS_RELEASE_USER;
             Log.d(LOG_TAG, "is releaseUser");
         } else {

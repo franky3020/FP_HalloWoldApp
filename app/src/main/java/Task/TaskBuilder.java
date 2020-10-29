@@ -35,7 +35,7 @@ public final class TaskBuilder {
         return this;
     }
 
-    public TaskBuilder withReceiveTime(LocalDateTime receiveTime) {
+    public TaskBuilder withReceiveTime(LocalDateTime receiveTime) { // 好像不需要接收時間 因為狀態那邊會存
         return this;
     }
 
@@ -44,7 +44,7 @@ public final class TaskBuilder {
         return this;
     }
 
-    public TaskBuilder withTaskCity(int taskCity) {
+    public TaskBuilder withTaskCity(int taskCity) { // Todo 待刪除
         return this;
     }
 
