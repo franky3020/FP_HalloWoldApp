@@ -42,9 +42,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     private static final String LOG_TAG = TaskDetailActivity.class.getSimpleName();
 
     public static final String EXTRA_TASK_ID = "taskID";
-    public static final String EXTRA_TASK_RELEASE_USER_ID = "taskReleaseUserID";
     int taskID;
-    int taskReleaseUserID; // 因為有task 變數了 所以此行考慮拿掉
     int loginUserID;
     boolean isUserAlreadyRequest = false;
     Task mTask = TaskBuilder.aTask(0,0,0).build(); // 初始化假的任務
@@ -67,17 +65,15 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         // 初始化此頁面必要資訊
         taskID = getIntent().getExtras().getInt(EXTRA_TASK_ID);
 
-        taskReleaseUserID = getIntent().getExtras().getInt(EXTRA_TASK_RELEASE_USER_ID);
-        updateUserMode();
+
 
         TaskDetailFragment taskDetailFragment = (TaskDetailFragment) getSupportFragmentManager().findFragmentById(R.id.task_detail_frag);
         assert taskDetailFragment != null;
         taskDetailFragment.setTaskID(taskID);
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
-
         getTaskStateAndUpdate(); // 須持續同步更新  updateMTask() > updateTheUserIsAlreadyRequest() > state.showUI(thisContext);
-        // 以上這行需重構,
+        // Todo 以上這行需重構,
     }
 
     private void addATaskStateForTest() {
@@ -93,7 +89,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     }
 
-    private void getTaskStateAndUpdate() { // Todo 這邊需要重構, 現在順序有點複雜, 拿狀態 > 更新狀態 > 加狀態標籤 > 在更新整個任務 > 更新UI
+    private void getTaskStateAndUpdate() {
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
             @Override
@@ -110,6 +106,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             }
         });
     }
+
     private void updateMTask() { // 會等 getTaskStateAndUpdate() 做完在過來這邊
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
@@ -117,8 +114,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onResponseOK(Task task) {
                 mTask = task;
+                updateUserMode();
                 updateTheUserIsAlreadyRequest();
-
             }
 
             @Override
@@ -128,7 +125,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         });
     }
 
-    private void updateTheUserIsAlreadyRequest() { // 這裡有時候會還沒更新到 狀態就去更新UI了
+    private void updateTheUserIsAlreadyRequest() {
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
             @Override
@@ -404,7 +401,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void updateUserMode() {
-        if (taskReleaseUserID == loginUserID) {
+        Log.d(LOG_TAG, "receiveUserID: " + mTask.getReleaseUserID());
+        if (mTask.getReleaseUserID() == loginUserID) {
             userMode = IS_RELEASE_USER;
             Log.d(LOG_TAG, "is releaseUser");
         } else {
