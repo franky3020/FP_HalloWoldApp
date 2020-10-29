@@ -89,7 +89,12 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void checkTheInitIsOkThenUpdateAllUI() {
-
+        synchronized((Object) currentUpdateFunctionDone) {
+            currentUpdateFunctionDone++;
+            if(currentUpdateFunctionDone == allUpdateFunctionCount) {
+                upDateAllUI();
+            }
+        }
     }
 
     private void updateMTask() {
@@ -100,13 +105,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             public void onResponseOK(Task task) {
                 mTask = task;
                 updateUserMode();
-                synchronized((Object) currentUpdateFunctionDone) {
-                    currentUpdateFunctionDone++;
-                    Log.d(LOG_TAG, "updateMTask");
-                    if(currentUpdateFunctionDone == allUpdateFunctionCount) {
-                        upDateAllUI();
-                    }
-                }
+                Log.d(LOG_TAG, "updateMTask");
+                checkTheInitIsOkThenUpdateAllUI();
             }
 
             @Override
@@ -123,15 +123,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             public void onResponseOK(TaskState taskStateDate) {
                 ITaskStateAction newState = getTaskStateAction(taskStateDate);
                 changeTaskState(newState);
-
-                synchronized((Object) currentUpdateFunctionDone) {
-                    currentUpdateFunctionDone++;
-                    Log.d(LOG_TAG, "getTaskStateAndUpdate");
-                    if(currentUpdateFunctionDone == allUpdateFunctionCount) {
-                        upDateAllUI();
-                    }
-                }
-
+                Log.d(LOG_TAG, "getTaskStateAndUpdate");
+                checkTheInitIsOkThenUpdateAllUI();
             }
 
             @Override
@@ -147,14 +140,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onResponseOK(Boolean aBoolean) {
                 isUserAlreadyRequest = aBoolean;
-
-                synchronized((Object) currentUpdateFunctionDone) {
-                    currentUpdateFunctionDone++;
-                    Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
-                    if(currentUpdateFunctionDone == allUpdateFunctionCount) {
-                        upDateAllUI();
-                    }
-                }
+                Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
+                checkTheInitIsOkThenUpdateAllUI();
             }
 
             @Override
