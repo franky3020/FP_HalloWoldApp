@@ -55,6 +55,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     ITaskStateAction state = BoosReleaseState.getInstance();
 //    private TaskState taskState; // 我想這樣加 但還不行 之後要顯示修改狀態的時間
 
+    private final int allUpdateFunctionCount  = 3;
+    private int currentUpdateFunctionDone = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Todo 要在初始化時就要知道此任務狀態 與 taskID
         super.onCreate(savedInstanceState);
@@ -72,21 +75,45 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         taskDetailFragment.setTaskID(taskID);
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
-        getTaskStateAndUpdate(); // 須持續同步更新  updateMTask() > updateTheUserIsAlreadyRequest() > state.showUI(thisContext);
-        // Todo 以上這行需重構,
+        initAllUI();
+        // 以上順序為 updateMTask() >  getTaskStateAndUpdate() > updateTheUserIsAlreadyRequest() > upDateAllUI()
+        // 還未想到好方法簡化
+
+
     }
 
-    private void addATaskStateForTest() {
-        final TextView taskStateTextView = new TextView(this);
-        taskStateTextView.setText(state.toString());
+    private void initAllUI() {
+        updateMTask();
+        getTaskStateAndUpdate();
+        updateTheUserIsAlreadyRequest();
+    }
 
-        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+    private void checkTheInitIsOkThenUpdateAllUI() {
+
+    }
+
+    private void updateMTask() {
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
+
             @Override
-            public void run() {
-                stateButtonsLayout.addView(taskStateTextView);
+            public void onResponseOK(Task task) {
+                mTask = task;
+                updateUserMode();
+                synchronized((Object) currentUpdateFunctionDone) {
+                    currentUpdateFunctionDone++;
+                    Log.d(LOG_TAG, "updateMTask");
+                    if(currentUpdateFunctionDone == allUpdateFunctionCount) {
+                        upDateAllUI();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure() {
+                // 先假設網路都正常
             }
         });
-
     }
 
     private void getTaskStateAndUpdate() {
@@ -96,31 +123,20 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             public void onResponseOK(TaskState taskStateDate) {
                 ITaskStateAction newState = getTaskStateAction(taskStateDate);
                 changeTaskState(newState);
-                addATaskStateForTest();
-                updateMTask();
+
+                synchronized((Object) currentUpdateFunctionDone) {
+                    currentUpdateFunctionDone++;
+                    Log.d(LOG_TAG, "getTaskStateAndUpdate");
+                    if(currentUpdateFunctionDone == allUpdateFunctionCount) {
+                        upDateAllUI();
+                    }
+                }
+
             }
 
             @Override
             public void onFailure() {
 
-            }
-        });
-    }
-
-    private void updateMTask() { // 會等 getTaskStateAndUpdate() 做完在過來這邊
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
-
-            @Override
-            public void onResponseOK(Task task) {
-                mTask = task;
-                updateUserMode();
-                updateTheUserIsAlreadyRequest();
-            }
-
-            @Override
-            public void onFailure() {
-                // 先假設網路都正常
             }
         });
     }
@@ -131,12 +147,36 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onResponseOK(Boolean aBoolean) {
                 isUserAlreadyRequest = aBoolean;
-                state.showUI(thisContext);
+
+                synchronized((Object) currentUpdateFunctionDone) {
+                    currentUpdateFunctionDone++;
+                    Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
+                    if(currentUpdateFunctionDone == allUpdateFunctionCount) {
+                        upDateAllUI();
+                    }
+                }
             }
 
             @Override
             public void onFailure() {
                 isUserAlreadyRequest = false;
+            }
+        });
+    }
+
+    private void upDateAllUI() {
+        addATaskStateForTest();
+        state.showUI(thisContext);
+    }
+
+    private void addATaskStateForTest() {
+        final TextView taskStateTextView = new TextView(this);
+        taskStateTextView.setText(state.toString());
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(taskStateTextView);
             }
         });
     }
@@ -401,13 +441,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void updateUserMode() {
-        Log.d(LOG_TAG, "receiveUserID: " + mTask.getReleaseUserID());
         if (mTask.getReleaseUserID() == loginUserID) {
             userMode = IS_RELEASE_USER;
-            Log.d(LOG_TAG, "is releaseUser");
         } else {
             userMode = IS_RECEIVE_USER;
-            Log.d(LOG_TAG, "is receiveUser");
         }
     }
 }
