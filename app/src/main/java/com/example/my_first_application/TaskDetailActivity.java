@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -75,13 +76,27 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         updateTheUserIsAlreadyRequest(); // 須持續同步更新
     }
 
-    private void getTaskStateAndUpdate() {
+    private void addATaskStateForTest() {
+        final TextView taskStateTextView = new TextView(this);
+        taskStateTextView.setText(state.toString());
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(taskStateTextView);
+            }
+        });
+
+    }
+
+    private void getTaskStateAndUpdate() { // Todo 這邊需要重構, 現在順序有點複雜, 拿狀態 > 更新狀態 > 加狀態標籤 > 更新UI
         TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
             @Override
             public void onResponseOK(TaskState taskStateDate) {
                 ITaskStateAction newState = getTaskStateAction(taskStateDate);
                 changeTaskState(newState);
+                addATaskStateForTest();
                 state.showUI(thisContext);
             }
 

@@ -23,4 +23,9 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
         }
 
     }
+
+    @Override
+    public String toString() {
+        return "BoosSelectedWorkerState{}";
+    }
 }

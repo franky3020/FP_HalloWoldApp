@@ -14,4 +14,9 @@ public class EmptyState implements ITaskStateAction {
     public void showUI(ITaskStateContext context) {
         // do nothing
     }
+
+    @Override
+    public String toString() {
+        return "EmptyState{}";
+    }
 }

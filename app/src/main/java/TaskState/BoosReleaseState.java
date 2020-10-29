@@ -26,4 +26,9 @@ public class BoosReleaseState implements ITaskStateAction {
             // 缺聯絡按鈕
         }
     }
+
+    @Override
+    public String toString() {
+        return "BoosReleaseState{}";
+    }
 }
