@@ -31,6 +31,8 @@ import okhttp3.Response;
 import TaskState.ITaskStateAction;
 import TaskState.BoosReleaseState;
 import TaskState.BoosSelectedWorkerState;
+import TaskState.WorkerConfirmExecutionState;
+
 import TaskState.EmptyState;
 import Task.TaskStateEnum;
 import Task.TaskBuilder;
@@ -182,6 +184,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             case BOOS_CANCEL_RELEASE:
 
             case WORKER_CONFIRM_EXECUTION:
+                return WorkerConfirmExecutionState.getInstance();
 
             case WORKER_CANCEL_REQUEST:
 
@@ -233,7 +236,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addBoosSelectedWorkerButton() {
+    public void addBoosSelectedWorkerButton() { // Todo 這裡有bug 因為當發布者選擇接收者時 跳回到此頁時 會不是更新為最新的任務狀態
+                                               // 應該要回到此任務介面即時更新
+        
         final MaterialButton materialButton = getBaseButton();
 
         materialButton.setBackgroundColor(Color.parseColor("#32A852"));
@@ -281,13 +286,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(activity, "已申請", Toast.LENGTH_SHORT).show(); // 這之後要用string
-                            }
-                        });
-
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                     }
                 });
 
@@ -326,13 +328,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(activity, "已取消申請", Toast.LENGTH_SHORT).show(); // 這之後要用string
-                            }
-                        });
-
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                     }
                 });
 
@@ -349,13 +348,33 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addWorkerConfirmExecutionButton() {
+    public void addWorkerConfirmExecutionButton() { // 此按鈕應該修改任務狀態為 WORKER_CONFIRM_EXECUTION
 
         final MaterialButton materialButton = getBaseButton();
 
         materialButton.setBackgroundColor(Color.parseColor("#32A852"));
         materialButton.setText("Confirm_Execution");
         materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.WORKER_CONFIRM_EXECUTION, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                    }
+                });
+            }
+        });
 
         runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
             @Override
@@ -369,6 +388,11 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerRequestCheckTheTaskDoneButton() {
 
+    }
+
+    @Override
+    public void removeAllViewForTaskStateContext() { // Todo
+//        stateButtonsLayout.removeAllViews(); // 不能這樣 因為狀態文字會消失
     }
 
     @Override
@@ -434,4 +458,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             userMode = IS_RECEIVE_USER;
         }
     }
+
+
+
+
 }
