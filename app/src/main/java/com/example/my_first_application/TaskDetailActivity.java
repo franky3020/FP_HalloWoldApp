@@ -181,12 +181,16 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             case BOOS_SELECTED_WORKER:
                 return BoosSelectedWorkerState.getInstance();
 
-            case BOOS_CANCEL_RELEASE:
-
-            case WORKER_CONFIRM_EXECUTION:
+            case TASK_ON_GOING:
                 return WorkerConfirmExecutionState.getInstance();
 
-            case WORKER_CANCEL_REQUEST:
+            case WAIT_BOOS_CHECK_THE_USER_IS_DONE_TASK:
+
+            case WAIT_WORK_AGREE_STOP_THE_TASK:
+
+            case PERFECT_END:
+
+            case FAILURE_END:
 
             default:
                 return EmptyState.getInstance();
@@ -359,7 +363,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onClick(View v) {
                 TaskAPIService taskApiService = new TaskAPIService();
-                taskApiService.updateTaskState(taskID, TaskStateEnum.WORKER_CONFIRM_EXECUTION, new Callback() {
+                taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
