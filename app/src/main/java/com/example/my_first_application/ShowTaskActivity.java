@@ -145,7 +145,6 @@ public class ShowTaskActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_RELEASE_USER_ID, task.getReleaseUserID());
                 showTaskActivity.startActivity(intent);
             }
         });

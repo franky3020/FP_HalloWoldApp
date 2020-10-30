@@ -10,6 +10,8 @@ public interface ITaskStateContext {
     void addWorkerConfirmExecutionButton();
     void addWorkerRequestCheckTheTaskDoneButton();
 
+    void removeAllViewForTaskStateContext();
+
 
 
 

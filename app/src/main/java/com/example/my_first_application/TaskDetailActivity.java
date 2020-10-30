@@ -31,6 +31,8 @@ import okhttp3.Response;
 import TaskState.ITaskStateAction;
 import TaskState.BoosReleaseState;
 import TaskState.BoosSelectedWorkerState;
+import TaskState.WorkerConfirmExecutionState;
+
 import TaskState.EmptyState;
 import Task.TaskStateEnum;
 import Task.TaskBuilder;
@@ -42,9 +44,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     private static final String LOG_TAG = TaskDetailActivity.class.getSimpleName();
 
     public static final String EXTRA_TASK_ID = "taskID";
-    public static final String EXTRA_TASK_RELEASE_USER_ID = "taskReleaseUserID";
     int taskID;
-    int taskReleaseUserID; // 因為有task 變數了 所以此行考慮拿掉
     int loginUserID;
     boolean isUserAlreadyRequest = false;
     Task mTask = TaskBuilder.aTask(0,0,0).build(); // 初始化假的任務
@@ -57,6 +57,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     ITaskStateAction state = BoosReleaseState.getInstance();
 //    private TaskState taskState; // 我想這樣加 但還不行 之後要顯示修改狀態的時間
 
+    private final int allUpdateFunctionCount  = 3;
+    private int currentUpdateFunctionDone = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Todo 要在初始化時就要知道此任務狀態 與 taskID
         super.onCreate(savedInstanceState);
@@ -67,17 +70,92 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         // 初始化此頁面必要資訊
         taskID = getIntent().getExtras().getInt(EXTRA_TASK_ID);
 
-        taskReleaseUserID = getIntent().getExtras().getInt(EXTRA_TASK_RELEASE_USER_ID);
-        updateUserMode();
+
 
         TaskDetailFragment taskDetailFragment = (TaskDetailFragment) getSupportFragmentManager().findFragmentById(R.id.task_detail_frag);
         assert taskDetailFragment != null;
         taskDetailFragment.setTaskID(taskID);
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
+        initAllUI();
+        // 以上順序為 updateMTask() >  getTaskStateAndUpdate() > updateTheUserIsAlreadyRequest() > upDateAllUI()
+        // 還未想到好方法簡化
 
-        getTaskStateAndUpdate(); // 須持續同步更新  updateMTask() > updateTheUserIsAlreadyRequest() > state.showUI(thisContext);
-        // 以上這行需重構,
+
+    }
+
+    private void initAllUI() {
+        updateMTask();
+        getTaskStateAndUpdate();
+        updateTheUserIsAlreadyRequest();
+    }
+
+    private void checkTheInitIsOkThenUpdateAllUI() {
+        synchronized((Object) currentUpdateFunctionDone) {
+            currentUpdateFunctionDone++;
+            if(currentUpdateFunctionDone == allUpdateFunctionCount) {
+                upDateAllUI();
+            }
+        }
+    }
+
+    private void updateMTask() {
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
+
+            @Override
+            public void onResponseOK(Task task) {
+                mTask = task;
+                updateUserMode();
+                Log.d(LOG_TAG, "updateMTask");
+                checkTheInitIsOkThenUpdateAllUI();
+            }
+
+            @Override
+            public void onFailure() {
+                // 先假設網路都正常
+            }
+        });
+    }
+
+    private void getTaskStateAndUpdate() {
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
+            @Override
+            public void onResponseOK(TaskState taskStateDate) {
+                ITaskStateAction newState = getTaskStateAction(taskStateDate);
+                changeTaskState(newState);
+                Log.d(LOG_TAG, "getTaskStateAndUpdate");
+                checkTheInitIsOkThenUpdateAllUI();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void updateTheUserIsAlreadyRequest() {
+        TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
+            @Override
+            public void onResponseOK(Boolean aBoolean) {
+                isUserAlreadyRequest = aBoolean;
+                Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
+                checkTheInitIsOkThenUpdateAllUI();
+            }
+
+            @Override
+            public void onFailure() {
+                isUserAlreadyRequest = false;
+            }
+        });
+    }
+
+    private void upDateAllUI() {
+        addATaskStateForTest();
+        state.showUI(thisContext);
     }
 
     private void addATaskStateForTest() {
@@ -88,58 +166,6 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void run() {
                 stateButtonsLayout.addView(taskStateTextView);
-            }
-        });
-
-    }
-
-    private void getTaskStateAndUpdate() { // Todo 這邊需要重構, 現在順序有點複雜, 拿狀態 > 更新狀態 > 加狀態標籤 > 在更新整個任務 > 更新UI
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
-            @Override
-            public void onResponseOK(TaskState taskStateDate) {
-                ITaskStateAction newState = getTaskStateAction(taskStateDate);
-                changeTaskState(newState);
-                addATaskStateForTest();
-                updateMTask();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-    }
-    private void updateMTask() { // 會等 getTaskStateAndUpdate() 做完在過來這邊
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
-
-            @Override
-            public void onResponseOK(Task task) {
-                mTask = task;
-                updateTheUserIsAlreadyRequest();
-
-            }
-
-            @Override
-            public void onFailure() {
-                // 先假設網路都正常
-            }
-        });
-    }
-
-    private void updateTheUserIsAlreadyRequest() { // 這裡有時候會還沒更新到 狀態就去更新UI了
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
-            @Override
-            public void onResponseOK(Boolean aBoolean) {
-                isUserAlreadyRequest = aBoolean;
-                state.showUI(thisContext);
-            }
-
-            @Override
-            public void onFailure() {
-                isUserAlreadyRequest = false;
             }
         });
     }
@@ -158,6 +184,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             case BOOS_CANCEL_RELEASE:
 
             case WORKER_CONFIRM_EXECUTION:
+                return WorkerConfirmExecutionState.getInstance();
 
             case WORKER_CANCEL_REQUEST:
 
@@ -209,7 +236,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addBoosSelectedWorkerButton() {
+    public void addBoosSelectedWorkerButton() { // Todo 這裡有bug 因為當發布者選擇接收者時 跳回到此頁時 會不是更新為最新的任務狀態
+                                               // 應該要回到此任務介面即時更新
+        
         final MaterialButton materialButton = getBaseButton();
 
         materialButton.setBackgroundColor(Color.parseColor("#32A852"));
@@ -257,13 +286,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(activity, "已申請", Toast.LENGTH_SHORT).show(); // 這之後要用string
-                            }
-                        });
-
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                     }
                 });
 
@@ -302,13 +328,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(activity, "已取消申請", Toast.LENGTH_SHORT).show(); // 這之後要用string
-                            }
-                        });
-
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                     }
                 });
 
@@ -325,13 +348,33 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addWorkerConfirmExecutionButton() {
+    public void addWorkerConfirmExecutionButton() { // 此按鈕應該修改任務狀態為 WORKER_CONFIRM_EXECUTION
 
         final MaterialButton materialButton = getBaseButton();
 
         materialButton.setBackgroundColor(Color.parseColor("#32A852"));
         materialButton.setText("Confirm_Execution");
         materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.WORKER_CONFIRM_EXECUTION, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                    }
+                });
+            }
+        });
 
         runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
             @Override
@@ -345,6 +388,11 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerRequestCheckTheTaskDoneButton() {
 
+    }
+
+    @Override
+    public void removeAllViewForTaskStateContext() { // Todo
+//        stateButtonsLayout.removeAllViews(); // 不能這樣 因為狀態文字會消失
     }
 
     @Override
@@ -404,12 +452,14 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void updateUserMode() {
-        if (taskReleaseUserID == loginUserID) {
+        if (mTask.getReleaseUserID() == loginUserID) {
             userMode = IS_RELEASE_USER;
-            Log.d(LOG_TAG, "is releaseUser");
         } else {
             userMode = IS_RECEIVE_USER;
-            Log.d(LOG_TAG, "is receiveUser");
         }
     }
+
+
+
+
 }
