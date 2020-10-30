@@ -13,6 +13,13 @@ public class WaitBoosCheckTheUserIsDoneTaskState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) {
+        if (context.isReleaseUser()) {
+            context.addBoosAgreeTaskIsDone();
+
+        } else if (context.isReceiveUser()) { // Todo 需改成 判斷是不是該使用者 而不是只有 receiveUser 或是其它種使用者改名
+
+            // 缺聯絡按鈕
+        }
 
     }
 

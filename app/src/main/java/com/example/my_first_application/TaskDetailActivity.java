@@ -392,6 +392,77 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerRequestCheckTheTaskDoneButton() {
 
+        final MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
+        materialButton.setText("Request check Done");
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.WAIT_BOOS_CHECK_THE_USER_IS_DONE_TASK, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
+    public void addBoosAgreeTaskIsDone() {
+
+        final MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
+        materialButton.setText("Agree The Task is Done");
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.PERFECT_END, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
     }
 
     @Override
