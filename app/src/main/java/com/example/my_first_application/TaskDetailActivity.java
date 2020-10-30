@@ -28,10 +28,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import TaskState.ITaskStateAction;
-import TaskState.BoosReleaseState;
-import TaskState.BoosSelectedWorkerState;
-import TaskState.WorkerConfirmExecutionState;
+import TaskState.*;
 
 import TaskState.EmptyState;
 import Task.TaskStateEnum;
@@ -182,19 +179,22 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 return BoosSelectedWorkerState.getInstance();
 
             case TASK_ON_GOING:
-                return WorkerConfirmExecutionState.getInstance();
+                return TaskOnGoingState.getInstance();
 
             case WAIT_BOOS_CHECK_THE_USER_IS_DONE_TASK:
+                return WaitBoosCheckTheUserIsDoneTaskState.getInstance();
 
             case WAIT_WORK_AGREE_STOP_THE_TASK:
+                return WaitWorkAgreeStopTheTaskState.getInstance();
 
             case PERFECT_END:
+                return PerfectEndState.getInstance();
 
             case FAILURE_END:
+                return FailureEndState.getInstance();
 
             default:
                 return EmptyState.getInstance();
-                // no thing
         }
     }
 
