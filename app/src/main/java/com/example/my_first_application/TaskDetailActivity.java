@@ -75,13 +75,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
         initAllUI();
-        // 以上順序為 updateMTask() >  getTaskStateAndUpdate() > updateTheUserIsAlreadyRequest() > upDateAllUI()
-        // 還未想到好方法簡化
-
-
     }
 
-    private void initAllUI() {
+    private void initAllUI() { // 使用同步鎖 確認這三件事都有完成時 才會觸發更新UI
         updateMTask();
         getTaskStateAndUpdate();
         updateTheUserIsAlreadyRequest();
@@ -206,11 +202,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addBoosDeleteButton() {
-        final MaterialButton materialButton = getBaseButton();
-
-        materialButton.setBackgroundColor(Color.parseColor("#C40C27"));
-        materialButton.setText("Delete");
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        final MaterialButton materialButton = getNegativeButton("Delete");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,11 +235,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     public void addBoosSelectedWorkerButton() { // Todo 這裡有bug 因為當發布者選擇接收者時 跳回到此頁時 會不是更新為最新的任務狀態
                                                // 應該要回到此任務介面即時更新
         
-        final MaterialButton materialButton = getBaseButton();
-
-        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
-        materialButton.setText("SelectRequestUser"); // Todo 之後要改為用多國語言字串
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        final MaterialButton materialButton = getPositiveButton("Select Request User");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,11 +259,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerRequestTaskButton() {
 
-        final MaterialButton materialButton = getBaseButton();
-
-        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
-        materialButton.setText("RequestTask");
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        final MaterialButton materialButton = getPositiveButton("RequestTask");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,12 +296,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerCancelRequestButton() {
 
-        final MaterialButton materialButton = getBaseButton();
-
-        materialButton.setBackgroundColor(Color.parseColor("#C40C27"));
-        materialButton.setText("Cancel_Request");
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
-
+        final MaterialButton materialButton = getNegativeButton("Cancel Request");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -354,11 +333,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerConfirmExecutionButton() { // 此按鈕應該修改任務狀態為 WORKER_CONFIRM_EXECUTION
 
-        final MaterialButton materialButton = getBaseButton();
+        final MaterialButton materialButton = getPositiveButton("Confirm Execution");
 
-        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
-        materialButton.setText("Confirm_Execution");
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -392,11 +368,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerRequestCheckTheTaskDoneButton() {
 
-        final MaterialButton materialButton = getBaseButton();
+        final MaterialButton materialButton = getPositiveButton("Request check Done");
 
-        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
-        materialButton.setText("Request check Done");
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -430,11 +403,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addBoosAgreeTaskIsDone() {
 
-        final MaterialButton materialButton = getBaseButton();
+        final MaterialButton materialButton = getPositiveButton("Agree The Task is Done");
 
-        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
-        materialButton.setText("Agree The Task is Done");
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -507,6 +477,27 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         }
     }
 
+    private MaterialButton getPositiveButton(String buttonText) {
+
+        MaterialButton materialButton = getBaseButton();
+        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
+        materialButton.setText(buttonText);
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+        return materialButton;
+    }
+
+    private MaterialButton getNegativeButton(String buttonText) {
+
+        MaterialButton materialButton = getBaseButton();
+
+        materialButton.setBackgroundColor(Color.parseColor("#C40C27"));
+        materialButton.setText(buttonText);
+        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+        return materialButton;
+    }
+
     private MaterialButton getBaseButton() {
 
         //參考以下 獲得如何修改button 風格的
@@ -515,9 +506,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(12, 12, 12, 12);
+        params.setMargins(70, 20, 70, 20);
         materialButton.setLayoutParams(params);
-        materialButton.setCornerRadius(5);
+        materialButton.setCornerRadius(30);
         materialButton.setTextSize(24);
 
         // 以下可以設定斜體字之類的 還需要查一下
@@ -533,8 +524,4 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             userMode = IS_RECEIVE_USER;
         }
     }
-
-
-
-
 }
