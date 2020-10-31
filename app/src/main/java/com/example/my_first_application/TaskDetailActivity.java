@@ -47,18 +47,20 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     Task mTask = TaskBuilder.aTask(0,0,0).build(); // 初始化假的任務
 
     public static final String IS_RELEASE_USER = "releaseUser";
+    public static final String IS_CAN_REQUEST_TASK_USER = "canRequestTaskUser";
     public static final String IS_RECEIVE_USER = "receiveUser";
-    private String userMode = IS_RELEASE_USER;
+    public static final String IS_UNKNOWN_USER = "unknownUser";
+    private String userMode = IS_UNKNOWN_USER;
 
     LinearLayout stateButtonsLayout;
     ITaskStateAction state = BoosReleaseState.getInstance();
 //    private TaskState taskState; // 我想這樣加 但還不行 之後要顯示修改狀態的時間
 
-    private final int allUpdateFunctionCount  = 3;
+    private final static int allUpdateFunctionCount  = 3; // 因為總共有三個非同步函式需要被計算
     private int currentUpdateFunctionDone = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { // Todo 要在初始化時就要知道此任務狀態 與 taskID
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail2);
 
@@ -233,7 +235,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addBoosSelectedWorkerButton() { // Todo 這裡有bug 因為當發布者選擇接收者時 跳回到此頁時 會不是更新為最新的任務狀態
-                                               // 應該要回到此任務介面即時更新
+                                               // 應該要回到此任務介面即時更新,  之後改成 把更新放在onStart()
         
         final MaterialButton materialButton = getPositiveButton("Select Request User");
 
@@ -469,8 +471,8 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public boolean isBoosSelectThatUserToDoTask() {
-        if ( mTask.getReceiveUserID() == loginUserID) {
+    public boolean isCanRequestTaskUser() {
+        if (userMode.equals(IS_CAN_REQUEST_TASK_USER)) {
             return true;
         } else {
             return false;
@@ -520,8 +522,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     private void updateUserMode() {
         if (mTask.getReleaseUserID() == loginUserID) {
             userMode = IS_RELEASE_USER;
-        } else {
+        } else if (mTask.getReceiveUserID() == loginUserID){
             userMode = IS_RECEIVE_USER;
+        } else { // 如果任務不屬於該使用者 且 該使用者未被指定, 則是可以申請任務狀態, 先不考慮沒登入的情況
+            userMode = IS_CAN_REQUEST_TASK_USER;
         }
     }
 }

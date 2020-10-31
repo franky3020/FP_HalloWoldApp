@@ -13,7 +13,9 @@ public class FailureEndState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) {
-
+        if (context.isReleaseUser()) {
+            context.addBoosDeleteButton(); // 測試用 如果任務為結束狀態 可以刪除
+        }
     }
 
     @Override
