@@ -76,10 +76,17 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         taskDetailFragment.setTaskID(taskID);
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         initAllUI();
     }
 
     private void initAllUI() { // 使用同步鎖 確認這三件事都有完成時 才會觸發更新UI
+        currentUpdateFunctionDone = 0; // 一定要先初始化為0, 這樣重複執行此函式才不會出錯
         updateMTask();
         getTaskStateAndUpdate();
         updateTheUserIsAlreadyRequest();
@@ -149,11 +156,11 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void upDateAllUI() {
-        addATaskStateForTest();
         state.showUI(thisContext);
     }
 
-    private void addATaskStateForTest() {
+    @Override
+    public void addATaskStateShow() {
         final TextView taskStateTextView = new TextView(this);
         taskStateTextView.setText(state.toString());
 
@@ -438,8 +445,13 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void removeAllViewForTaskStateContext() { // Todo
-//        stateButtonsLayout.removeAllViews(); // 不能這樣 因為狀態文字會消失
+    public void removeAllViewForTaskStateContext() {
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.removeAllViews();
+            }
+        });
     }
 
     @Override

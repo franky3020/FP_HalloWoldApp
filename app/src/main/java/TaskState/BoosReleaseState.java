@@ -14,6 +14,9 @@ public class BoosReleaseState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) {
+        context.removeAllViewForTaskStateContext();
+        context.addATaskStateShow();
+
         if (context.isReleaseUser()) {
             context.addBoosSelectedWorkerButton();
             context.addBoosDeleteButton();

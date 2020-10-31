@@ -13,6 +13,9 @@ public class WaitBoosCheckTheUserIsDoneTaskState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) {
+        context.removeAllViewForTaskStateContext();
+        context.addATaskStateShow();
+
         if (context.isReleaseUser()) {
             context.addBoosAgreeTaskIsDone();
 

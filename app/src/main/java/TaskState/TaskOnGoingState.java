@@ -13,6 +13,9 @@ public class TaskOnGoingState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) { // 缺聯絡按鈕
+        context.removeAllViewForTaskStateContext();
+        context.addATaskStateShow();
+
         if (context.isReleaseUser()) {
             // 加上Boos 請求中止任務選項
             //

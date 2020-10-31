@@ -12,6 +12,9 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) { // 缺聯絡按鈕
+        context.removeAllViewForTaskStateContext();
+        context.addATaskStateShow();
+
         if (context.isReleaseUser()) {
             // 加上 刪除該請求
             // 與刪除任務

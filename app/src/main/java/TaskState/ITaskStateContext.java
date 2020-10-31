@@ -11,6 +11,8 @@ public interface ITaskStateContext {
     void addWorkerRequestCheckTheTaskDoneButton();
     void addBoosAgreeTaskIsDone();
 
+    void addATaskStateShow();
+
     void removeAllViewForTaskStateContext();
 
     void addSendMessageButton();
