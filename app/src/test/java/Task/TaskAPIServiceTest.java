@@ -117,7 +117,7 @@ public class TaskAPIServiceTest {
     @Test
     public void updateTaskState() {
         TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.updateTaskState(325, TaskStateEnum.BOOS_CANCEL_THE_REQUEST_STOP_TASK, new Callback() {
+        taskApiService.updateTaskState(325, TaskStateEnum.BOOS_SELECTED_WORKER, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -245,8 +245,8 @@ public class TaskAPIServiceTest {
 
         final TaskAPIService taskApiService = new TaskAPIService();
 
-        int taskId = 418;
-        int userId = 13;
+        int taskId = 430;
+        int userId = 0;
 
         taskApiService.setTaskReceiveUser(taskId, userId, new Callback() {
             @Override
@@ -256,7 +256,10 @@ public class TaskAPIServiceTest {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                System.out.println("set ok");
+                if(response.isSuccessful()) {
+                    System.out.println("set ok");
+                }
+
             }
         });
 

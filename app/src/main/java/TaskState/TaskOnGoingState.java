@@ -12,20 +12,21 @@ public class TaskOnGoingState implements ITaskStateAction {
 
 
     @Override
-    public void showUI(ITaskStateContext context) {
+    public void showUI(ITaskStateContext context) { // 缺聯絡按鈕
+        context.removeAllViewForTaskStateContext();
+        context.addATaskStateShow();
+
         if (context.isReleaseUser()) {
-
-
-        } else if (context.isReceiveUser()) { // Todo 需要判斷是不是該使用者
-
-            if (context.isBoosSelectThatUserToDoTask()) {
-                context.addWorkerRequestCheckTheTaskDoneButton();
-            }
-
-            // 缺聯絡按鈕
+            // 加上Boos 請求中止任務選項
+            //
+        } else if (context.isReceiveUser()) {
+            context.addWorkerRequestCheckTheTaskDoneButton();
+            // 加上worker 中止任務選項
+        } else if (context.isCanRequestTaskUser()) {
+            // 顯示已被執行中 不得申請
+        } else {
+            // no thing
         }
-
-
     }
 
     @Override

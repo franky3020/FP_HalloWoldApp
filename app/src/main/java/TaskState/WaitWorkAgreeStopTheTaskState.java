@@ -13,6 +13,8 @@ public class WaitWorkAgreeStopTheTaskState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) {
+        context.removeAllViewForTaskStateContext();
+        context.addATaskStateShow();
 
     }
 

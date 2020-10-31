@@ -14,16 +14,17 @@ public class BoosReleaseState implements ITaskStateAction {
 
     @Override
     public void showUI(ITaskStateContext context) {
+        context.removeAllViewForTaskStateContext();
+        context.addATaskStateShow();
+
         if (context.isReleaseUser()) {
             context.addBoosSelectedWorkerButton();
             context.addBoosDeleteButton();
-        } else if (context.isReceiveUser()) {
-            if(context.hasRequestTask()) { // 如果已經申請 則新增刪除申請按鈕
-                context.addWorkerCancelRequestButton();
-            } else {
-                context.addWorkerRequestTaskButton();
-            }
-            // 缺聯絡按鈕
+
+        } else if (context.isCanRequestTaskUser()) {
+            context.addWorkerRequestTaskButton();
+        } else if (context.isCanCancelRequestTaskUser()) {
+            context.addWorkerCancelRequestButton();
         }
     }
 
