@@ -96,9 +96,22 @@
         android:id="@+id/quick_login_21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="quick_login_21"
         android:onClick="onClickToLogin21"
+        android:text="quick_login_21"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quick_login_14" />
+
+    <Button
+        android:id="@+id/quick_login_22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClickToLogin22"
+        android:text="quick_login_22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quick_login_21" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

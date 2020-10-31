@@ -74,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToLogin22(View view) {
+        GetLoginUser.registerUser(UserBuilder.anUser(22).build());
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ShowTaskActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
