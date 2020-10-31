@@ -17,7 +17,8 @@ public class WaitBoosCheckTheUserIsDoneTaskState implements ITaskStateAction {
         context.addATaskStateShow();
 
         if (context.isReleaseUser()) {
-            context.addBoosAgreeTaskIsDone();
+            context.addBoosAgreeTaskIsDoneButton();
+            context.addBoosNotAgreeTaskIsDoneButton();
 
         } else if (context.isReceiveUser()) {
 

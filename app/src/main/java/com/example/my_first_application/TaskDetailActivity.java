@@ -287,7 +287,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addBoosCancelRequestThatUser() {
+    public void addBoosCancelRequestThatUserButton() {
         final MaterialButton materialButton = getNegativeButton("Cancel Request that User");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
@@ -465,7 +465,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addBoosAgreeTaskIsDone() {
+    public void addBoosAgreeTaskIsDoneButton() {
 
         final MaterialButton materialButton = getPositiveButton("Agree The Task is Done");
 
@@ -474,6 +474,134 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             public void onClick(View v) {
                 TaskAPIService taskApiService = new TaskAPIService();
                 taskApiService.updateTaskState(taskID, TaskStateEnum.PERFECT_END, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        reloadActivity();
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
+    public void addBoosNotAgreeTaskIsDoneButton() {
+
+        final MaterialButton materialButton = getNegativeButton("Not Agree The Task is Done");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        reloadActivity();
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
+    public void addBoosRequestStopTaskButton() {
+
+        final MaterialButton materialButton = getNegativeButton("Request Stop Task");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.WAIT_WORK_AGREE_STOP_THE_TASK, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        reloadActivity();
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
+    public void addWorkerNotAgreeStopTaskButton() {
+
+        final MaterialButton materialButton = getNegativeButton("Not Agree Stop Task");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        reloadActivity();
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
+    public void addWorkerStopTaskButton() {
+
+        final MaterialButton materialButton = getNegativeButton("Stop Task");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.FAILURE_END, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
 

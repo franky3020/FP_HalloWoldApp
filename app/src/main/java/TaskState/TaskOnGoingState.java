@@ -17,11 +17,10 @@ public class TaskOnGoingState implements ITaskStateAction {
         context.addATaskStateShow();
 
         if (context.isReleaseUser()) {
-            // 加上Boos 請求中止任務選項
-            //
+            context.addBoosRequestStopTaskButton();
         } else if (context.isReceiveUser()) {
             context.addWorkerRequestCheckTheTaskDoneButton();
-            // 加上worker 中止任務選項
+            context.addWorkerStopTaskButton();
         } else if (context.isCanRequestTaskUser()) {
             // 顯示已被執行中 不得申請
         } else {
