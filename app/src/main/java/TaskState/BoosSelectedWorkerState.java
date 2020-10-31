@@ -22,6 +22,10 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
             context.addWorkerConfirmExecutionButton();
         } else if (context.isCanRequestTaskUser()) {
             context.addWorkerRequestTaskButton();
+        } else if (context.isCanCancelRequestTaskUser()) {
+            context.addWorkerCancelRequestButton();
+        } else {
+            // no thing
         }
     }
 

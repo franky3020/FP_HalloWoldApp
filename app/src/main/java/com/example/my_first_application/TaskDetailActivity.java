@@ -46,10 +46,11 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     boolean isUserAlreadyRequest = false;
     Task mTask = TaskBuilder.aTask(0,0,0).build(); // 初始化假的任務
 
-    public static final String IS_RELEASE_USER = "releaseUser";
-    public static final String IS_CAN_REQUEST_TASK_USER = "canRequestTaskUser";
-    public static final String IS_RECEIVE_USER = "receiveUser";
-    public static final String IS_UNKNOWN_USER = "unknownUser";
+    private static final String IS_RELEASE_USER = "releaseUser";
+    private static final String IS_CAN_REQUEST_TASK_USER = "canRequestTaskUser";
+    private static final String IS_CAN_CANCEL_REQUEST_TASK_USER = "canCancelRequestTaskUser";
+    private static final String IS_RECEIVE_USER = "receiveUser";
+    private static final String IS_UNKNOWN_USER = "unknownUser";
     private String userMode = IS_UNKNOWN_USER;
 
     LinearLayout stateButtonsLayout;
@@ -96,6 +97,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         synchronized((Object) currentUpdateFunctionDone) {
             currentUpdateFunctionDone++;
             if(currentUpdateFunctionDone == allUpdateFunctionCount) {
+                updateUserMode();
                 upDateAllUI();
             }
         }
@@ -108,7 +110,6 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onResponseOK(Task task) {
                 mTask = task;
-                updateUserMode();
                 Log.d(LOG_TAG, "updateMTask");
                 checkTheInitIsOkThenUpdateAllUI();
             }
@@ -144,6 +145,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onResponseOK(Boolean aBoolean) {
                 isUserAlreadyRequest = aBoolean;
+
                 Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
                 checkTheInitIsOkThenUpdateAllUI();
             }
@@ -461,35 +463,32 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public boolean isReleaseUser() {
-        if (userMode.equals(IS_RELEASE_USER)) {
-            return true;
-        } else {
-            return false;
-        }
+        return isUserModeEqualTo(IS_RELEASE_USER);
     }
 
     @Override
     public boolean isReceiveUser() {
-        if (userMode.equals(IS_RECEIVE_USER)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean hasRequestTask() {
-        return isUserAlreadyRequest;
+        return isUserModeEqualTo(IS_RECEIVE_USER);
     }
 
     @Override
     public boolean isCanRequestTaskUser() {
-        if (userMode.equals(IS_CAN_REQUEST_TASK_USER)) {
+        return isUserModeEqualTo(IS_CAN_REQUEST_TASK_USER);
+    }
+
+    @Override
+    public boolean isCanCancelRequestTaskUser() {
+        return isUserModeEqualTo(IS_CAN_CANCEL_REQUEST_TASK_USER);
+    }
+
+    private boolean isUserModeEqualTo(String userModeStr) {
+        if (userMode.equals(userModeStr)) {
             return true;
         } else {
             return false;
         }
     }
+
 
     private MaterialButton getPositiveButton(String buttonText) {
 
@@ -536,8 +535,10 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             userMode = IS_RELEASE_USER;
         } else if (mTask.getReceiveUserID() == loginUserID){
             userMode = IS_RECEIVE_USER;
-        } else { // 如果任務不屬於該使用者 且 該使用者未被指定, 則是可以申請任務狀態, 先不考慮沒登入的情況
+        } else if ( isUserAlreadyRequest == false ) { // 如果任務不屬於該使用者 且 該使用者未被指定, 則是可以申請任務狀態, 先不考慮沒登入的情況
             userMode = IS_CAN_REQUEST_TASK_USER;
+        } else if ( isUserAlreadyRequest == true ) {
+            userMode = IS_CAN_CANCEL_REQUEST_TASK_USER;
         }
     }
 }

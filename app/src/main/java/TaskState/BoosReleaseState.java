@@ -22,12 +22,9 @@ public class BoosReleaseState implements ITaskStateAction {
             context.addBoosDeleteButton();
 
         } else if (context.isCanRequestTaskUser()) {
-
-            if (context.hasRequestTask()) { // 如果已經申請 則新增刪除申請按鈕
-                context.addWorkerCancelRequestButton();
-            } else {
-                context.addWorkerRequestTaskButton();
-            }
+            context.addWorkerRequestTaskButton();
+        } else if (context.isCanCancelRequestTaskUser()) {
+            context.addWorkerCancelRequestButton();
         }
     }
 

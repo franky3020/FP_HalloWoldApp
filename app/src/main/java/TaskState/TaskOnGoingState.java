@@ -24,6 +24,8 @@ public class TaskOnGoingState implements ITaskStateAction {
             // 加上worker 中止任務選項
         } else if (context.isCanRequestTaskUser()) {
             // 顯示已被執行中 不得申請
+        } else {
+            // no thing
         }
     }
 

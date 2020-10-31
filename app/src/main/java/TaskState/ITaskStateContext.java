@@ -18,9 +18,9 @@ public interface ITaskStateContext {
     void addSendMessageButton();
     boolean isReleaseUser();
     boolean isReceiveUser();
-    boolean hasRequestTask();
 
     boolean isCanRequestTaskUser();
+    boolean isCanCancelRequestTaskUser();
 
 
 

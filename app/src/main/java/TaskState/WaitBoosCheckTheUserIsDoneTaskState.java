@@ -21,6 +21,8 @@ public class WaitBoosCheckTheUserIsDoneTaskState implements ITaskStateAction {
 
         } else if (context.isReceiveUser()) {
 
+        } else {
+            // no thing
         }
 
     }
