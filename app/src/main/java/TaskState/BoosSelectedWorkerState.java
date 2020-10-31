@@ -16,8 +16,8 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
         context.addATaskStateShow();
 
         if (context.isReleaseUser()) {
-            // 加上 刪除該請求
-            // 與刪除任務
+            context.addBoosCancelRequestThatUser();
+            context.addBoosDeleteButton();
         } else if (context.isReceiveUser()) { // Todo 需要判斷是不是該使用者
             context.addWorkerConfirmExecutionButton();
         } else if (context.isCanRequestTaskUser()) {

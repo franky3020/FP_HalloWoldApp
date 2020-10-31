@@ -5,6 +5,7 @@ public interface ITaskStateContext {
     void changeTaskState(ITaskStateAction stateAction);
     void addBoosDeleteButton();
     void addBoosSelectedWorkerButton();
+    void addBoosCancelRequestThatUser();
     void addWorkerRequestTaskButton(); // 要做申請訊息
     void addWorkerCancelRequestButton();
     void addWorkerConfirmExecutionButton();
