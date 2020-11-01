@@ -57,7 +57,17 @@ public class CollectTaskActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment getItem(int position) { // Todo 好像也能用 TaskDetailFragment.newInstance("1", "2") 來初始化
-            return new ShowRecyclerViewTaskFragment();
+
+            switch (position) {
+                case 0:
+                    return ShowRecyclerViewTaskFragment.newInstance(ShowRecyclerViewTaskFragment.USER_REQUEST_TASKS);
+                case 1:
+                    return ShowRecyclerViewTaskFragment.newInstance(ShowRecyclerViewTaskFragment.USER_RECEIVE_TASKS);
+                case 2:
+                    return ShowRecyclerViewTaskFragment.newInstance(ShowRecyclerViewTaskFragment.USER_END_TASKS);
+                default:
+                    return null;
+            }
         }
 
         @Override
