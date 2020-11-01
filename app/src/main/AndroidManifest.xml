@@ -14,6 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".CollectTaskActivity"/>
+
         <activity
             android:name=".ShowRequestUsersActivity"
             android:label="RequestUsers"/>

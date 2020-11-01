@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 
 import com.example.my_first_application.ChatActivity;
+import com.example.my_first_application.CollectTaskActivity;
 import com.example.my_first_application.HomePageActivity;
 import com.example.my_first_application.ProfileActivity;
 import com.example.my_first_application.R;
@@ -54,8 +55,9 @@ public final class BottomNavigationSettingFacade {
                         startAnotherActivity(activity, HomePageActivity.class);
                         break;
 
-                    case R.id.icon_search:
-                        return true;
+                    case R.id.icon_search: // Todo 要改名子
+                        startAnotherActivity(activity, CollectTaskActivity.class);
+                        break;
 
                     case R.id.icon_message:
                         startAnotherActivity(activity, ChatActivity.class);

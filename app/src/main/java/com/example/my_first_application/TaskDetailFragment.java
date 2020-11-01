@@ -26,7 +26,11 @@ public class TaskDetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
         final View view = getView();
+        System.out.println("franky-test - onStart");
         if(view != null) {
+            TextView taskTitle = view.findViewById(R.id.taskTitle);
+            taskTitle.setText("frank-TEST");
+
             TaskAPIService taskApiService = new TaskAPIService();
 
             taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
