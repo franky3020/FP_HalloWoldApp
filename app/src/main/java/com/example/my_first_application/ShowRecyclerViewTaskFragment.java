@@ -1,5 +1,6 @@
 package com.example.my_first_application;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -91,16 +92,21 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
 
                 @Override
                 public void onFailure() {
-                    getActivity().runOnUiThread(new Runnable() {
+                    final Activity activity = getActivity();
+                    if( activity == null) {
+                        return;
+                    }
+
+                    activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity(), "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
+                            Toast.makeText(activity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
                         }
                     });
                 }
             };
 
-            this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
+
 
         }
     }
@@ -109,6 +115,21 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     public void onStop() {
         super.onStop();
         Log.d(LOG_TAG, "onStop");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "onResume");
+
+        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(LOG_TAG, "onPause");
         this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
 
@@ -171,6 +192,11 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     public void taskUIUpdate(final ArrayList<Task> taskList) {
         recyclerViewAdapter.setShowTaskList(taskList);
 
+        final Activity activity = getActivity();
+        if( activity == null) {
+            return;
+        }
+
         recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
 
             @Override
@@ -179,11 +205,12 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
-                getActivity().startActivity(intent);
+                activity.startActivity(intent);
             }
         });
 
-        getActivity().runOnUiThread( new Runnable() { //必須要在主執行緒上更新UI, 才不會出錯
+
+        activity.runOnUiThread( new Runnable() { //必須要在主執行緒上更新UI, 才不會出錯
             @Override
             public void run() {
                 recyclerViewAdapter.notifyDataSetChanged();
@@ -192,21 +219,9 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
         });
     }
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public ShowRecyclerViewTaskFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
