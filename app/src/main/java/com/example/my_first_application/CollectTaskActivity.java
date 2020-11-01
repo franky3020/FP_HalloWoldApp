@@ -31,7 +31,6 @@ public class CollectTaskActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(2).getItemId());
         BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
 
 
@@ -45,9 +44,6 @@ public class CollectTaskActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-
-
-
     }
 
 
@@ -58,22 +54,31 @@ public class CollectTaskActivity extends AppCompatActivity {
         }
 
 
-
         @NonNull
         @Override
-        public Fragment getItem(int position) {
-            return TaskDetailFragment.newInstance("1", "2");
+        public Fragment getItem(int position) { // Todo 好像也能用 TaskDetailFragment.newInstance("1", "2") 來初始化
+            return new TaskDetailFragment();
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return "OBJECT " + (position + 1);
+
+            switch (position) {
+                case 0:
+                    return "已申請"; // Todo 之後要用 getResources().getText(R.string.XXX);
+                case 1:
+                    return "進行中";
+                case 2:
+                    return "已完成";
+                default:
+                    return null;
+            }
         }
     }
 
