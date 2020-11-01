@@ -85,7 +85,7 @@ public class CollectTaskActivity extends AppCompatActivity {
                 case 1:
                     return "進行中";
                 case 2:
-                    return "已完成";
+                    return "已結束";
                 default:
                     return null;
             }

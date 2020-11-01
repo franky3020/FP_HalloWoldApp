@@ -34,6 +34,7 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     Handler getTasksAPI_Handler;
 
     public static final String ALL_TASKS = "allTasks";
+    public static final String USER_RELEASE_TASKS = "userReleaseTasks";
     public static final String USER_REQUEST_TASKS = "userRequestTasks";
     public static final String USER_RECEIVE_TASKS = "userReceiveTasks";
     public static final String USER_END_TASKS = "userEndTasks";
@@ -118,6 +119,9 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
                 case ALL_TASKS:
                     sendGetTasksAPI();
                     break;
+                case USER_RELEASE_TASKS:
+                    sendGetUserReleaseTasksAPI();
+                    break;
                 case USER_REQUEST_TASKS:
                     sendGetUserRequestTasksAPI();
                     break;
@@ -140,6 +144,11 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
         final TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getTasksV3(getTasksAPIListener);
 
+    }
+
+    private void sendGetUserReleaseTasksAPI() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+        taskApiService.getReleaseUserTasks(userID, getTasksAPIListener);
     }
 
     private void sendGetUserRequestTasksAPI() {
