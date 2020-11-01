@@ -75,23 +75,6 @@ public class HomePageActivity extends AppCompatActivity { // 此頁面為顯示�
         this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_create_new_task:
-                Intent intent = new Intent(this, ReleaseTaskActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     public void taskUIUpdate(final ArrayList<Task> taskList) {
         recyclerViewAdapter.setShowTaskList(taskList);

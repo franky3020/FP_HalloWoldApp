@@ -19,6 +19,19 @@ public final class BottomNavigationSettingFacade {
     public static void setReleaseModeNavigation(final Activity activity, BottomNavigationView bottomNavigationView) {
         bottomNavigationView.inflateMenu(R.menu.menu_release_mode_bottom_navigation);
 
+        if (activity.getClass() == ShowTaskActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_home);
+
+        } else if (activity.getClass() == ChatActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_message);
+
+        } else if (activity.getClass() == ProfileActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_profile);
+
+        } else {
+            // no thing
+        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -45,6 +58,25 @@ public final class BottomNavigationSettingFacade {
 
 
         bottomNavigationView.inflateMenu(R.menu.menu_main_bottom_navigation);
+
+
+        if (activity.getClass() == HomePageActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_home);
+
+        } else if (activity.getClass() == CollectTaskActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_search);
+
+        } else if (activity.getClass() == ChatActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_message);
+
+        } else if (activity.getClass() == ProfileActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_profile);
+        } else {
+            // no thing
+        }
+
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
