@@ -559,6 +559,38 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
+    public void addBoosCancelTheStopTaskRequestButton() {
+
+        final MaterialButton materialButton = getPositiveButton("Cancel Stop Task Request");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        reloadActivity();
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
     public void addWorkerNotAgreeStopTaskButton() {
 
         final MaterialButton materialButton = getNegativeButton("Not Agree Stop Task");
