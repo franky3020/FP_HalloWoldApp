@@ -18,7 +18,7 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
         if (context.isReleaseUser()) {
             context.addBoosCancelRequestThatUserButton();
             context.addBoosDeleteButton();
-        } else if (context.isReceiveUser()) { // Todo 需要判斷是不是該使用者
+        } else if (context.isReceiveUser()) {
             context.addWorkerConfirmExecutionButton();
         } else if (context.isCanRequestTaskUser()) {
             context.addWorkerRequestTaskButton();
