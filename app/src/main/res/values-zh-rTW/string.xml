@@ -40,4 +40,5 @@
     <string name="search">搜尋</string>
     <string name="message">訊息</string>
     <string name="user">個人</string>
+    <string name="collect">收集</string>
 </resources>

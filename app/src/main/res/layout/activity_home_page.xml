@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,9 +12,11 @@
         android:id="@+id/toolbar"/>
 
     <LinearLayout
+        android:id="@+id/classification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="right">
@@ -41,25 +43,20 @@
             android:text="@string/show_task_spinner_address" />
     </LinearLayout>
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/tasks_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homeTaskShow"
-            android:padding="5dp"
-            android:clipToPadding="false"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bottom_navigation"
-            tools:listitem="@layout/activity_home_page_item"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/classification"
+        android:layout_above="@id/bottom_navigation">
+    </FrameLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            app:labelVisibilityMode="labeled"
-            android:layout_alignParentBottom="true" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:labelVisibilityMode="labeled"
+        android:layout_alignParentBottom="true" />
 
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

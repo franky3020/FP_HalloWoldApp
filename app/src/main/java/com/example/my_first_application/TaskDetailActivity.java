@@ -1,7 +1,6 @@
 package com.example.my_first_application;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -538,6 +536,38 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             public void onClick(View v) {
                 TaskAPIService taskApiService = new TaskAPIService();
                 taskApiService.updateTaskState(taskID, TaskStateEnum.WAIT_WORK_AGREE_STOP_THE_TASK, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        reloadActivity();
+                    }
+                });
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
+    public void addBoosCancelTheStopTaskRequestButton() {
+
+        final MaterialButton materialButton = getPositiveButton("Cancel Stop Task Request");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
 

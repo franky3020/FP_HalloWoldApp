@@ -14,6 +14,8 @@ public interface ITaskStateContext {
     void addBoosNotAgreeTaskIsDoneButton();
 
     void addBoosRequestStopTaskButton();
+    void addBoosCancelTheStopTaskRequestButton();
+
     void addWorkerNotAgreeStopTaskButton();
     void addWorkerStopTaskButton();
 

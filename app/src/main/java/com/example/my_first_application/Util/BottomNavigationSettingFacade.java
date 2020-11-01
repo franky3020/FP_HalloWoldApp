@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 
 import com.example.my_first_application.ChatActivity;
+import com.example.my_first_application.CollectTaskActivity;
 import com.example.my_first_application.HomePageActivity;
 import com.example.my_first_application.ProfileActivity;
 import com.example.my_first_application.R;
@@ -17,6 +18,19 @@ public final class BottomNavigationSettingFacade {
 
     public static void setReleaseModeNavigation(final Activity activity, BottomNavigationView bottomNavigationView) {
         bottomNavigationView.inflateMenu(R.menu.menu_release_mode_bottom_navigation);
+
+        if (activity.getClass() == ShowTaskActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_home);
+
+        } else if (activity.getClass() == ChatActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_message);
+
+        } else if (activity.getClass() == ProfileActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_profile);
+
+        } else {
+            // no thing
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -45,6 +59,25 @@ public final class BottomNavigationSettingFacade {
 
         bottomNavigationView.inflateMenu(R.menu.menu_main_bottom_navigation);
 
+
+        if (activity.getClass() == HomePageActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_home);
+
+        } else if (activity.getClass() == CollectTaskActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_search);
+
+        } else if (activity.getClass() == ChatActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_message);
+
+        } else if (activity.getClass() == ProfileActivity.class) {
+            bottomNavigationView.setSelectedItemId(R.id.icon_profile);
+        } else {
+            // no thing
+        }
+
+
+
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -54,8 +87,9 @@ public final class BottomNavigationSettingFacade {
                         startAnotherActivity(activity, HomePageActivity.class);
                         break;
 
-                    case R.id.icon_search:
-                        return true;
+                    case R.id.icon_search: // Todo 要改名子
+                        startAnotherActivity(activity, CollectTaskActivity.class);
+                        break;
 
                     case R.id.icon_message:
                         startAnotherActivity(activity, ChatActivity.class);
