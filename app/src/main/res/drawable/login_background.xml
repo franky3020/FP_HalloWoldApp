@@ -3,8 +3,8 @@
 
     <!-- 設定 Log in 背景從白色改成漸層 (深藍 -> 紫) -->
     <gradient
-        android:startColor="@color/dark_blue"
-        android:endColor="@color/purple"
+        android:startColor="@color/dark_green"
+        android:endColor="@color/green"
         android:angle="-135" />
 
 </shape>

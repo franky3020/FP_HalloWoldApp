@@ -47,50 +47,58 @@
         android:drawableStart="@drawable/ic_email_address"
         android:drawablePadding="8dp"
         android:hint="@string/email_address"
-        android:textColorHint="@color/login_form_details"
+        android:textColorHint="@color/login_register_form_details"
         android:padding="16dp"
         app:layout_constraintEnd_toStartOf="@id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
         app:layout_constraintTop_toBottomOf="@+id/imageView_logo" />
 
     <!-- Asset 教學 : https://developer.android.com/studio/write/image-asset-studio?hl=zh-cn -->
-    <EditText
-        android:id="@+id/editText_login_password"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_password_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inputType="textPassword"
-        android:background="@drawable/login_edit_text_background"
-        android:drawableStart="@drawable/ic_lock_password"
-        android:drawablePadding="8dp"
-        android:hint="@string/password"
-        android:textColorHint="@color/login_form_details"
-        android:padding="16dp"
-        android:drawableEnd="@drawable/ic_visibility_eye"
+        android:layout_marginTop="8dp"
+        app:endIconMode="password_toggle"
+        android:textColorHint="@color/login_register_form_details"
         app:layout_constraintEnd_toStartOf="@id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_login_username" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_login_username">
+
+        <EditText
+            android:id="@+id/editText_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:background="@drawable/login_edit_text_background"
+            android:drawableStart="@drawable/ic_lock_password"
+            android:drawablePadding="8dp"
+            android:hint="@string/password"
+            android:textColor="@color/login_register_form_details"
+            android:textColorHint="@color/login_register_form_details"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button_log_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:background="@drawable/login_button_background"
         android:onClick="onClickToSingIn"
         android:text="@string/login"
         android:textAllCaps="false"
-        android:textColor="@color/login_form_details_medium"
+        android:textColor="@color/login_register_form_details_medium"
+        android:layout_marginTop="18dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@id/editText_login_password" />
+        app:layout_constraintTop_toBottomOf="@+id/login_password_layout"/>
 
     <TextView
         android:id="@+id/textView_login_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forgot_your_password"
-        android:textColor="@color/login_form_details"
+        android:textColor="@color/login_register_form_details"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
         app:layout_constraintEnd_toStartOf="@id/guideline_login_page_right"
@@ -100,7 +108,7 @@
         android:id="@+id/view_or_left_line"
         android:layout_width="120dp"
         android:layout_height="1dp"
-        android:background="@color/login_form_details_medium"
+        android:background="@color/login_register_form_details_medium"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
         app:layout_constraintTop_toBottomOf="@+id/textView_login_forgot_password"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout_social_login"
@@ -112,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/or"
-        android:textColor="@color/login_form_details"
+        android:textColor="@color/login_register_form_details"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/view_or_left_line"
         app:layout_constraintTop_toTopOf="@+id/view_or_left_line"
@@ -123,7 +131,7 @@
         android:id="@+id/view_or_right_line"
         android:layout_width="120dp"
         android:layout_height="1dp"
-        android:background="@color/login_form_details_medium"
+        android:background="@color/login_register_form_details_medium"
         app:layout_constraintBottom_toBottomOf="@+id/textView_or"
         app:layout_constraintEnd_toEndOf="@id/guideline_login_page_right"
         app:layout_constraintStart_toEndOf="@+id/textView_or"
@@ -171,7 +179,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginBottom="50dp"
-        android:background="#fff"
+        android:background="@color/login_register_form_details_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -181,7 +189,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
-        android:textColor="@color/login_form_details"
+        android:textColor="@color/login_register_form_details"
         app:layout_constraintTop_toBottomOf="@+id/view_footer_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
