@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import Message.Message;
+import Message.MessageAPIService;
 import Task.Task;
 import Task.TaskAPIService;
 
@@ -46,39 +47,29 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        CardView chatCardView = holder.chatCardView;
+        MessageAPIService messageAPIService = new MessageAPIService();
 
-        final Message message = chatList.get(position);
-
-        //用message裡的TaskID去抓Task的taskName
-        TaskAPIService taskAPIService = new TaskAPIService();
-
-        taskAPIService.getATask(message.getTaskID(), new TaskAPIService.GetAPIListener<Task>() {
+        messageAPIService.getUserHasWhichTasks(1, new TaskAPIService.GetAPIListener<ArrayList<Task>>() {
             @Override
-            public void onResponseOK(Task task) {
-//                CardView chatCardView = holder.chatCardView;
+            public void onResponseOK(ArrayList<Task> taskList) {
+                CardView chatCardView = holder.chatCardView;
 
-                Task messageTask = task;
+                final Task task = taskList.get(position);
 
-//                TextView taskTitle = chatCardView.findViewById(R.id.textView_Task_title);
-//                taskTitle.setText(messageTask.getTaskName());
-//                taskTitle.setText("sssss");
-//
-//                TextView messageField = chatCardView.findViewById(R.id.textView_message);
-//                messageField.setText(message.getContent());
-//                messageField.setText("aaa");
-//
-//                TextView messageTimeField = chatCardView.findViewById(R.id.textView_message_time);
-//                LocalDateTime postTime = message.getPostTime();
-//
-//
-//                if (postTime != null) {
-//                    int hour = postTime.getHour();
-//                    int minute = postTime.getMinute();
-//                    messageTimeField.setText("" + hour + ":" + minute);
-//                }
-//                messageTimeField.setText("00:00");
+                TextView taskTitle = chatCardView.findViewById(R.id.textView_Task_title);
+                taskTitle.setText(task.getTaskName());
 
+                TextView messageField = chatCardView.findViewById(R.id.textView_message);
+                messageField.setText(task.getContent());
+
+                TextView messageTimeField = chatCardView.findViewById(R.id.textView_message_time);
+                LocalDateTime messageSendTime = task.getMessageSendTime();
+
+                if (messageSendTime != null) {
+                    int hour = messageSendTime.getHour();
+                    int minute = messageSendTime.getMinute();
+                    messageTimeField.setText("" + hour + ":" + minute);
+                }
 //                chatCardView.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View view) {
@@ -94,9 +85,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
             }
         });
-        //嘗試讓CardView顯示訊息
-        TextView taskTitle = chatCardView.findViewById(R.id.textView_Task_title);
-        taskTitle.setText("aaa");
 
     }
 

@@ -89,6 +89,7 @@ public class TaskAPIService {
         getTaskThread.start();
     }
 
+
     public void getReleaseUserTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
@@ -119,6 +120,8 @@ public class TaskAPIService {
         };
         getTaskThread.start();
     }
+
+
 
     public void getATask(final int taskID, final GetAPIListener<Task> getAPIListener) {
 
