@@ -17,14 +17,14 @@ import static org.junit.Assert.assertTrue;
 
 public class MessageAPIServiceTest {
     @Test
-    public void getMessages_test() {
+    public void getUserMessages_test() {
         final MessageAPIService messageAPIService = new MessageAPIService();
-        messageAPIService.getMessages(new MessageAPIService.MessageListener() {
+        messageAPIService.getUserMessages(1,new MessageAPIService.GetAPIListener<ArrayList<Message>>() {
 
             public void onResponseOK(ArrayList<Message> messages) {
                 System.out.println(messages.size());
                 for(Message message: messages) {
-                    System.out.println(message.getMessageID());
+                    System.out.println(message.getContent());
                 }
                 assertTrue(messages.size() > 0);
             }

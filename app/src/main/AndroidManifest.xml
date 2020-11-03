@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ShowChatActivity"></activity>
         <activity
             android:name=".CollectTaskActivity"
             android:label="@string/collect"/>
@@ -24,42 +24,36 @@
 
         <activity
             android:name=".HomePageActivity"
-            android:label="@string/homePage_toolbar_title"></activity>
-
+            android:label="@string/homePage_toolbar_title" />
         <activity
             android:name=".ShowTaskActivity"
-            android:label="@string/showTask_toolbar_title"></activity>
-
-        <activity android:name=".TaskDetailActivity"></activity>
-
-        <activity android:name=".MainActivity"
+            android:label="@string/showTask_toolbar_title" />
+        <activity android:name=".TaskDetailActivity" />
+        <activity
+            android:name=".MainActivity"
             android:label="@string/main_toolbar_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/SignTheme"></activity>
-
+            android:theme="@style/SignTheme" />
         <activity
             android:name=".SignUpActivity"
-            android:theme="@style/SignTheme"></activity>
-
+            android:theme="@style/SignTheme" />
         <activity
             android:name=".ReleaseTaskActivity"
             android:label="@string/releaseTask_toolbar_title"
-            android:parentActivityName=".ShowTaskActivity"></activity>
-
+            android:parentActivityName=".ShowTaskActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/profile_toolbar_title"></activity>
-
+            android:label="@string/profile_toolbar_title" />
         <activity
             android:name=".ChatActivity"
-            android:label="ChatPage"></activity>
-
+            android:label="ChatPage" />
     </application>
+
 </manifest>

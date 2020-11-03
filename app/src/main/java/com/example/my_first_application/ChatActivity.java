@@ -2,7 +2,6 @@ package com.example.my_first_application;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import  androidx.appcompat.widget.Toolbar;
 
@@ -25,6 +24,7 @@ import java.util.Objects;
 
 import Message.Message;
 import Message.MessageAPIService;
+import Message.ModelChat;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -40,8 +40,10 @@ public class ChatActivity extends AppCompatActivity {
 
     String content;
 
+    public static final String EXTRA_Receiver_ID = "receiverID";
+
     List<ModelChat> chatList;
-    AdapterChat adapterChat;
+    ChatAdapter adapterChat;
 
     private static final String LOG_TAG = ChatActivity.class.getSimpleName();
     ChatActivity chatActivity = this;

@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         intent.setClass(MainActivity.this, ShowTaskActivity.class);
         startActivity(intent);
     }
+    public void onClickToShowChatList(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ShowChatActivity.class);
+        startActivity(intent);
+    }
 
     public void onClickToMainPage(View view) {
         Intent intent = new Intent();

@@ -10,7 +10,9 @@ import com.example.my_first_application.ChatActivity;
 import com.example.my_first_application.CollectTaskActivity;
 import com.example.my_first_application.HomePageActivity;
 import com.example.my_first_application.ProfileActivity;
+
 import com.example.my_first_application.R;
+import com.example.my_first_application.ShowChatActivity;
 import com.example.my_first_application.ShowTaskActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,7 +24,7 @@ public final class BottomNavigationSettingFacade {
         if (activity.getClass() == ShowTaskActivity.class) {
             bottomNavigationView.setSelectedItemId(R.id.icon_home);
 
-        } else if (activity.getClass() == ChatActivity.class) {
+        } else if (activity.getClass() == ShowChatActivity.class) {
             bottomNavigationView.setSelectedItemId(R.id.icon_message);
 
         } else if (activity.getClass() == ProfileActivity.class) {
@@ -42,7 +44,7 @@ public final class BottomNavigationSettingFacade {
                         break;
 
                     case R.id.icon_message:
-                        startAnotherActivity(activity, ChatActivity.class);
+                        startAnotherActivity(activity, ShowChatActivity.class);
                         break;
 
                     case R.id.icon_profile:

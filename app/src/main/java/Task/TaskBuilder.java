@@ -21,6 +21,7 @@ public final class TaskBuilder {
         this.releaseUserID = releaseUserID;
     }
 
+
     public static TaskBuilder aTask(int taskID, int salary, int releaseUserID) {
         return new TaskBuilder(taskID, salary, releaseUserID);
     }

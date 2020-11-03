@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import Task.Task;
+import Task.TaskAPIService;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -26,16 +28,21 @@ public class MessageAPIService {
     private static final String LOG_TAG = ChatActivity.class.getSimpleName();
 
     //String API_version = "ms-provider-develop";
-    public static final String API_version = "ms-provider-develop";
+    public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/message";
 
-    public void getMessages(final MessageListener messageListener){
+    public interface GetAPIListener<T> {
+        void onResponseOK(T t);
+        void onFailure();
+    }
+
+    public void getUserMessages(final int userId, final GetAPIListener< ArrayList<Message> > getAPIListener) {
 
         Thread getMessageThread = new Thread() {
             public void run() {
                 Request request = new Request.Builder()
-                        .url(base_URL)
+                        .url(base_URL + "/" + "conversationByUserID" + "/" + userId)
                         .method("GET", null)
                         .build();
                 OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -44,17 +51,17 @@ public class MessageAPIService {
                     Response response= client.newCall(request).execute();
 
                     if(response.isSuccessful()) {
-                        JSONObject messagesJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                        ArrayList<Message> messageList = parseMessagesFromJson(messagesJSONObject);
-                        messageListener.onResponseOK(messageList);
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Message> messageList = parseMessagesFromJson(tasksJSONObject);
+                        getAPIListener.onResponseOK(messageList);
                     } else {
-                        messageListener.onFailure();
+                        getAPIListener.onFailure();
                     }
                     response.close();
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
-                    messageListener.onFailure();
+                    getAPIListener.onFailure();
                 }
             }
         };
@@ -94,6 +101,36 @@ public class MessageAPIService {
             return null;
         }
     }
+    public void getUserHasWhichTasks(final int userId, final TaskAPIService.GetAPIListener< ArrayList<Task> > getAPIListener) {
+
+        Thread getTaskThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + "userHasWhichTasks" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                        getAPIListener.onResponseOK(taskList);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskThread.start();
+    }
 
     public ArrayList<Message> parseMessagesFromJson(JSONObject tasksJSONObject) {
         ArrayList<Message> messageList = new ArrayList<>();
@@ -128,10 +165,35 @@ public class MessageAPIService {
 
         return new Message(messageId, content, userID, receiverID, taskID, postTime);
     }
+    private ArrayList<Task> parseTasksFromJson(JSONObject tasksJSONObject) {
+        ArrayList<Task> taskList = new ArrayList<>();
+        Iterator<String> taskKeys = tasksJSONObject.keys();
 
-    public interface MessageListener {
-        void onResponseOK(ArrayList<Message> messages);
-        void onFailure();
+        while (taskKeys.hasNext()) {
+            try {
+                String key = taskKeys.next();
+                JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
+                Task task = parse_a_Task(aJSONTask, key); //還不確定如果這裡丟出例外 會發生什麼事
+                taskList.add(task);
+            } catch (Exception e) {
+                Log.d(LOG_TAG, e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        return taskList;
+    }
+    private Task parse_a_Task(JSONObject aJSONTask, String taskKey) throws Exception {
+
+        int taskId = Integer.parseInt(taskKey);
+
+        String taskName = aJSONTask.optString("name");
+
+        String content = aJSONTask.optString("content");
+
+        LocalDateTime messageSendTime = transitTimeStampFromGetAPI(aJSONTask.optString("messageSendTime"));
+
+        return new Task(taskId, taskName, content, messageSendTime);
     }
 
 }
