@@ -40,6 +40,8 @@ public class ChatActivity extends AppCompatActivity {
 
     String content;
 
+    public static final String EXTRA_Receiver_ID = "receiverID";
+
     List<ModelChat> chatList;
     ChatAdapter adapterChat;
 

@@ -31,7 +31,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     String imageUrl;
     private Listener listener;
 
-//    FirebaseUser fUser;
+
     interface Listener {
         void onClick(int position);
     }

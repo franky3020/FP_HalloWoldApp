@@ -1,6 +1,5 @@
 package com.example.my_first_application;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import Message.Message;
-import Message.MessageAPIService;
 import Task.Task;
-import Task.TaskAPIService;
 
-public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
+public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = ChatListAdapter.class.getSimpleName();
+    private static final String LOG_TAG = ShowChatAdapter.class.getSimpleName();
 
     private ArrayList<Task> chatList;
     private Listener listener;
@@ -31,13 +27,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     }
 
 
-    public ChatListAdapter(ArrayList<Task> chatList) {
+    public ShowChatAdapter(ArrayList<Task> chatList) {
         this.chatList = chatList;
     }
 
     @NonNull
     @Override
-    public ChatListAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
+    public ShowChatAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_show_chat_item, parent, false);
 

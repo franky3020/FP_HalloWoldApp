@@ -1,18 +1,13 @@
 package com.example.my_first_application;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.my_first_application.Util.BottomNavigationSettingFacade;
@@ -20,7 +15,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-import Message.Message;
 import Message.MessageAPIService;
 import Task.Task;
 import Task.TaskAPIService;
@@ -34,7 +28,7 @@ public class ShowChatActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<Task> chatList = new ArrayList<>();
-    ChatListAdapter recyclerViewAdapter;
+    ShowChatAdapter recyclerViewAdapter;
     Handler getMessagesAPI_Handler;
 
     int loginUserId;
@@ -58,7 +52,7 @@ public class ShowChatActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.chatListShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.recyclerViewAdapter = new ChatListAdapter(chatList);
+        this.recyclerViewAdapter = new ShowChatAdapter(chatList);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -121,7 +115,7 @@ public class ShowChatActivity extends AppCompatActivity {
 
         recyclerViewAdapter.setShowChatList(chatList);
 
-        recyclerViewAdapter.setListener(new ChatListAdapter.Listener() {
+        recyclerViewAdapter.setListener(new ShowChatAdapter.Listener() {
 
             @Override
             public void onClick(int position) {
