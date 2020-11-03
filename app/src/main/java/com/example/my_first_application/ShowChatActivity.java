@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import Message.Message;
 import Message.MessageAPIService;
 import Task.Task;
+import Task.TaskAPIService;
 import User.GetLoginUser;
 
 public class ShowChatActivity extends AppCompatActivity {
@@ -32,7 +33,7 @@ public class ShowChatActivity extends AppCompatActivity {
     ShowChatActivity showChatActivity = this;
 
     RecyclerView recyclerView;
-    ArrayList<Message> chatList = new ArrayList<>();
+    ArrayList<Task> chatList = new ArrayList<>();
     ChatListAdapter recyclerViewAdapter;
     Handler getMessagesAPI_Handler;
 
@@ -85,39 +86,20 @@ public class ShowChatActivity extends AppCompatActivity {
 
     private final Runnable getMessageAPI_Runnable = new Runnable() {
         public void run() {
-            sendGetMessagesAPI();
+            sendGetMessageTaskAPI();
             int delayMillis = 3000;
             getMessagesAPI_Handler.postDelayed(getMessageAPI_Runnable, delayMillis);
         }
     };
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_create_new_task:
-                Intent intent = new Intent(this, ReleaseTaskActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void sendGetMessagesAPI() {
+    private void sendGetMessageTaskAPI() {
         final MessageAPIService messageApiService = new MessageAPIService();
 
-        messageApiService.getUserMessages(1, new MessageAPIService.GetAPIListener< ArrayList<Message> >() {
-
+        messageApiService.getUserHasWhichTasks(loginUserId, new TaskAPIService.GetAPIListener<ArrayList<Task>>() {
             @Override
-            public void onResponseOK(ArrayList<Message> messages) {
-                chatList = messages;
+            public void onResponseOK(ArrayList<Task> taskList) {
+                chatList = taskList;
                 messageUIUpdate(chatList);
                 Log.d(LOG_TAG, "sendGetMessagesAPI onResponse");
             }
@@ -135,7 +117,7 @@ public class ShowChatActivity extends AppCompatActivity {
         });
     }
 
-    private void messageUIUpdate(final ArrayList<Message> chatList) { //必須要在主執行緒上更新UI, 才不會出錯
+    private void messageUIUpdate(final ArrayList<Task> chatList) { //必須要在主執行緒上更新UI, 才不會出錯
 
         recyclerViewAdapter.setShowChatList(chatList);
 
@@ -143,7 +125,7 @@ public class ShowChatActivity extends AppCompatActivity {
 
             @Override
             public void onClick(int position) {
-                Message message = chatList.get(position);
+                Task task = chatList.get(position);
 
 //                Intent intent = new Intent(showChatActivity, TaskDetailActivity.class);
 //                intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());

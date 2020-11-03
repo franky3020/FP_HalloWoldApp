@@ -22,7 +22,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     private static final String LOG_TAG = ChatListAdapter.class.getSimpleName();
 
-    private ArrayList<Message> chatList;
+    private ArrayList<Task> chatList;
     private Listener listener;
 
     // 使用介面解耦
@@ -31,7 +31,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     }
 
 
-    public ChatListAdapter(ArrayList<Message> chatList) {
+    public ChatListAdapter(ArrayList<Task> chatList) {
         this.chatList = chatList;
     }
 
@@ -46,15 +46,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-
-        MessageAPIService messageAPIService = new MessageAPIService();
-
-        messageAPIService.getUserHasWhichTasks(1, new TaskAPIService.GetAPIListener<ArrayList<Task>>() {
-            @Override
-            public void onResponseOK(ArrayList<Task> taskList) {
                 CardView chatCardView = holder.chatCardView;
 
-                final Task task = taskList.get(position);
+                final Task task = chatList.get(position);
 
                 TextView taskTitle = chatCardView.findViewById(R.id.textView_Task_title);
                 taskTitle.setText(task.getTaskName());
@@ -70,22 +64,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
                     int minute = messageSendTime.getMinute();
                     messageTimeField.setText("" + hour + ":" + minute);
                 }
-//                chatCardView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (listener != null) {
-//                            listener.onClick(position);
-//                        }
-//                    }
-//                });
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-
+                chatCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (listener != null) {
+                            listener.onClick(position);
+                        }
+                    }
+                });
     }
 
 
@@ -95,7 +81,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         return chatList.size();
     }
 
-    public void setShowChatList(ArrayList<Message> chatList) {
+    public void setShowChatList(ArrayList<Task> chatList) {
         this.chatList = chatList;
     }
 
