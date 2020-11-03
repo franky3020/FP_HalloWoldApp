@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,13 +31,6 @@ public class ShowTaskActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = ShowTaskActivity.class.getSimpleName();
 
-    ShowTaskActivity showTaskActivity = this;
-
-    RecyclerView recyclerView;
-    ArrayList<Task> taskList = new ArrayList<>();
-    ShowTaskAdapter recyclerViewAdapter;
-    Handler getTasksAPI_Handler = new Handler();
-
     int loginUserId;
 
     @Override
@@ -53,43 +47,19 @@ public class ShowTaskActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.recyclerView = findViewById(R.id.taskShow);
-        LinearLayoutManager layoutManager= new LinearLayoutManager(this);
-        this.recyclerView.setLayoutManager(layoutManager);
-        this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
-        this.recyclerView.setAdapter(recyclerViewAdapter);
+        ShowRecyclerViewTaskFragment showRecyclerViewTaskFragment = ShowRecyclerViewTaskFragment
+                                              .newInstance(ShowRecyclerViewTaskFragment.USER_RELEASE_TASKS);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.tasks_container, showRecyclerViewTaskFragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
 
         Log.d(LOG_TAG, "onCreate over"); // 就算跳到 login 頁面, 這一行還是會跑完, onCreate() 完後 會執行 onDestroy
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "onStart");
-
-        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(LOG_TAG, "onStop");
-
-        this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
-    }
-
-
-    private final Runnable getTaskAPI_Runnable = new Runnable() {
-        public void run() {
-            sendGetTasksAPI();
-            int delayMillis = 3000;
-            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
-        }
-    };
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,54 +77,6 @@ public class ShowTaskActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void sendGetTasksAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-
-        taskApiService.getReleaseUserTasks(this.loginUserId, new TaskAPIService.GetAPIListener< ArrayList<Task> >() {
-
-            @Override
-            public void onResponseOK(ArrayList<Task> tasks) {
-                taskList = tasks;
-                taskUIUpdate(taskList);
-                Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
-            }
-
-            @Override
-            public void onFailure() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(showTaskActivity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
-                    }
-                });
-            }
-        });
-    }
-
-    private void taskUIUpdate(final ArrayList<Task> taskList) { //必須要在主執行緒上更新UI, 才不會出錯
-
-        recyclerViewAdapter.setShowTaskList(taskList);
-
-        recyclerViewAdapter.setListener(new ShowTaskAdapter.Listener() {
-
-            @Override
-            public void onClick(int position) {
-                Task task = taskList.get(position);
-
-                Intent intent = new Intent(showTaskActivity, TaskDetailActivity.class);
-                intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
-                showTaskActivity.startActivity(intent);
-            }
-        });
-
-        runOnUiThread( new Runnable() {
-            @Override
-            public void run() {
-                recyclerViewAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     public void onClickToReleaseTask(View view) {

@@ -194,6 +194,13 @@
                 android:src="@drawable/arrow_dark"/>
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/toMainButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickToTestMain"
+            android:text="(測試用的) 可以使用此使用者到測試的主頁面" />
+
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

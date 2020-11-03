@@ -134,7 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     progressDialog.dismiss();
-                    startActivity(new Intent(SignUpActivity.this, HomePageActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                     finish();
                 }
 

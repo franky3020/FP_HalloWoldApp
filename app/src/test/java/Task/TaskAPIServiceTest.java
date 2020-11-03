@@ -117,7 +117,7 @@ public class TaskAPIServiceTest {
     @Test
     public void updateTaskState() {
         TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.updateTaskState(325, TaskStateEnum.BOOS_CANCEL_THE_REQUEST_STOP_TASK, new Callback() {
+        taskApiService.updateTaskState(325, TaskStateEnum.BOOS_SELECTED_WORKER, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -231,6 +231,66 @@ public class TaskAPIServiceTest {
             }
         });
 
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Test
+    public void setTaskReceiveUser() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 430;
+        int userId = 0;
+
+        taskApiService.setTaskReceiveUser(taskId, userId, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    System.out.println("set ok");
+                }
+
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void checkUserAlreadyRequest() {
+
+        final TaskAPIService taskApiService = new TaskAPIService();
+
+        int taskId = 420;
+        int userId = 21;
+
+        taskApiService.checkUserAlreadyRequest(taskId, userId, new TaskAPIService.GetAPIListener<Boolean>(){
+
+            @Override
+            public void onResponseOK(Boolean aBoolean) {
+                System.out.println(aBoolean);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("onFailure");
+            }
+        });
         try {
             Thread.sleep(5000); // 為了等API完成, 不然這個test會被突然中斷, 導致失敗
         } catch (InterruptedException e) {

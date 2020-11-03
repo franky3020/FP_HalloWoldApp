@@ -1,7 +1,9 @@
 package com.example.my_first_application;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +17,15 @@ import User.User;
 public class ShowRequestUsersAdapter extends RecyclerView.Adapter<ShowRequestUsersAdapter.ViewHolder> {
 
     private ArrayList<User> users;
+    private Listener listener;
 
     public ShowRequestUsersAdapter(ArrayList<User> users) {
         this.users = users;
     }
 
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -30,13 +36,29 @@ public class ShowRequestUsersAdapter extends RecyclerView.Adapter<ShowRequestUse
         return new ShowRequestUsersAdapter.ViewHolder(cardView);
     }
 
+    // 使用介面解耦
+    interface Listener {
+        void onClick(int position);
+    }
+
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final User user = users.get(position);
         CardView requestUserCardView = holder.userCardView;
 
         TextView userName = requestUserCardView.findViewById(R.id.user_name);
         userName.setText("" + user.getId()); // Todo 先用ID 替代
+
+        Button selectButton = requestUserCardView.findViewById(R.id.select_user_button);
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onClick(position);
+                }
+            }
+        });
+
     }
 
     @Override

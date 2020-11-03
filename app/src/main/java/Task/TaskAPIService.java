@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.SortedMap;
 
 import User.User;
 import okhttp3.Callback;
@@ -96,6 +97,49 @@ public class TaskAPIService {
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + "ReleaseUser" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                        getAPIListener.onResponseOK(taskList);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskThread.start();
+    }
+
+    public void getUserRequestTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+        getUserSpecifyTask("UserRequestTasks", userId, getAPIListener);
+    }
+
+    public void getUserReceiveTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+        getUserSpecifyTask("UserReceiveTasks", userId, getAPIListener);
+    }
+
+    public void getUserEndTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+        getUserSpecifyTask("UserEndTasks", userId, getAPIListener);
+    }
+
+    private void getUserSpecifyTask(final String specifyClassification, final int userId,
+                                    final GetAPIListener< ArrayList<Task> > getAPIListener) {
+        Thread getTaskThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + specifyClassification + "/" + userId)
                         .method("GET", null)
                         .build();
                 OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -357,5 +401,69 @@ public class TaskAPIService {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         client.newCall(request).enqueue(callback);
     }
+
+    public void setTaskReceiveUser(int taskId, int userId, Callback callback) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("op", "replace");
+            jsonObject.put("path", "/receiveUserID");
+            jsonObject.put("value", userId);
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonObject);
+
+            MediaType patchJSON = MediaType.parse("application/json-patch+json");
+            RequestBody body = RequestBody.create(String.valueOf(jsonArray), patchJSON);
+            System.out.println(String.valueOf(jsonArray));
+
+            Request request = new Request.Builder()
+                    .url(base_URL + "/" + taskId)
+                    .patch(body)
+                    .build();
+            OkHttpClient client = new OkHttpClient();
+            client.newCall(request).enqueue(callback);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void checkUserAlreadyRequest(final int taskId, final int userId, final GetAPIListener<Boolean> getAPIListener) {
+
+        Thread getTaskStateThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + taskId + "/" +"checkUserAlreadyRequest" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        String responseStr = Objects.requireNonNull(response.body()).string();
+                        if (responseStr.equals("true")) {
+                            getAPIListener.onResponseOK(true);
+                        } else { // responseStr.equals("false")
+                            getAPIListener.onResponseOK(false);
+                        }
+
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    e.printStackTrace();
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskStateThread.start();
+    }
+
 
 }

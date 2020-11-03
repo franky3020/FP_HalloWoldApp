@@ -13,7 +13,7 @@ public class Task {
     private String typeName;
     private int releaseUserID;
     private LocalDateTime releaseTime;
-    private int receiveUserID;
+    private int receiveUserID = 0; // 保險起見 還是初始化個0
     private LocalDateTime receiveTime;
     private String taskAddress;
     private int taskCity;
