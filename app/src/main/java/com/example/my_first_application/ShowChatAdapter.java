@@ -50,10 +50,10 @@ public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHo
                 taskTitle.setText(task.getTaskName());
 
                 TextView messageField = chatCardView.findViewById(R.id.textView_message);
-                messageField.setText(task.getContent());
+                messageField.setText("context_ 未加上");
 
                 TextView messageTimeField = chatCardView.findViewById(R.id.textView_message_time);
-                LocalDateTime messageSendTime = task.getMessageSendTime();
+                LocalDateTime messageSendTime = LocalDateTime.now(); // 這先用目前時間代替
 
                 if (messageSendTime != null) {
                     int hour = messageSendTime.getHour();

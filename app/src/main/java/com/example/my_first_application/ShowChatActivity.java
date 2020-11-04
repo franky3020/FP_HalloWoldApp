@@ -15,19 +15,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-import Message.MessageAPIService;
 import Task.Task;
 import Task.TaskAPIService;
 import User.GetLoginUser;
 
-public class ShowChatActivity extends AppCompatActivity {
+public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管理介面, Todo 這命名有可能要改
 
     private static final String LOG_TAG = ShowChatActivity.class.getSimpleName();
 
     ShowChatActivity showChatActivity = this;
 
     RecyclerView recyclerView;
-    ArrayList<Task> chatList = new ArrayList<>();
+    ArrayList<Task> mTasks = new ArrayList<>();
     ShowChatAdapter recyclerViewAdapter;
     Handler getMessagesAPI_Handler;
 
@@ -52,7 +51,7 @@ public class ShowChatActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.chatListShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.recyclerViewAdapter = new ShowChatAdapter(chatList);
+        this.recyclerViewAdapter = new ShowChatAdapter(mTasks);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -80,21 +79,21 @@ public class ShowChatActivity extends AppCompatActivity {
 
     private final Runnable getMessageAPI_Runnable = new Runnable() {
         public void run() {
-            sendGetMessageTaskAPI();
+            sendGetMessageRelatedTaskAPI();
             int delayMillis = 3000;
             getMessagesAPI_Handler.postDelayed(getMessageAPI_Runnable, delayMillis);
         }
     };
 
 
-    private void sendGetMessageTaskAPI() {
-        final MessageAPIService messageApiService = new MessageAPIService();
+    private void sendGetMessageRelatedTaskAPI() {
+        final TaskAPIService taskAPIService = new TaskAPIService();
 
-        messageApiService.getUserHasWhichTasks(loginUserId, new TaskAPIService.GetAPIListener<ArrayList<Task>>() {
+        taskAPIService.getUserMessageRelatedWhichTasks(loginUserId, new TaskAPIService.GetAPIListener<ArrayList<Task>>() {
             @Override
-            public void onResponseOK(ArrayList<Task> taskList) {
-                chatList = taskList;
-                messageUIUpdate(chatList);
+            public void onResponseOK(ArrayList<Task> tasks) {
+                mTasks = tasks;
+                messageListUIUpdate(mTasks);
                 Log.d(LOG_TAG, "sendGetMessagesAPI onResponse");
             }
 
@@ -111,15 +110,15 @@ public class ShowChatActivity extends AppCompatActivity {
         });
     }
 
-    private void messageUIUpdate(final ArrayList<Task> chatList) { //必須要在主執行緒上更新UI, 才不會出錯
+    private void messageListUIUpdate(final ArrayList<Task> tasks) { //必須要在主執行緒上更新UI, 才不會出錯
 
-        recyclerViewAdapter.setShowChatList(chatList);
+        recyclerViewAdapter.setShowChatList(tasks);
 
         recyclerViewAdapter.setListener(new ShowChatAdapter.Listener() {
 
             @Override
             public void onClick(int position) {
-                Task task = chatList.get(position);
+                Task task = tasks.get(position);
 
 //                Intent intent = new Intent(showChatActivity, TaskDetailActivity.class);
 //                intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
