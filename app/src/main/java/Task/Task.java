@@ -17,18 +17,9 @@ public class Task {
     private LocalDateTime receiveTime;
     private String taskAddress;
     private int taskCity;
-//    private TaskState state; // 目前後端無這資料 但之後必須加上
-    private String content;
-    private LocalDateTime messageSendTime;
 
     public Task() {
 
-    }
-    public Task(int id, String taskName, String content, LocalDateTime messageSendTime){
-        this.taskID = id;
-        this.taskName = taskName;
-        this.content = content;
-        this.messageSendTime = messageSendTime;
     }
 
     public int getTaskID() {
@@ -133,22 +124,6 @@ public class Task {
 
     public void setTaskCity(int taskCity) {
         this.taskCity = taskCity;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public LocalDateTime getMessageSendTime() {
-        return messageSendTime;
-    }
-
-    public void setMessageSendTime(LocalDateTime messageSendTime) {
-        this.messageSendTime = messageSendTime;
     }
 
     @Override

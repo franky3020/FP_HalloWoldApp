@@ -134,6 +134,10 @@ public class TaskAPIService {
         getUserSpecifyTask("UserEndTasks", userId, getAPIListener);
     }
 
+    public void getUserMessageRelatedWhichTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+        getUserSpecifyTask("userMessageRelatedWhichTask", userId, getAPIListener);
+    }
+
     private void getUserSpecifyTask(final String specifyClassification, final int userId,
                                     final GetAPIListener< ArrayList<Task> > getAPIListener) {
         Thread getTaskThread = new Thread() {
