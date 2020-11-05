@@ -111,7 +111,7 @@
         android:background="@color/login_register_form_details_medium"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
         app:layout_constraintTop_toBottomOf="@+id/textView_login_forgot_password"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout_social_login"
+        app:layout_constraintBottom_toTopOf="@+id/button_facebook_login"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintEnd_toStartOf="@+id/textView_or"/>
 
@@ -137,42 +137,56 @@
         app:layout_constraintStart_toEndOf="@+id/textView_or"
         app:layout_constraintTop_toTopOf="@+id/textView_or" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout_social_login"
+    <Button
+        android:id="@+id/button_facebook_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="40dp"
+        android:text="@string/login_with_facebook"
+        android:textColor="@color/login_register_button_text"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_social_login_btn"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
+        android:drawableStart="@drawable/ic_facebook_login"
+        android:paddingLeft="@dimen/login_register_btn_padding"
+        android:paddingRight="@dimen/login_register_btn_padding"
+        app:layout_constraintBottom_toTopOf="@id/button_google_login"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"/>
+
+    <Button
+        android:id="@+id/button_google_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with_google"
+        android:textColor="@color/login_register_button_text"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_social_login_btn"
+        android:layout_marginBottom="10dp"
+        android:drawableStart="@drawable/ic_google_login"
+        android:paddingLeft="@dimen/login_register_btn_padding"
+        android:paddingRight="@dimen/login_register_btn_padding"
+        app:layout_constraintBottom_toTopOf="@id/button_line_login"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"/>
+    <Button
+        android:id="@+id/button_line_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with_line"
+        android:textColor="@color/login_register_button_text"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_social_login_btn"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_line_login"
+        android:drawableStart="@drawable/ic_line_login"
+        android:paddingLeft="@dimen/login_register_btn_padding"
+        android:paddingRight="@dimen/login_register_btn_padding"
         app:layout_constraintBottom_toBottomOf="@id/view_footer_line"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left">
-
-        <ImageView
-            android:id="@+id/textView_facebook_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_facebook_login"
-            android:layout_gravity="center" />
-
-        <ImageView
-            android:id="@+id/textView_google_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_google_login"
-            android:layout_gravity="center"/>
-
-        <ImageView
-            android:id="@+id/textView_line_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_line_login"
-            android:layout_gravity="center" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"/>
 
     <View
         android:id="@+id/view_footer_line"
