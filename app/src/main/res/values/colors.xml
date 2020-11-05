@@ -6,12 +6,15 @@
     <color name="navigationBarColor">#B7E4C7</color>
     <color name="textColorPrimary">#000000</color>
 
-    <!-- 新增兩個顏色 (深藍/紫)，用於 Log in 背景。
-         與 drawable > login_background 有關 -->
+    <!-- Log in 和 Register 背景 -->
     <color name="dark_green">#52B788</color>
     <color name="green">#B7E4C7</color>
 
-    <color name="login_register_form_details">#212529</color>
-    <color name="login_register_form_details_light">#1affffff</color>
-    <color name="login_register_form_details_medium">#0A0A0A</color>
+    <!-- Log in 和 Register 內容 -->
+    <color name="login_register_form_details">#80000000</color>
+    <color name="login_register_form_details_light">#1a000000</color>
+    <color name="login_register_form_details_medium">#99000000</color>
+
+    <!-- Log in 和 Register social button -->
+    <color name="login_register_button_text">#000000</color>
 </resources>
