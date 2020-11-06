@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.my_first_application.ChatActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -15,12 +16,15 @@ import java.util.Objects;
 
 import Task.Task;
 import Task.TaskAPIService;
+import User.User;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import User.UserBuilder;
+import UtilTool.JsonParse;
 
 public class MessageAPIService {
 
@@ -54,6 +58,38 @@ public class MessageAPIService {
                         JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
                         ArrayList<Message> messageList = parseMessagesFromJson(tasksJSONObject);
                         getAPIListener.onResponseOK(messageList);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getMessageThread.start();
+    }
+
+    public void getUserRelatedWho(final int userId, final GetAPIListener< ArrayList<User> > getAPIListener) {
+
+        Thread getMessageThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + "userRelatedWho" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject usersJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<User> userList = JsonParse.parseUsersFromJson(usersJSONObject);
+                        getAPIListener.onResponseOK(userList);
+
                     } else {
                         getAPIListener.onFailure();
                     }

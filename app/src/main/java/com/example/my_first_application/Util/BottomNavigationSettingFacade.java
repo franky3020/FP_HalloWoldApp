@@ -68,7 +68,7 @@ public final class BottomNavigationSettingFacade {
         } else if (activity.getClass() == CollectTaskActivity.class) {
             bottomNavigationView.setSelectedItemId(R.id.icon_search);
 
-        } else if (activity.getClass() == ChatActivity.class) {
+        } else if (activity.getClass() == ShowChatActivity.class) {
             bottomNavigationView.setSelectedItemId(R.id.icon_message);
 
         } else if (activity.getClass() == ProfileActivity.class) {
@@ -94,7 +94,7 @@ public final class BottomNavigationSettingFacade {
                         break;
 
                     case R.id.icon_message:
-                        startAnotherActivity(activity, ChatActivity.class);
+                        startAnotherActivity(activity, ShowChatActivity.class);
                         break;
 
                     case R.id.icon_profile:

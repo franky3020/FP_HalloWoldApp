@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,9 +16,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-import Task.Task;
-import Task.TaskAPIService;
+import Message.MessageAPIService;
 import User.GetLoginUser;
+import User.User;
 
 public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管理介面, Todo 這命名有可能要改
 
@@ -26,9 +27,9 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
     ShowChatActivity showChatActivity = this;
 
     RecyclerView recyclerView;
-    ArrayList<Task> mTasks = new ArrayList<>();
+    ArrayList<User> mUsers = new ArrayList<>();
     ShowChatAdapter recyclerViewAdapter;
-    Handler getMessagesAPI_Handler;
+    Handler getUserRelatedAPI_Handler;
 
     int loginUserId;
 
@@ -46,16 +47,23 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.getMessagesAPI_Handler = new Handler();
+        this.getUserRelatedAPI_Handler = new Handler();
 
         this.recyclerView = findViewById(R.id.chatListShow);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.recyclerViewAdapter = new ShowChatAdapter(mTasks);
+        this.recyclerViewAdapter = new ShowChatAdapter(mUsers);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
+
+        if(GetLoginUser.isReleaseMode()) {
+            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
+        } else if(GetLoginUser.isReceiveMode()) {
+            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
+        }
+
 
         Log.d(LOG_TAG, "onCreate over"); // 就算跳到 login 頁面, 這一行還是會跑完, onCreate() 完後 會執行 onDestroy
     }
@@ -65,7 +73,7 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
         super.onStart();
         Log.d(LOG_TAG, "onStart");
 
-        this.getMessagesAPI_Handler.post(getMessageAPI_Runnable);
+        this.getUserRelatedAPI_Handler.post(getMessageAPI_Runnable);
     }
 
     @Override
@@ -73,28 +81,29 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
         super.onStop();
         Log.d(LOG_TAG, "onStop");
 
-        this.getMessagesAPI_Handler.removeCallbacks(getMessageAPI_Runnable);
+        this.getUserRelatedAPI_Handler.removeCallbacks(getMessageAPI_Runnable);
     }
 
 
     private final Runnable getMessageAPI_Runnable = new Runnable() {
         public void run() {
-            sendGetMessageRelatedTaskAPI();
+            sendGetUserRelatedWhoAPI();
             int delayMillis = 3000;
-            getMessagesAPI_Handler.postDelayed(getMessageAPI_Runnable, delayMillis);
+            getUserRelatedAPI_Handler.postDelayed(getMessageAPI_Runnable, delayMillis);
         }
     };
 
 
-    private void sendGetMessageRelatedTaskAPI() {
-        final TaskAPIService taskAPIService = new TaskAPIService();
+    private void sendGetUserRelatedWhoAPI() {
+        final MessageAPIService messageAPIService = new MessageAPIService();
 
-        taskAPIService.getUserMessageRelatedWhichTasks(loginUserId, new TaskAPIService.GetAPIListener<ArrayList<Task>>() {
+        messageAPIService.getUserRelatedWho(loginUserId, new MessageAPIService.GetAPIListener<ArrayList<User>>() {
+
             @Override
-            public void onResponseOK(ArrayList<Task> tasks) {
-                mTasks = tasks;
-                messageListUIUpdate(mTasks);
-                Log.d(LOG_TAG, "sendGetMessagesAPI onResponse");
+            public void onResponseOK(ArrayList<User> users) {
+                mUsers = users;
+                chatListUIUpdate(mUsers);
+                Log.d(LOG_TAG, "sendGetUserRelatedWhoAPI onResponse");
             }
 
             @Override
@@ -102,7 +111,7 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d(LOG_TAG, "sendGetMessagesAPI Failure");
+                        Log.d(LOG_TAG, "sendGetUserRelatedWhoAPI Failure");
                         Toast.makeText(showChatActivity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
                     }
                 });
@@ -110,19 +119,19 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
         });
     }
 
-    private void messageListUIUpdate(final ArrayList<Task> tasks) { //必須要在主執行緒上更新UI, 才不會出錯
+    private void chatListUIUpdate(final ArrayList<User> users) { //必須要在主執行緒上更新UI, 才不會出錯
 
-        recyclerViewAdapter.setShowChatList(tasks);
+        recyclerViewAdapter.setShowChatList(users);
 
         recyclerViewAdapter.setListener(new ShowChatAdapter.Listener() {
 
             @Override
             public void onClick(int position) {
-                Task task = tasks.get(position);
+                User user = users.get(position);
 
-//                Intent intent = new Intent(showChatActivity, TaskDetailActivity.class);
-//                intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
-//                showChatActivity.startActivity(intent);
+                Intent intent = new Intent(showChatActivity, ChatActivity.class);
+                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, user.getId());
+                showChatActivity.startActivity(intent);
             }
         });
 
