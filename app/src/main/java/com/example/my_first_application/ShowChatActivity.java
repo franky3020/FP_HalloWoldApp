@@ -54,8 +54,15 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
         this.recyclerViewAdapter = new ShowChatAdapter(mUsers);
         this.recyclerView.setAdapter(recyclerViewAdapter);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
+
+        if(GetLoginUser.isReleaseMode()) {
+            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
+        } else if(GetLoginUser.isReceiveMode()) {
+            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
+        }
+
 
         Log.d(LOG_TAG, "onCreate over"); // 就算跳到 login 頁面, 這一行還是會跑完, onCreate() 完後 會執行 onDestroy
     }

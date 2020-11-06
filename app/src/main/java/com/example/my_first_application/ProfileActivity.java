@@ -18,6 +18,8 @@ import User.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    Switch userModeSwitch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        Switch userModeSwitch = findViewById(R.id.switch_user_mode);
+        userModeSwitch = findViewById(R.id.switch_user_mode);
 
         if (GetLoginUser.isReleaseMode()) {
             BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
@@ -66,6 +68,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onClickToTestMain(View view) {
+
+        // 初始這頁的切換按鈕
+        userModeSwitch.setChecked(false);
+
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
         startActivity(intent);
