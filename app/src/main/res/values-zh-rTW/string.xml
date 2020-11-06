@@ -41,4 +41,10 @@
     <string name="message">訊息</string>
     <string name="user">個人</string>
     <string name="collect">收集</string>
+
+    <!-- Login 頁面第三方平台按鈕 -->
+    <string name="login_with_facebook">Facebook 登入</string>
+    <string name="login_with_google">Google 登入</string>
+    <string name="login_with_line">Line 登入</string>
+
 </resources>

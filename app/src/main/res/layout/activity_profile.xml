@@ -41,7 +41,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_toRightOf="@+id/imageView_member_points"
                 android:text="@string/profile_member_point"
-                android:textColor="#ffff"
+                style="@style/TextColorStyle"
                 android:textSize="18dp"/>
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/imageView_member_points"
                 android:text="@string/profile_member_points_number"
-                android:textColor="#ffff"
+                style="@style/TextColorStyle"
                 android:textSize="28dp"/>
 
             <ImageView
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/profile_user_mode"
-                android:textColor="#202020"
+                style="@style/TextColorStyle"
                 android:textSize="18dp"/>
 
             <Switch
@@ -113,7 +113,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/imageView_wallet"
                 android:text="點數立即儲"
-                android:textColor="#202020"
+                style="@style/TextColorStyle"
                 android:textSize="18dp"/>
 
             <ImageView
@@ -148,7 +148,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/imageView_point_record"
                 android:text="@string/profile_points_record"
-                android:textColor="#202020"
+                style="@style/TextColorStyle"
                 android:textSize="18dp"/>
 
             <ImageView
@@ -183,7 +183,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/imageView_logout"
                 android:text="@string/profile_logout"
-                android:textColor="#202020"
+                style="@style/TextColorStyle"
                 android:textSize="18dp"/>
 
             <ImageView
@@ -199,6 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClickToTestMain"
+            style="@style/TextColorStyle"
             android:text="(測試用的) 可以使用此使用者到測試的主頁面" />
 
     </LinearLayout>
