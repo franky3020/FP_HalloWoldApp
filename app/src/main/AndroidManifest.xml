@@ -13,7 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShowChatActivity"></activity>
+
+        <activity
+            android:name=".ShowChatActivity"
+            android:label="聊天列表"/>
+<!--        // Todo 多國語言-->
+
         <activity
             android:name=".CollectTaskActivity"
             android:label="@string/collect"/>
