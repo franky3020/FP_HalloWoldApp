@@ -3,6 +3,7 @@ package com.example.my_first_application;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import  androidx.appcompat.widget.Toolbar;
 
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,8 +50,8 @@ public class ChatActivity extends AppCompatActivity {
     private int mReceiverId;
     private User loginUser; // Todo 這邊命名風格還沒改成m開頭, 所以先別動
 
-    List<ModelChat> chatList;
-    ChatAdapter adapterChat;
+    ArrayList<Message> mMessagesList = new ArrayList<>();
+    ChatAdapter mChatAdapter;
 
     private static final String LOG_TAG = ChatActivity.class.getSimpleName();
     ChatActivity chatActivity = this;
@@ -74,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        mRecyclerView = findViewById(R.id.chat_recyclerView);
+
         mProfileIV = findViewById(R.id.profileIV);
 
         mNameTV = findViewById(R.id.nameTV);
@@ -85,11 +87,17 @@ public class ChatActivity extends AppCompatActivity {
         mMessageET = findViewById(R.id.messageEt);
         mSendBtn = findViewById(R.id.sendBtn);
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setStackFromEnd(true);
-//
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(linearLayoutManager);
+
+        mRecyclerView = findViewById(R.id.chat_recyclerView);
+        LinearLayoutManager layoutManager= new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+
+        mMessagesList.add(new Message(1, "test", 14, 1, 100, LocalDateTime.now()));
+
+        mChatAdapter = new ChatAdapter(mMessagesList);
+        mRecyclerView.setAdapter(mChatAdapter);
+
     }
 
 
