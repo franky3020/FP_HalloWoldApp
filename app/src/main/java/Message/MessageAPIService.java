@@ -104,6 +104,38 @@ public class MessageAPIService {
         getMessageThread.start();
     }
 
+    public void getAllChatMessageFromTwoUsers(final int user1Id, final int user2Id, final GetAPIListener< ArrayList<Message> > getAPIListener) {
+
+        Thread getMessageThread = new Thread() {
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + "allChatMessage" + "/" + user1Id + "/" + user2Id)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONArray messageJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Message> messagesList = JsonParse.parseMessagesFromJson(messageJSONArray);
+                        getAPIListener.onResponseOK(messagesList);
+
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getMessageThread.start();
+    }
+
 
     public void post(Message message, Callback callback) throws Exception {
         JSONObject jsonEntity = new JSONObject();
@@ -156,6 +188,7 @@ public class MessageAPIService {
 
         return messageList;
     }
+
     private Message parse_a_Message(JSONObject aJSONMessage, String messageKey) throws Exception {
 
         int messageId = Integer.parseInt(messageKey);

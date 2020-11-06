@@ -17,14 +17,23 @@ public class Message {
         this.content = content;
         this.userID = userID;
         this.receiverID = receiverID;
-        this.taskID = taskID;
+        this.taskID = taskID; // Todo 不需要了
         this.postTime = postTime;
     }
+
+
     public Message(String content, int userID, int receiverID, int taskID, LocalDateTime postTime) {
         this.content = content;
         this.userID = userID;
         this.receiverID = receiverID;
-        this.taskID = taskID;
+        this.taskID = taskID; // Todo 不需要了
+        this.postTime = postTime;
+    }
+
+    public Message (String content, int userID, int receiverID, LocalDateTime postTime) {
+        this.content = content;
+        this.userID = userID;
+        this.receiverID = receiverID;
         this.postTime = postTime;
     }
 
