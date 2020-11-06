@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -128,9 +129,9 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
             public void onClick(int position) {
                 User user = users.get(position);
 
-//                Intent intent = new Intent(showChatActivity, TaskDetailActivity.class);
-//                intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getTaskID());
-//                showChatActivity.startActivity(intent);
+                Intent intent = new Intent(showChatActivity, ChatActivity.class);
+                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, user.getId());
+                showChatActivity.startActivity(intent);
             }
         });
 
