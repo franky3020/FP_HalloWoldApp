@@ -1,5 +1,6 @@
 package com.example.my_first_application;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,8 +35,6 @@ import okhttp3.Response;
 
 
 public class ChatActivity extends AppCompatActivity {
-
-    Toolbar toolbar; // Todo 這還要加上
 
     RecyclerView mRecyclerView;
     ImageView mProfileIV;
@@ -67,15 +67,12 @@ public class ChatActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Todo 以下不一定要加上, 應該要在去查一下這在幹嘛
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        toolbar.setTitle("");
 
         mRecyclerView = findViewById(R.id.chat_recyclerView);
         mProfileIV = findViewById(R.id.profileIV);
@@ -94,6 +91,8 @@ public class ChatActivity extends AppCompatActivity {
 //        recyclerView.setHasFixedSize(true);
 //        recyclerView.setLayoutManager(linearLayoutManager);
     }
+
+
     public void onClickToSendMessage(View view){
         EditText messageEt = findViewById(R.id.messageEt);
         mContent = messageEt.getText().toString();
@@ -112,8 +111,7 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     if(response.isSuccessful()) {
-                        Intent intent = new Intent();
-                        startActivity(intent);
+                        Log.d(LOG_TAG, "onResponse isSuccessful");
                     }
                 }
             });
@@ -123,4 +121,17 @@ public class ChatActivity extends AppCompatActivity {
             Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
