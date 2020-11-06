@@ -13,12 +13,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import Task.Task;
+import User.User;
 
 public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHolder> {
 
     private static final String LOG_TAG = ShowChatAdapter.class.getSimpleName();
 
-    private ArrayList<Task> chatList;
+    private ArrayList<User> userList;
     private Listener listener;
 
     // 使用介面解耦
@@ -27,8 +28,8 @@ public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHo
     }
 
 
-    public ShowChatAdapter(ArrayList<Task> chatList) {
-        this.chatList = chatList;
+    public ShowChatAdapter(ArrayList<User> userList) {
+        this.userList = userList;
     }
 
     @NonNull
@@ -44,10 +45,10 @@ public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
                 CardView chatCardView = holder.chatCardView;
 
-                final Task task = chatList.get(position);
+                final User user = userList.get(position);
 
-                TextView taskTitle = chatCardView.findViewById(R.id.textView_Task_title);
-                taskTitle.setText(task.getTaskName());
+                TextView userNameField = chatCardView.findViewById(R.id.textView_user_name);
+                userNameField.setText(user.getName());
 
                 TextView messageField = chatCardView.findViewById(R.id.textView_message);
                 messageField.setText("context_ 未加上");
@@ -74,11 +75,11 @@ public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return chatList.size();
+        return userList.size();
     }
 
-    public void setShowChatList(ArrayList<Task> chatList) {
-        this.chatList = chatList;
+    public void setShowChatList(ArrayList<User> userList) {
+        this.userList = userList;
     }
 
     public void setListener(Listener listener) {
