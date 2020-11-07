@@ -1,6 +1,5 @@
 package com.example.my_first_application;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,9 +17,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     private static final int MSG_TYPE_LEFT = 0;
     private static final int MSG_TYPE_RIGHT = 1;
-    Context context;
     private List<Message> messageList;
-    String imageUrl;
 
     public ChatAdapter(ArrayList<Message> messageList) {
         this.messageList = messageList;
@@ -71,7 +68,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 //        timeTV.setText(dateTime);
 
 
-        // 先不要判斷已讀
+        // 先不要判斷已讀 (這是舊的程式碼 先沒刪掉)
 //        if (position ==  messageList.size() - 1){
 //            if (messageList.get(position).isSeen()) {
 //                isSeenTV.setText("已讀");
@@ -86,8 +83,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     }
 
-
-    // Todo 之後再判斷有沒有已讀
+    // Todo 之後再判斷有沒有已讀 (這是舊的程式碼 先沒刪掉)
 //    @Override
 //    public int getItemViewType(int position) {
 //        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import  androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
@@ -35,6 +36,8 @@ import okhttp3.Response;
 
 public class ChatActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = ChatActivity.class.getSimpleName();
+
     RecyclerView mRecyclerView;
     ImageView mProfileIV;
     TextView mNameTV, mUserStatusTV;
@@ -50,8 +53,10 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> mMessagesList = new ArrayList<>();
     ChatAdapter mChatAdapter;
 
-    private static final String LOG_TAG = ChatActivity.class.getSimpleName();
+
     ChatActivity chatActivity = this;
+
+    Handler getMessagesAPI_Handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +94,60 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
-
-        mMessagesList.add(new Message(1, "test", 14, 1, 100, LocalDateTime.now()));
-
         mChatAdapter = new ChatAdapter(mMessagesList);
         mRecyclerView.setAdapter(mChatAdapter);
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.getMessagesAPI_Handler.post(getMessagesAPI_Runnable);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.getMessagesAPI_Handler.removeCallbacks(getMessagesAPI_Runnable);
+    }
+
+    private final Runnable getMessagesAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetChatRoomMessageAPI();
+            int delayMillis = 1000;
+            getMessagesAPI_Handler.postDelayed(getMessagesAPI_Runnable, delayMillis);
+        }
+    };
+
+    private void sendGetChatRoomMessageAPI() {
+
+        MessageAPIService messageAPIService = new MessageAPIService();
+        messageAPIService.getAllChatMessageFromTwoUsers(loginUser.getId(), mReceiverId, new MessageAPIService.GetAPIListener<ArrayList<Message>>() {
+
+            @Override
+            public void onResponseOK(ArrayList<Message> messages) {
+                mMessagesList = messages;
+                messageListUIUpdate();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void messageListUIUpdate() {
+
+        mChatAdapter.setShowChatList(mMessagesList);
+
+        runOnUiThread( new Runnable() {
+            @Override
+            public void run() {
+                mChatAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     public void onClickToSendMessage(View view){
         EditText messageEt = findViewById(R.id.messageEt);
@@ -137,6 +188,4 @@ public class ChatActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
