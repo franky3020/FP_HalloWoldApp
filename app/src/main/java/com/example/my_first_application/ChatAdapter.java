@@ -1,9 +1,7 @@
 package com.example.my_first_application;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -12,11 +10,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import Message.Message;
-import Message.ModelChat;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 

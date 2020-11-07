@@ -3,6 +3,7 @@ package com.example.my_first_application;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,9 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class SignUpActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = SignUpActivity.class.getSimpleName();
+
     EditText email;
     EditText password;
     EditText cPassword;
@@ -146,7 +150,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(LOG_TAG, e.getMessage());
             progressDialog.dismiss();
             Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
                     Toast.LENGTH_SHORT).show();

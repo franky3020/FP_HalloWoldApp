@@ -1,8 +1,6 @@
 package Message;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Message {
     private int messageID;

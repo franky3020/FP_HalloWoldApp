@@ -3,19 +3,20 @@ package UtilTool;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 import Message.Message;
 import User.UserBuilder;
 import User.User;
 
 public class JsonParse {
+
+    private static final String LOG_TAG = JsonParse.class.getSimpleName();
 
     public static User parse_a_User(JSONObject aJSONObj, String idKey) throws Exception {
         int id = Integer.parseInt(idKey);
@@ -44,7 +45,7 @@ public class JsonParse {
                 User user = parse_a_User(aJSONObj, key); //還不確定如果這裡丟出例外 會發生什麼事
                 userList.add(user);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
             }
         }
 
@@ -61,7 +62,7 @@ public class JsonParse {
                 Message message = parse_a_Message(a_message);
                 messageList.add(message);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
             }
         }
 
@@ -80,27 +81,9 @@ public class JsonParse {
 
 //        int taskID = aJSONMessage.getInt("taskID");
 
-        LocalDateTime postTime = transitTimeStampFromGetAPI(aJSONMessage.getString("postTime"));
+        LocalDateTime postTime = TransitTime.transitTimeStampFromGetAPI(aJSONMessage.getString("postTime"));
 
         return new Message(content, userID, receiverID, postTime);
-    }
-
-    private static LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 則會傳出 null
-        if(timeStampString != null) {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            return LocalDateTime.parse(timeStampString, dateTimeFormatter);
-        } else {
-            return null;
-        }
-    }
-
-    private String transitLocalDateTimeToStringForPostAPI(LocalDateTime localDateTime) { // 如果傳入null 則會傳出 null
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if(localDateTime != null) {
-            return dateTimeFormatter.format(localDateTime);
-        } else {
-            return null;
-        }
     }
 
 }

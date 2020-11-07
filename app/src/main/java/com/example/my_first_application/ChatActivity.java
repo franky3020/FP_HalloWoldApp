@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import  androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -23,12 +22,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import Message.Message;
 import Message.MessageAPIService;
-import Message.ModelChat;
 import User.GetLoginUser;
 import User.User;
 import okhttp3.Call;

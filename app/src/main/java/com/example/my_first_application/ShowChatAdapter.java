@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import Task.Task;
 import User.User;
 
 public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHolder> {

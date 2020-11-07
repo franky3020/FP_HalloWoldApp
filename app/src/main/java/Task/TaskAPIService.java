@@ -7,13 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.SortedMap;
 
-import User.User;
 import UtilTool.TransitTime;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -26,7 +23,6 @@ public class TaskAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String LOG_TAG = TaskAPIService.class.getSimpleName();
 
-    //String API_version = "ms-provider-develop";
     public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks";
@@ -63,6 +59,8 @@ public class TaskAPIService {
     public void getTasksV3(final GetAPIListener< ArrayList<Task> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL)
@@ -95,6 +93,8 @@ public class TaskAPIService {
     public void getReleaseUserTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + "ReleaseUser" + "/" + userId)
@@ -142,6 +142,8 @@ public class TaskAPIService {
     private void getUserSpecifyTask(final String specifyClassification, final int userId,
                                     final GetAPIListener< ArrayList<Task> > getAPIListener) {
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + specifyClassification + "/" + userId)
@@ -175,6 +177,8 @@ public class TaskAPIService {
     public void getATask(final int taskID, final GetAPIListener<Task> getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskID)
@@ -209,6 +213,8 @@ public class TaskAPIService {
     public void getTaskRequestUsersID(final int taskId, final GetAPIListener< ArrayList<Integer> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskId + "/" +  "RequestUsers")
@@ -261,7 +267,6 @@ public class TaskAPIService {
                 taskList.add(task);
             } catch (Exception e) {
                 Log.d(LOG_TAG, e.getMessage());
-                e.printStackTrace();
             }
         }
 
@@ -331,7 +336,7 @@ public class TaskAPIService {
             client.newCall(request).enqueue(callback);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(LOG_TAG, e.getMessage());
         }
     }
 
@@ -339,6 +344,8 @@ public class TaskAPIService {
     public void getTaskState(final int taskId, final GetAPIListener<TaskState> getAPIListener) {
 
         Thread getTaskStateThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskId + "/" +"state")
@@ -363,7 +370,6 @@ public class TaskAPIService {
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
-                    e.printStackTrace();
                     getAPIListener.onFailure();
                 }
             }
@@ -402,7 +408,7 @@ public class TaskAPIService {
 
             MediaType patchJSON = MediaType.parse("application/json-patch+json");
             RequestBody body = RequestBody.create(String.valueOf(jsonArray), patchJSON);
-            System.out.println(String.valueOf(jsonArray));
+            Log.d(LOG_TAG, jsonArray.toString());
 
             Request request = new Request.Builder()
                     .url(base_URL + "/" + taskId)
@@ -412,7 +418,7 @@ public class TaskAPIService {
             client.newCall(request).enqueue(callback);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(LOG_TAG, e.getMessage());
         }
     }
 
@@ -420,6 +426,8 @@ public class TaskAPIService {
     public void checkUserAlreadyRequest(final int taskId, final int userId, final GetAPIListener<Boolean> getAPIListener) {
 
         Thread getTaskStateThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskId + "/" +"checkUserAlreadyRequest" + "/" + userId)
@@ -445,7 +453,6 @@ public class TaskAPIService {
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
-                    e.printStackTrace();
                     getAPIListener.onFailure();
                 }
             }

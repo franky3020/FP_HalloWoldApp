@@ -18,6 +18,8 @@ import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import org.jetbrains.annotations.NotNull;
+
 public class CollectTaskActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = CollectTaskActivity.class.getSimpleName();
@@ -54,9 +56,9 @@ public class CollectTaskActivity extends AppCompatActivity {
         }
 
 
-        @NonNull
+        @NotNull
         @Override
-        public Fragment getItem(int position) { // Todo 好像也能用 TaskDetailFragment.newInstance("1", "2") 來初始化
+        public Fragment getItem(int position) {
 
             switch (position) {
                 case 0:
@@ -66,7 +68,7 @@ public class CollectTaskActivity extends AppCompatActivity {
                 case 2:
                     return ShowRecyclerViewTaskFragment.newInstance(ShowRecyclerViewTaskFragment.USER_END_TASKS);
                 default:
-                    return null;
+                    return new Fragment(); // empty fragment
             }
         }
 

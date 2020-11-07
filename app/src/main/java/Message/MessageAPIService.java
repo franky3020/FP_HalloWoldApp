@@ -2,8 +2,6 @@ package Message;
 
 import android.util.Log;
 
-import com.example.my_first_application.ChatActivity;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,9 +21,8 @@ import UtilTool.TransitTime;
 public class MessageAPIService {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final String LOG_TAG = ChatActivity.class.getSimpleName();
+    private static final String LOG_TAG = MessageAPIService.class.getSimpleName();
 
-    //String API_version = "ms-provider-develop";
     public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/message";
@@ -38,6 +35,8 @@ public class MessageAPIService {
     public void getUserRelatedWho(final int userId, final GetAPIListener< ArrayList<User> > getAPIListener) {
 
         Thread getMessageThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + "userRelatedWho" + "/" + userId)
@@ -70,6 +69,8 @@ public class MessageAPIService {
     public void getAllChatMessageFromTwoUsers(final int user1Id, final int user2Id, final GetAPIListener< ArrayList<Message> > getAPIListener) {
 
         Thread getMessageThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + "allChatMessage" + "/" + user1Id + "/" + user2Id)
