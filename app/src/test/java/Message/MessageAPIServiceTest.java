@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import Task.Task;
-import Task.TaskAPIService;
 import User.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -17,32 +15,6 @@ import okhttp3.Response;
 import static org.junit.Assert.assertTrue;
 
 public class MessageAPIServiceTest {
-    @Test
-    public void getUserMessages_test() {
-        final MessageAPIService messageAPIService = new MessageAPIService();
-        messageAPIService.getUserMessages(1,new MessageAPIService.GetAPIListener<ArrayList<Message>>() {
-
-            public void onResponseOK(ArrayList<Message> messages) {
-                System.out.println(messages.size());
-                for(Message message: messages) {
-                    System.out.println(message.getContent());
-                }
-                assertTrue(messages.size() > 0);
-            }
-
-            @Override
-            public void onFailure() {
-                assertTrue(false);
-            }
-        });
-
-        try {
-            Thread.sleep(5000); // 為了等Get完成, 不然這個test會被突然中斷, 導致失敗
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @Test
     public void post() {
@@ -73,21 +45,47 @@ public class MessageAPIServiceTest {
 
         MessageAPIService messageAPIService = new MessageAPIService();
 
+        messageAPIService.getUserRelatedWho(14, new MessageAPIService.GetAPIListener<ArrayList<User>>() {
+            @Override
+            public void onResponseOK(ArrayList<User> users) {
+                System.out.println(users);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
         try {
-            messageAPIService.getUserRelatedWho(14, new MessageAPIService.GetAPIListener<ArrayList<User>>() {
-                @Override
-                public void onResponseOK(ArrayList<User> users) {
-                    System.out.println(users);
-                }
-
-                @Override
-                public void onFailure() {
-
-                }
-            });
             Thread.sleep(5000); // 為了等post完成, 不然這個test會被突然中斷, 導致失敗
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void getAllChatMessageFromTwoUsers() {
+        MessageAPIService messageAPIService = new MessageAPIService();
+
+
+        messageAPIService.getAllChatMessageFromTwoUsers(14, 1, new MessageAPIService.GetAPIListener<ArrayList<Message>>() {
+            @Override
+            public void onResponseOK(ArrayList<Message> messages) {
+                System.out.println(messages);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等post完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

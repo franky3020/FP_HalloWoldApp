@@ -18,7 +18,6 @@ public class UserAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String LOG_TAG = UserAPIService.class.getSimpleName();
 
-    //String API_version = "ms-provider-develop";
     public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/users";
@@ -45,6 +44,8 @@ public class UserAPIService {
     public void getAUserByFirebaseUID(final String firebaseUID, final UserListener userListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + "firebase" + "/" + firebaseUID)
@@ -75,7 +76,7 @@ public class UserAPIService {
                     response.close();
 
                 } catch (Exception e) {
-                    Log.d(LOG_TAG, e.getMessage());
+                    Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
                     userListener.onFailure();
                 }
             }

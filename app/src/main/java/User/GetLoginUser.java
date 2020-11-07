@@ -49,7 +49,7 @@ public class GetLoginUser {
     }
 
     public static boolean isReleaseMode() {
-        if (instance.userMode == RELEASE_MODE_STR) {
+        if (instance.userMode.equals(RELEASE_MODE_STR)) {
             return true;
         } else {
             return false;
@@ -57,7 +57,7 @@ public class GetLoginUser {
     }
 
     public static boolean isReceiveMode() {
-        if (instance.userMode == RECEIVE_MODE_STR) {
+        if (instance.userMode.equals(RECEIVE_MODE_STR)) {
             return true;
         } else {
             return false;

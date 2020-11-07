@@ -7,13 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.SortedMap;
 
-import User.User;
+import UtilTool.TransitTime;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -25,7 +23,6 @@ public class TaskAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String LOG_TAG = TaskAPIService.class.getSimpleName();
 
-    //String API_version = "ms-provider-develop";
     public static final String API_version = "ms-provider-test-release150";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks";
@@ -40,12 +37,12 @@ public class TaskAPIService {
         JSONObject jsonEntity = new JSONObject();
         jsonEntity.put("name", task.getTaskName());
         jsonEntity.put("message", task.getMessage());
-        jsonEntity.put("startPostTime", transitLocalDateTimeToStringForPostAPI(task.getStartPostTime()));
-        jsonEntity.put("endPostTime", transitLocalDateTimeToStringForPostAPI(task.getEndPostTime()));
+        jsonEntity.put("startPostTime", TransitTime.transitLocalDateTimeToString(task.getStartPostTime()));
+        jsonEntity.put("endPostTime", TransitTime.transitLocalDateTimeToString(task.getEndPostTime()));
         jsonEntity.put("salary", task.getSalary());
         jsonEntity.put("typeName", task.getTypeName());
         jsonEntity.put("releaseUserID", task.getReleaseUserID());
-        jsonEntity.put("releaseTime", transitLocalDateTimeToStringForPostAPI(task.getReleaseTime()));
+        jsonEntity.put("releaseTime", TransitTime.transitLocalDateTimeToString(task.getReleaseTime()));
         jsonEntity.put("receiveUserID", task.getReceiveUserID());
         jsonEntity.put("taskAddress", task.getTaskAddress());
 
@@ -62,6 +59,8 @@ public class TaskAPIService {
     public void getTasksV3(final GetAPIListener< ArrayList<Task> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL)
@@ -94,6 +93,8 @@ public class TaskAPIService {
     public void getReleaseUserTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + "ReleaseUser" + "/" + userId)
@@ -141,6 +142,8 @@ public class TaskAPIService {
     private void getUserSpecifyTask(final String specifyClassification, final int userId,
                                     final GetAPIListener< ArrayList<Task> > getAPIListener) {
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + specifyClassification + "/" + userId)
@@ -174,6 +177,8 @@ public class TaskAPIService {
     public void getATask(final int taskID, final GetAPIListener<Task> getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskID)
@@ -208,6 +213,8 @@ public class TaskAPIService {
     public void getTaskRequestUsersID(final int taskId, final GetAPIListener< ArrayList<Integer> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskId + "/" +  "RequestUsers")
@@ -260,7 +267,6 @@ public class TaskAPIService {
                 taskList.add(task);
             } catch (Exception e) {
                 Log.d(LOG_TAG, e.getMessage());
-                e.printStackTrace();
             }
         }
 
@@ -275,9 +281,9 @@ public class TaskAPIService {
 
         String taskMessage = aJSONTask.optString("Message");
 
-        LocalDateTime startPostTime = transitTimeStampFromGetAPI(aJSONTask.optString("StartPostTime"));
+        LocalDateTime startPostTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("StartPostTime"));
 
-        LocalDateTime endPostTime = transitTimeStampFromGetAPI(aJSONTask.optString("EndPostTime"));
+        LocalDateTime endPostTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("EndPostTime"));
 
         int salary = aJSONTask.optInt("Salary");
 
@@ -285,7 +291,7 @@ public class TaskAPIService {
 
         int releaseUserID = aJSONTask.optInt("ReleaseUserID");
 
-        LocalDateTime releaseTime = transitTimeStampFromGetAPI(aJSONTask.optString("ReleaseTime"));
+        LocalDateTime releaseTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("ReleaseTime"));
 
         int receiveUserID = aJSONTask.optInt("ReceiveUserID");
 
@@ -305,23 +311,6 @@ public class TaskAPIService {
         return task;
     }
 
-    private LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 或 null字串 則會傳出 null
-        if(timeStampString != null && timeStampString != "null" && timeStampString != "") { // Todo 這裡有壞味道
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            return LocalDateTime.parse(timeStampString, dateTimeFormatter);
-        } else {
-            return null;
-        }
-    }
-
-    private String transitLocalDateTimeToStringForPostAPI(LocalDateTime localDateTime) { // 如果傳入null 則會傳出 null
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if(localDateTime != null) {
-            return dateTimeFormatter.format(localDateTime);
-        } else {
-            return null;
-        }
-    }
 
     public void deleteTask(int taskId, Callback callback) {
         Request request = new Request.Builder()
@@ -347,7 +336,7 @@ public class TaskAPIService {
             client.newCall(request).enqueue(callback);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(LOG_TAG, e.getMessage());
         }
     }
 
@@ -355,6 +344,8 @@ public class TaskAPIService {
     public void getTaskState(final int taskId, final GetAPIListener<TaskState> getAPIListener) {
 
         Thread getTaskStateThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskId + "/" +"state")
@@ -368,7 +359,7 @@ public class TaskAPIService {
                     if(response.isSuccessful()) {
                         JSONObject aJSONTaskState = new JSONObject( Objects.requireNonNull(response.body()).string() );
                         TaskStateEnum taskStateEnum = TaskStateEnum.valueOf(aJSONTaskState.optString("taskState"));
-                        LocalDateTime stepTime = transitTimeStampFromGetAPI(aJSONTaskState.optString("stepTime"));
+                        LocalDateTime stepTime = TransitTime.transitTimeStampFromGetAPI(aJSONTaskState.optString("stepTime"));
 
                         TaskState taskState = new TaskState(taskStateEnum, stepTime);
                         getAPIListener.onResponseOK(taskState);
@@ -379,7 +370,6 @@ public class TaskAPIService {
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
-                    e.printStackTrace();
                     getAPIListener.onFailure();
                 }
             }
@@ -418,7 +408,7 @@ public class TaskAPIService {
 
             MediaType patchJSON = MediaType.parse("application/json-patch+json");
             RequestBody body = RequestBody.create(String.valueOf(jsonArray), patchJSON);
-            System.out.println(String.valueOf(jsonArray));
+            Log.d(LOG_TAG, jsonArray.toString());
 
             Request request = new Request.Builder()
                     .url(base_URL + "/" + taskId)
@@ -428,7 +418,7 @@ public class TaskAPIService {
             client.newCall(request).enqueue(callback);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(LOG_TAG, e.getMessage());
         }
     }
 
@@ -436,6 +426,8 @@ public class TaskAPIService {
     public void checkUserAlreadyRequest(final int taskId, final int userId, final GetAPIListener<Boolean> getAPIListener) {
 
         Thread getTaskStateThread = new Thread() {
+
+            @Override
             public void run() {
                 Request request = new Request.Builder()
                         .url(base_URL + "/" + taskId + "/" +"checkUserAlreadyRequest" + "/" + userId)
@@ -461,7 +453,6 @@ public class TaskAPIService {
 
                 } catch (Exception e) {
                     Log.d(LOG_TAG, e.getMessage());
-                    e.printStackTrace();
                     getAPIListener.onFailure();
                 }
             }

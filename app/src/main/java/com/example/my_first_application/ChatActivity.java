@@ -3,11 +3,12 @@ package com.example.my_first_application;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import  androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,12 +22,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import Message.Message;
 import Message.MessageAPIService;
-import Message.ModelChat;
 import User.GetLoginUser;
 import User.User;
 import okhttp3.Call;
@@ -35,6 +35,8 @@ import okhttp3.Response;
 
 
 public class ChatActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = ChatActivity.class.getSimpleName();
 
     RecyclerView mRecyclerView;
     ImageView mProfileIV;
@@ -48,11 +50,13 @@ public class ChatActivity extends AppCompatActivity {
     private int mReceiverId;
     private User loginUser; // Todo 這邊命名風格還沒改成m開頭, 所以先別動
 
-    List<ModelChat> chatList;
-    ChatAdapter adapterChat;
+    ArrayList<Message> mMessagesList = new ArrayList<>();
+    ChatAdapter mChatAdapter;
 
-    private static final String LOG_TAG = ChatActivity.class.getSimpleName();
+
     ChatActivity chatActivity = this;
+
+    Handler getMessagesAPI_Handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +78,7 @@ public class ChatActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        mRecyclerView = findViewById(R.id.chat_recyclerView);
+
         mProfileIV = findViewById(R.id.profileIV);
 
         mNameTV = findViewById(R.id.nameTV);
@@ -85,13 +89,65 @@ public class ChatActivity extends AppCompatActivity {
         mMessageET = findViewById(R.id.messageEt);
         mSendBtn = findViewById(R.id.sendBtn);
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setStackFromEnd(true);
-//
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(linearLayoutManager);
+
+        mRecyclerView = findViewById(R.id.chat_recyclerView);
+        LinearLayoutManager layoutManager= new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mChatAdapter = new ChatAdapter(mMessagesList);
+        mRecyclerView.setAdapter(mChatAdapter);
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.getMessagesAPI_Handler.post(getMessagesAPI_Runnable);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.getMessagesAPI_Handler.removeCallbacks(getMessagesAPI_Runnable);
+    }
+
+    private final Runnable getMessagesAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetChatRoomMessageAPI();
+            int delayMillis = 1000;
+            getMessagesAPI_Handler.postDelayed(getMessagesAPI_Runnable, delayMillis);
+        }
+    };
+
+    private void sendGetChatRoomMessageAPI() {
+
+        MessageAPIService messageAPIService = new MessageAPIService();
+        messageAPIService.getAllChatMessageFromTwoUsers(loginUser.getId(), mReceiverId, new MessageAPIService.GetAPIListener<ArrayList<Message>>() {
+
+            @Override
+            public void onResponseOK(ArrayList<Message> messages) {
+                mMessagesList = messages;
+                messageListUIUpdate();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void messageListUIUpdate() {
+
+        mChatAdapter.setShowChatList(mMessagesList);
+
+        runOnUiThread( new Runnable() {
+            @Override
+            public void run() {
+                mChatAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     public void onClickToSendMessage(View view){
         EditText messageEt = findViewById(R.id.messageEt);
@@ -132,6 +188,4 @@ public class ChatActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

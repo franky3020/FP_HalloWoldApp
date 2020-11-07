@@ -56,7 +56,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     ITaskStateAction state = BoosReleaseState.getInstance();
 //    private TaskState taskState; // 我想這樣加 但還不行 之後要顯示修改狀態的時間
 
-    private final static int allUpdateFunctionCount  = 3; // 因為總共有三個非同步函式需要被計算
+    private static final int ALL_UPDATE_FUNCTION_COUNT = 3; // 因為總共有三個非同步函式需要被計算
     private int currentUpdateFunctionDone = 0;
 
     Handler updateActivityHandler = new Handler();
@@ -94,85 +94,95 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private final Runnable updateActivity_Runnable = new Runnable() {
+
+        @Override
         public void run() {
             initAllUI();
             int delayMillis = 3000;
             updateActivityHandler.postDelayed(updateActivity_Runnable, delayMillis);
         }
+
+        private void initAllUI() { // 使用同步鎖 確認這三件事都有完成時 才會觸發更新UI
+            synchronized((Object) currentUpdateFunctionDone) {
+                currentUpdateFunctionDone = 0; // 一定要先初始化為0, 這樣重複執行此函式才不會出錯
+            }
+            updateMTask();
+            getTaskStateAndUpdate();
+            updateTheUserIsAlreadyRequest();
+        }
+
+        private void updateMTask() {
+            TaskAPIService taskApiService = new TaskAPIService();
+            taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
+
+                @Override
+                public void onResponseOK(Task task) {
+                    mTask = task;
+                    Log.d(LOG_TAG, "updateMTask");
+                    checkTheInitIsOkThenUpdateAllUI();
+                }
+
+                @Override
+                public void onFailure() {
+                    // 先假設網路都正常
+                }
+            });
+        }
+
+        private void getTaskStateAndUpdate() {
+            TaskAPIService taskApiService = new TaskAPIService();
+            taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
+                @Override
+                public void onResponseOK(TaskState taskStateDate) {
+                    ITaskStateAction newState = getTaskStateAction(taskStateDate);
+                    changeTaskState(newState);
+                    Log.d(LOG_TAG, "getTaskStateAndUpdate");
+                    checkTheInitIsOkThenUpdateAllUI();
+                }
+
+                @Override
+                public void onFailure() {
+                    // Todo
+                }
+            });
+        }
+
+        private void updateTheUserIsAlreadyRequest() {
+            TaskAPIService taskApiService = new TaskAPIService();
+            taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
+                @Override
+                public void onResponseOK(Boolean aBoolean) {
+                    isUserAlreadyRequest = aBoolean;
+
+                    Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
+                    checkTheInitIsOkThenUpdateAllUI();
+                }
+
+                @Override
+                public void onFailure() {
+                    isUserAlreadyRequest = false;
+                }
+            });
+        }
+
     };
 
-    private void initAllUI() { // 使用同步鎖 確認這三件事都有完成時 才會觸發更新UI
-        synchronized((Object) currentUpdateFunctionDone) {
-            currentUpdateFunctionDone = 0; // 一定要先初始化為0, 這樣重複執行此函式才不會出錯
-        }
-        updateMTask();
-        getTaskStateAndUpdate();
-        updateTheUserIsAlreadyRequest();
-    }
 
     private void checkTheInitIsOkThenUpdateAllUI() {
         synchronized((Object) currentUpdateFunctionDone) {
             currentUpdateFunctionDone++;
-            if(currentUpdateFunctionDone >= allUpdateFunctionCount) {
+            if(currentUpdateFunctionDone >= ALL_UPDATE_FUNCTION_COUNT) {
                 updateUserMode();
                 upDateAllUI();
             }
         }
     }
 
-    private void updateMTask() {
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getATask(taskID, new TaskAPIService.GetAPIListener<Task>() {
 
-            @Override
-            public void onResponseOK(Task task) {
-                mTask = task;
-                Log.d(LOG_TAG, "updateMTask");
-                checkTheInitIsOkThenUpdateAllUI();
-            }
 
-            @Override
-            public void onFailure() {
-                // 先假設網路都正常
-            }
-        });
-    }
 
-    private void getTaskStateAndUpdate() {
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getTaskState(taskID, new TaskAPIService.GetAPIListener<TaskState>() {
-            @Override
-            public void onResponseOK(TaskState taskStateDate) {
-                ITaskStateAction newState = getTaskStateAction(taskStateDate);
-                changeTaskState(newState);
-                Log.d(LOG_TAG, "getTaskStateAndUpdate");
-                checkTheInitIsOkThenUpdateAllUI();
-            }
 
-            @Override
-            public void onFailure() {
 
-            }
-        });
-    }
-
-    private void updateTheUserIsAlreadyRequest() {
-        TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
-            @Override
-            public void onResponseOK(Boolean aBoolean) {
-                isUserAlreadyRequest = aBoolean;
-
-                Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
-                checkTheInitIsOkThenUpdateAllUI();
-            }
-
-            @Override
-            public void onFailure() {
-                isUserAlreadyRequest = false;
-            }
-        });
-    }
 
     private void upDateAllUI() {
         state.showUI(thisContext);
@@ -245,7 +255,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
                 });
             }
@@ -297,7 +307,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.setTaskReceiveUser(taskID, 0, new Callback() { // Todo 設定 0 是為無接收者的初始值狀態, 有壞味道 需要重構
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -308,7 +318,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                         taskApiService.updateTaskState(taskID, TaskStateEnum.BOOS_RELEASE_AND_SELECTING_WORKER, new Callback() {
                             @Override
                             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                                // Todo
                             }
 
                             @Override
@@ -343,7 +353,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.addTaskRequestUser(taskID, loginUserID, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -377,7 +387,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.deleteTaskRequestUser(taskID, loginUserID, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -410,7 +420,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -442,7 +452,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.WAIT_BOOS_CHECK_THE_USER_IS_DONE_TASK, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -474,7 +484,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.PERFECT_END, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -506,7 +516,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -538,7 +548,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.WAIT_WORK_AGREE_STOP_THE_TASK, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -570,7 +580,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override
@@ -602,7 +612,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.TASK_ON_GOING, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        //Todo
                     }
 
                     @Override
@@ -634,7 +644,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 taskApiService.updateTaskState(taskID, TaskStateEnum.FAILURE_END, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        // Todo
                     }
 
                     @Override

@@ -5,18 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.os.Bundle;
 
 import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 public class CollectTaskActivity extends AppCompatActivity {
 
@@ -54,9 +53,9 @@ public class CollectTaskActivity extends AppCompatActivity {
         }
 
 
-        @NonNull
+        @NotNull
         @Override
-        public Fragment getItem(int position) { // Todo 好像也能用 TaskDetailFragment.newInstance("1", "2") 來初始化
+        public Fragment getItem(int position) {
 
             switch (position) {
                 case 0:
@@ -66,7 +65,7 @@ public class CollectTaskActivity extends AppCompatActivity {
                 case 2:
                     return ShowRecyclerViewTaskFragment.newInstance(ShowRecyclerViewTaskFragment.USER_END_TASKS);
                 default:
-                    return null;
+                    return new Fragment(); // empty fragment
             }
         }
 
