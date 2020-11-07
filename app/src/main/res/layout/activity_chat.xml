@@ -51,7 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/chatLayout"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_below="@+id/toolbar"
+        tools:listitem="@layout/row_chat_right"/>
 
 
     <LinearLayout
