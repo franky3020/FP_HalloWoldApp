@@ -5,10 +5,19 @@ import java.time.format.DateTimeFormatter;
 
 public class TransitTime {
 
-    public static String transitLocalDateTimeToStringForPostAPI(LocalDateTime localDateTime) { // 如果傳入null 則會傳出 null
+    public static String transitLocalDateTimeToString(LocalDateTime localDateTime) { // 如果傳入null 則會傳出 null
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if(localDateTime != null) {
             return dateTimeFormatter.format(localDateTime);
+        } else {
+            return null;
+        }
+    }
+
+    public static LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 或 null字串 則會傳出 null
+        if(timeStampString != null && !timeStampString.equals("null") && !timeStampString.equals("")) { // Todo 這裡有壞味道
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            return LocalDateTime.parse(timeStampString, dateTimeFormatter);
         } else {
             return null;
         }

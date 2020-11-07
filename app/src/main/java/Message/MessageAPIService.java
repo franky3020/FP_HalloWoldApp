@@ -106,7 +106,7 @@ public class MessageAPIService {
         jsonEntity.put("userID", message.getUserID());
         jsonEntity.put("receiverID", message.getReceiverID());
         jsonEntity.put("taskID", message.getTaskID());
-        jsonEntity.put("postTime", TransitTime.transitLocalDateTimeToStringForPostAPI(message.getPostTime()));
+        jsonEntity.put("postTime", TransitTime.transitLocalDateTimeToString(message.getPostTime()));
 
         RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON);
 

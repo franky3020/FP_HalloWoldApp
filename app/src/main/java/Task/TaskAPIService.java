@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.SortedMap;
 
 import User.User;
+import UtilTool.TransitTime;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -40,12 +41,12 @@ public class TaskAPIService {
         JSONObject jsonEntity = new JSONObject();
         jsonEntity.put("name", task.getTaskName());
         jsonEntity.put("message", task.getMessage());
-        jsonEntity.put("startPostTime", transitLocalDateTimeToStringForPostAPI(task.getStartPostTime()));
-        jsonEntity.put("endPostTime", transitLocalDateTimeToStringForPostAPI(task.getEndPostTime()));
+        jsonEntity.put("startPostTime", TransitTime.transitLocalDateTimeToString(task.getStartPostTime()));
+        jsonEntity.put("endPostTime", TransitTime.transitLocalDateTimeToString(task.getEndPostTime()));
         jsonEntity.put("salary", task.getSalary());
         jsonEntity.put("typeName", task.getTypeName());
         jsonEntity.put("releaseUserID", task.getReleaseUserID());
-        jsonEntity.put("releaseTime", transitLocalDateTimeToStringForPostAPI(task.getReleaseTime()));
+        jsonEntity.put("releaseTime", TransitTime.transitLocalDateTimeToString(task.getReleaseTime()));
         jsonEntity.put("receiveUserID", task.getReceiveUserID());
         jsonEntity.put("taskAddress", task.getTaskAddress());
 
@@ -275,9 +276,9 @@ public class TaskAPIService {
 
         String taskMessage = aJSONTask.optString("Message");
 
-        LocalDateTime startPostTime = transitTimeStampFromGetAPI(aJSONTask.optString("StartPostTime"));
+        LocalDateTime startPostTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("StartPostTime"));
 
-        LocalDateTime endPostTime = transitTimeStampFromGetAPI(aJSONTask.optString("EndPostTime"));
+        LocalDateTime endPostTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("EndPostTime"));
 
         int salary = aJSONTask.optInt("Salary");
 
@@ -285,7 +286,7 @@ public class TaskAPIService {
 
         int releaseUserID = aJSONTask.optInt("ReleaseUserID");
 
-        LocalDateTime releaseTime = transitTimeStampFromGetAPI(aJSONTask.optString("ReleaseTime"));
+        LocalDateTime releaseTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("ReleaseTime"));
 
         int receiveUserID = aJSONTask.optInt("ReceiveUserID");
 
@@ -305,23 +306,6 @@ public class TaskAPIService {
         return task;
     }
 
-    private LocalDateTime transitTimeStampFromGetAPI(String timeStampString) { // 如果傳入null 或 null字串 則會傳出 null
-        if(timeStampString != null && timeStampString != "null" && timeStampString != "") { // Todo 這裡有壞味道
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            return LocalDateTime.parse(timeStampString, dateTimeFormatter);
-        } else {
-            return null;
-        }
-    }
-
-    private String transitLocalDateTimeToStringForPostAPI(LocalDateTime localDateTime) { // 如果傳入null 則會傳出 null
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if(localDateTime != null) {
-            return dateTimeFormatter.format(localDateTime);
-        } else {
-            return null;
-        }
-    }
 
     public void deleteTask(int taskId, Callback callback) {
         Request request = new Request.Builder()
@@ -368,7 +352,7 @@ public class TaskAPIService {
                     if(response.isSuccessful()) {
                         JSONObject aJSONTaskState = new JSONObject( Objects.requireNonNull(response.body()).string() );
                         TaskStateEnum taskStateEnum = TaskStateEnum.valueOf(aJSONTaskState.optString("taskState"));
-                        LocalDateTime stepTime = transitTimeStampFromGetAPI(aJSONTaskState.optString("stepTime"));
+                        LocalDateTime stepTime = TransitTime.transitTimeStampFromGetAPI(aJSONTaskState.optString("stepTime"));
 
                         TaskState taskState = new TaskState(taskStateEnum, stepTime);
                         getAPIListener.onResponseOK(taskState);
