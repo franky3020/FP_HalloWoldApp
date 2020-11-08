@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1EDED"
+    android:background="@null"
     tools:context=".ChatActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/chatLayout"
         android:layout_below="@+id/toolbar"
+
         tools:listitem="@layout/row_chat_right"/>
 
 

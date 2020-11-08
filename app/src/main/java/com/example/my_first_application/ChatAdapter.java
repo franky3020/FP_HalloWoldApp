@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,18 +57,21 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         messageTV.setText(message);
 
 
-//        TextView timeTV = chatCardView.findViewById(R.id.timeTV);
+        TextView timeTV = chatCardView.findViewById(R.id.timeTV);
+        LocalDateTime messageSendTime = messageList.get(position).getPostTime();
+
+        if (messageSendTime != null) {
+            String AMPM = "上午";
+            int hour = messageSendTime.getHour();
+            if (hour > 12){
+                AMPM = "下午";
+                hour = hour - 12;
+            }
+
+            int minute = messageSendTime.getMinute();
+            timeTV.setText(AMPM + hour + ":" + minute);
+        }
 //        TextView isSeenTV = chatCardView.findViewById(R.id.isSeenTV);
-//        String timeStamp = "XX:XX"; // Todo 之後加上
-
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTimeInMillis(Long.parseLong(timeStamp));
-//        String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", cal).toString();
-//
-
-//        timeTV.setText(dateTime);
-
-
         // 先不要判斷已讀 (這是舊的程式碼 先沒刪掉)
 //        if (position ==  messageList.size() - 1){
 //            if (messageList.get(position).isSeen()) {
