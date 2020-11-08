@@ -36,7 +36,6 @@
             android:paddingVertical="10dp"
             android:text="Sender message"
             android:textColor="#000000"
-            android:textSize="16sp"
-            android:autoSizePresetSizes="@array/autosize_text_sizes"/>
+            android:textSize="16sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
