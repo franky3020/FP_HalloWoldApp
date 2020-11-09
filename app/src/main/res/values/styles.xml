@@ -26,6 +26,16 @@
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
+    <style name="ProfileButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">25dp</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:background">#00000000</item>
+    </style>
+
     <!--<style name="MySpinnerDatePickerStyle" parent="android:Theme.Material.Dialog">
         <item name="android:datePickerStyle">@style/MySpinnerDatePicker</item>
     </style>

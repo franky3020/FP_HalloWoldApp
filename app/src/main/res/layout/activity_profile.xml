@@ -15,14 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:layout_weight="1">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="160dp"
+            android:layout_margin="10dp"
             android:background="@drawable/profile_header_background">
 
             <ImageView
@@ -33,166 +31,93 @@
                 android:layout_marginLeft="18dp"
                 android:src="@drawable/ic_member_points"/>
 
-            <TextView
-                android:id="@+id/textView_member_points"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
                 android:layout_toRightOf="@+id/imageView_member_points"
-                android:text="@string/profile_member_point"
-                style="@style/TextColorStyle"
-                android:textSize="18dp"/>
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView_member_points_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView_member_points"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="8dp"
-                android:layout_toRightOf="@+id/imageView_member_points"
-                android:text="@string/profile_member_points_number"
-                style="@style/TextColorStyle"
-                android:textSize="28dp"/>
+                <TextView
+                    android:id="@+id/textView_member_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_member_point"
+                    android:textSize="18dp"
+                    style="@style/TextColorStyle" />
+
+                <TextView
+                    android:id="@+id/textView_member_points_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@+id/textView_member_points"
+                    android:text="@string/profile_member_points_number"
+                    android:textSize="28dp"
+                    style="@style/TextColorStyle" />
+            </LinearLayout>
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
-                android:src="@drawable/arrow_white"/>
+                android:src="@drawable/arrow_right"/>
         </RelativeLayout>
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/button_profile_switch_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="15dp">
-
-            <TextView
-                android:id="@+id/textView_user_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/profile_user_mode"
-                style="@style/TextColorStyle"
-                android:textSize="18dp"/>
-
-            <Switch
-                android:id="@+id/switch_user_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
-
-        </RelativeLayout>
+            android:layout_marginTop="10dp"
+            android:text="使用者模式切換"
+            android:drawableLeft="@drawable/ic_switch_user_mode"
+            android:drawableRight="@drawable/arrow_right_content"
+            style="@style/ProfileButtonStyle" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#CED4DA"/>
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/button_profile_wallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
-
-            <ImageView
-                android:id="@+id/imageView_wallet"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_wallet"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/imageView_wallet"
-                android:text="點數立即儲"
-                style="@style/TextColorStyle"
-                android:textSize="18dp"/>
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/arrow_dark"/>
-        </RelativeLayout>
+            android:text="點數立即儲"
+            android:drawableLeft="@drawable/ic_wallet"
+            android:drawableRight="@drawable/arrow_right_content"
+            style="@style/ProfileButtonStyle" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#CED4DA"/>
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/button_profile_points_record"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
-
-            <ImageView
-                android:id="@+id/imageView_point_record"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_transaction_details"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/imageView_point_record"
-                android:text="@string/profile_points_record"
-                style="@style/TextColorStyle"
-                android:textSize="18dp"/>
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/arrow_dark"/>
-        </RelativeLayout>
+            android:text="點數紀錄"
+            android:drawableLeft="@drawable/ic_transaction_details"
+            android:drawableRight="@drawable/arrow_right_content"
+            style="@style/ProfileButtonStyle" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#CED4DA"/>
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/button_profile_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
-
-            <ImageView
-                android:id="@+id/imageView_logout"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_logout"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/imageView_logout"
-                android:text="@string/profile_logout"
-                style="@style/TextColorStyle"
-                android:textSize="18dp"/>
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/arrow_dark"/>
-        </RelativeLayout>
+            android:text="點數紀錄"
+            android:drawableLeft="@drawable/ic_logout"
+            android:drawableRight="@drawable/arrow_right_content"
+            style="@style/ProfileButtonStyle" />
 
         <Button
             android:id="@+id/toMainButton"
@@ -200,7 +125,8 @@
             android:layout_height="wrap_content"
             android:onClick="onClickToTestMain"
             style="@style/TextColorStyle"
-            android:text="(測試用的) 可以使用此使用者到測試的主頁面" />
+            android:text="(測試用的) 可以使用此使用者到測試的主頁面"
+            android:layout_marginTop="23dp" />
 
     </LinearLayout>
 
