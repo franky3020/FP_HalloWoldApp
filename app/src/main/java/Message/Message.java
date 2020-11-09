@@ -9,6 +9,7 @@ public class Message {
     private int receiverID = -1;
     private int taskID = -1;
     private LocalDateTime postTime;
+    private boolean isSeen;
 
     public Message(int messageID, String content, int userID, int receiverID, int taskID, LocalDateTime postTime) {
         this.messageID = messageID;
@@ -77,5 +78,13 @@ public class Message {
 
     public void setPostTime(LocalDateTime postTime) {
         this.postTime = postTime;
+    }
+
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
     }
 }
