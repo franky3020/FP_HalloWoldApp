@@ -57,11 +57,21 @@ public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHo
                 TextView messageTimeField = chatCardView.findViewById(R.id.textView_message_time);
                 LocalDateTime messageSendTime = LocalDateTime.now(); // 這先用目前時間代替
 
-                if (messageSendTime != null) {
-                    int hour = messageSendTime.getHour();
-                    int minute = messageSendTime.getMinute();
-                    messageTimeField.setText("" + hour + ":" + minute);
+            if (messageSendTime != null) {
+                String AMPM = "上午";
+                int hour = messageSendTime.getHour();
+                if (hour > 12){
+                    AMPM = "下午";
+                    hour = hour - 12;
                 }
+                int minute = messageSendTime.getMinute();
+                if(minute < 10){
+                    messageTimeField.setText(AMPM + hour + ":0" + minute);
+                }
+                else {
+                    messageTimeField.setText(AMPM + hour + ":" + minute);
+                }
+            }
                 // TODO 抓最新的訊息的內容以及時間呈現在外部聊天室
 //                MessageAPIService messageAPIService = new MessageAPIService();
 //                messageAPIService.getAllChatMessageFromTwoUsers(user.getId(), mReceiverId, new MessageAPIService.GetAPIListener<ArrayList<Message>>() {

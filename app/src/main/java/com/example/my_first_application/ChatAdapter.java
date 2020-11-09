@@ -1,6 +1,8 @@
 package com.example.my_first_application;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -13,12 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Message.Message;
+import User.User;
+import User.GetLoginUser;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     private static final int MSG_TYPE_LEFT = 0;
     private static final int MSG_TYPE_RIGHT = 1;
     private List<Message> messageList;
+    private int loginUserID;
 
     public ChatAdapter(ArrayList<Message> messageList) {
         this.messageList = messageList;
@@ -26,23 +31,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
-
-        CardView view = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_chat_right, parent, false);
-        return new ViewHolder(view);
-
-
-        // Todo 之後再判斷左右邊
-//        if (viewType == MSG_TYPE_RIGHT){
-//            CardView view = (CardView) LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.row_chat_right, parent, false);
-//            return new ViewHolder(view);
-//        }
-//        else {
-//            CardView view = (CardView) LayoutInflater.from(context).inflate(R.layout.row_chat_left, parent, false);
-//            return new ViewHolder(view);
-//        }
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == MSG_TYPE_RIGHT){
+            CardView view = (CardView) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.row_chat_right, parent, false);
+            return new ViewHolder(view);
+        }
+        else {
+            CardView view = (CardView) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.row_chat_left, parent, false);
+            return new ViewHolder(view);
+        }
 
     }
 
@@ -67,12 +66,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 AMPM = "下午";
                 hour = hour - 12;
             }
-
             int minute = messageSendTime.getMinute();
-            timeTV.setText(AMPM + hour + ":" + minute);
+            if(minute < 10){
+                timeTV.setText(AMPM + hour + ":0" + minute);
+            }
+            else {
+                timeTV.setText(AMPM + hour + ":" + minute);
+            }
         }
+        //TODO 已讀功能
 //        TextView isSeenTV = chatCardView.findViewById(R.id.isSeenTV);
-        // 先不要判斷已讀 (這是舊的程式碼 先沒刪掉)
 //        if (position ==  messageList.size() - 1){
 //            if (messageList.get(position).isSeen()) {
 //                isSeenTV.setText("已讀");
@@ -87,15 +90,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     }
 
-    // Todo 之後再判斷有沒有已讀 (這是舊的程式碼 先沒刪掉)
-//    @Override
-//    public int getItemViewType(int position) {
-//        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if (chatList.get(position).getSender().equals(fUser.getUid())){
-//            return MSG_TYPE_RIGHT;
-//        }
-//        else return  MSG_TYPE_LEFT;
-//    }
+
+    @Override
+    public int getItemViewType(int position) {
+        loginUserID = GetLoginUser.getLoginUser().getId();
+
+        if (messageList.get(position).getUserID() == loginUserID){
+            return MSG_TYPE_RIGHT;
+        }
+        else return MSG_TYPE_LEFT;
+    }
 
     public void setShowChatList(ArrayList<Message> messageList) {
         this.messageList = messageList;
