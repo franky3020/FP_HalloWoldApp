@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser; // 這先放著 以免忘記firebase 有user
 
 import org.jetbrains.annotations.NotNull;
 
@@ -95,14 +94,14 @@ public class SignUpActivity extends AppCompatActivity {
                     cPassword.setError("Password not equal");
                     cPassword.setFocusable(true);
                 } else {
-                    registerUserV2(mail, pwd, nickName);
+                    registerUser(mail, pwd, nickName);
                 }
             }
         });
     }
 
     // Todo 應該用介面解偶
-    private void registerUserV2(String mail, String pwd, final String nickName) {
+    private void registerUser(String mail, String pwd, final String nickName) {
         progressDialog.show();
 
         mAuth.createUserWithEmailAndPassword(mail, pwd)
@@ -111,36 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, dismiss dialog and start register
-                            createUserOnDBV2(mAuth.getUid(), nickName);
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            progressDialog.dismiss();
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).addOnFailureListener( new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //error, dismiss progress dialog and get and show the error message
-                progressDialog.dismiss();
-                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    // Todo 應該用介面解偶
-    private void registerUser(String mail, String pwd) {
-        progressDialog.show();
-
-        mAuth.createUserWithEmailAndPassword(mail, pwd)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, dismiss dialog and start register
-                            createUserOnDB(mAuth.getUid());
+                            createUserOnDB(mAuth.getUid(), nickName);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -166,7 +136,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     // Todo 呼叫順序要改
-    private void createUserOnDBV2(String firebaseUID, String nickName) {
+    private void createUserOnDB(String firebaseUID, String nickName) {
         User user = UserBuilder.anUser(0)
                 .withFirebaseUID(firebaseUID)
                 .withName(nickName)
@@ -196,46 +166,6 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
                     Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
-
-    private void createUserOnDB(String firebaseUID) {
-        User user = UserBuilder.anUser(0)
-                .withFirebaseUID(firebaseUID)
-                .build();
-
-        UserAPIService userAPIService = new UserAPIService();
-        try {
-            userAPIService.createUser(user, new Callback(){
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    progressDialog.dismiss();
-                    startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                    finish();
-                }
-
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Log.d(LOG_TAG, e.getMessage());
-            progressDialog.dismiss();
-            Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }
-
-
-
 
 }
