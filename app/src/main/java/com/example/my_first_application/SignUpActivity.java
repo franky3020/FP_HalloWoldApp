@@ -38,6 +38,8 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String LOG_TAG = SignUpActivity.class.getSimpleName();
 
     EditText email;
+    EditText mNickName;
+
     EditText password;
     EditText cPassword;
     Button signUpBtn;
@@ -59,6 +61,8 @@ public class SignUpActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         email = findViewById(R.id.editText_sign_up_email);
+        mNickName = findViewById(R.id.editText_nick_name);
+
         password = findViewById(R.id.editText_sign_up_password);
         cPassword = findViewById(R.id.editText_sign_up_password_again);
         signUpBtn = findViewById(R.id.button_sign_up);
@@ -73,12 +77,17 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String mail = email.getText().toString().trim();
+                String nickName = mNickName.getText().toString().trim();
+
                 String pwd = password.getText().toString().trim();
                 String cPwd = cPassword.getText().toString().trim();
 
                 if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
                     email.setError("Invalid Email");
                     email.setFocusable(true);
+                } else if (nickName.length() > 12){
+                    mNickName.setError("nickName length over 12");
+                    mNickName.setFocusable(true);
                 } else if (pwd.length() < 8) {
                     password.setError("Password length at least 8 characters");
                     password.setFocusable(true);
@@ -86,12 +95,42 @@ public class SignUpActivity extends AppCompatActivity {
                     cPassword.setError("Password not equal");
                     cPassword.setFocusable(true);
                 } else {
-                    registerUser(mail, pwd);
+                    registerUserV2(mail, pwd, nickName);
                 }
             }
         });
     }
 
+    // Todo 應該用介面解偶
+    private void registerUserV2(String mail, String pwd, final String nickName) {
+        progressDialog.show();
+
+        mAuth.createUserWithEmailAndPassword(mail, pwd)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, dismiss dialog and start register
+                            createUserOnDBV2(mAuth.getUid(), nickName);
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            progressDialog.dismiss();
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener( new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //error, dismiss progress dialog and get and show the error message
+                progressDialog.dismiss();
+                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Todo 應該用介面解偶
     private void registerUser(String mail, String pwd) {
         progressDialog.show();
 
@@ -124,6 +163,42 @@ public class SignUpActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    // Todo 呼叫順序要改
+    private void createUserOnDBV2(String firebaseUID, String nickName) {
+        User user = UserBuilder.anUser(0)
+                .withFirebaseUID(firebaseUID)
+                .withName(nickName)
+                .build();
+
+        UserAPIService userAPIService = new UserAPIService();
+        try {
+            userAPIService.createUser(user, new Callback(){
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    progressDialog.dismiss();
+                    startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                    finish();
+                }
+
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            Log.d(LOG_TAG, e.getMessage());
+            progressDialog.dismiss();
+            Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     private void createUserOnDB(String firebaseUID) {

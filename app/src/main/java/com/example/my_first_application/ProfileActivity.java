@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         User loginUser = GetLoginUser.getLoginUser();
         if(loginUser !=  null) {
             TextView memberPoints = findViewById(R.id.textView_member_points);
-            memberPoints.setText("(此為測試用) 已登入使用者為" + loginUser.getId());
+            memberPoints.setText( loginUser.getName()  + " 你好");
         }
         ////////////////////////////////////////////////////////////////////////
 
