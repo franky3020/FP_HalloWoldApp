@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import Message.Message;
+import Message.MessageAPIService;
 import User.User;
 
 public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHolder> {
@@ -60,6 +62,20 @@ public class ShowChatAdapter extends RecyclerView.Adapter<ShowChatAdapter.ViewHo
                     int minute = messageSendTime.getMinute();
                     messageTimeField.setText("" + hour + ":" + minute);
                 }
+                // TODO 抓最新的訊息的內容以及時間呈現在外部聊天室
+//                MessageAPIService messageAPIService = new MessageAPIService();
+//                messageAPIService.getAllChatMessageFromTwoUsers(user.getId(), mReceiverId, new MessageAPIService.GetAPIListener<ArrayList<Message>>() {
+//
+//                @Override
+//                public void onResponseOK(ArrayList<Message> messages) {
+//                    mMessagesList = messages;
+//                    messageListUIUpdate();
+//                    }
+//                @Override
+//                public void onFailure() {
+//
+//                }
+//                });
                 chatCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
