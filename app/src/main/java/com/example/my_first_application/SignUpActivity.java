@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser; // 這先放著 以免忘記firebase 有user
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +37,8 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String LOG_TAG = SignUpActivity.class.getSimpleName();
 
     EditText email;
+    EditText mNickName;
+
     EditText password;
     EditText cPassword;
     Button signUpBtn;
@@ -59,6 +60,8 @@ public class SignUpActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         email = findViewById(R.id.editText_sign_up_email);
+        mNickName = findViewById(R.id.editText_nick_name);
+
         password = findViewById(R.id.editText_sign_up_password);
         cPassword = findViewById(R.id.editText_sign_up_password_again);
         signUpBtn = findViewById(R.id.button_sign_up);
@@ -73,12 +76,17 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String mail = email.getText().toString().trim();
+                String nickName = mNickName.getText().toString().trim();
+
                 String pwd = password.getText().toString().trim();
                 String cPwd = cPassword.getText().toString().trim();
 
                 if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
                     email.setError("Invalid Email");
                     email.setFocusable(true);
+                } else if (nickName.length() > 12){
+                    mNickName.setError("nickName length over 12");
+                    mNickName.setFocusable(true);
                 } else if (pwd.length() < 8) {
                     password.setError("Password length at least 8 characters");
                     password.setFocusable(true);
@@ -86,13 +94,14 @@ public class SignUpActivity extends AppCompatActivity {
                     cPassword.setError("Password not equal");
                     cPassword.setFocusable(true);
                 } else {
-                    registerUser(mail, pwd);
+                    registerUser(mail, pwd, nickName);
                 }
             }
         });
     }
 
-    private void registerUser(String mail, String pwd) {
+    // Todo 應該用介面解偶
+    private void registerUser(String mail, String pwd, final String nickName) {
         progressDialog.show();
 
         mAuth.createUserWithEmailAndPassword(mail, pwd)
@@ -101,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, dismiss dialog and start register
-                            createUserOnDB(mAuth.getUid());
+                            createUserOnDB(mAuth.getUid(), nickName);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -126,9 +135,11 @@ public class SignUpActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
-    private void createUserOnDB(String firebaseUID) {
+    // Todo 呼叫順序要改
+    private void createUserOnDB(String firebaseUID, String nickName) {
         User user = UserBuilder.anUser(0)
                 .withFirebaseUID(firebaseUID)
+                .withName(nickName)
                 .build();
 
         UserAPIService userAPIService = new UserAPIService();
@@ -155,12 +166,6 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(SignUpActivity.this, "Fail on create user in db.",
                     Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
-
-
-
 
 }
