@@ -52,17 +52,31 @@ android:background="@drawable/login_background">
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@+id/TextView_sign_up" />
 
+    <EditText
+        android:id="@+id/editText_nick_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="text"
+        android:background="@drawable/login_edit_text_background"
+        android:hint="@string/nickname"
+        android:textColorHint="@color/login_register_form_details"
+        android:padding="16dp"
+        app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
+        app:layout_constraintTop_toBottomOf="@+id/editText_sign_up_email" />
+
     <!-- Asset 教學 : https://developer.android.com/studio/write/image-asset-studio?hl=zh-cn -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/sign_up_password_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         app:endIconMode="password_toggle"
         android:textColorHint="@color/login_register_form_details"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_sign_up_email">
+        app:layout_constraintTop_toBottomOf="@+id/editText_nick_name">
 
         <EditText
             android:id="@+id/editText_sign_up_password"
