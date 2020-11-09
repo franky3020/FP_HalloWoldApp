@@ -3,6 +3,7 @@ package com.example.my_first_application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -18,7 +19,7 @@ import User.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    Switch userModeSwitch;
+    Button userModeSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,29 +33,29 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        userModeSwitch = findViewById(R.id.switch_user_mode);
+        userModeSwitch = findViewById(R.id.button_profile_switch_mode);
 
-        if (GetLoginUser.isReleaseMode()) {
-            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
-            userModeSwitch.setChecked(false);
-
-        } else if (GetLoginUser.isReceiveMode()) {
-            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
-            userModeSwitch.setChecked(true);
-        }
-
-        userModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) { // to Receive
-                    GetLoginUser.setUserMode(GetLoginUser.RECEIVE_MODE_STR);
-                } else {
-                    GetLoginUser.setUserMode(GetLoginUser.RELEASE_MODE_STR);
-                }
-                finish();
-                startActivity(getIntent());
-            }
-        });
+//        if (GetLoginUser.isReleaseMode()) {
+//            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
+//            userModeSwitch.setChecked(false);
+//
+//        } else if (GetLoginUser.isReceiveMode()) {
+//            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
+//            userModeSwitch.setChecked(true);
+//        }
+//
+//        userModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) { // to Receive
+//                    GetLoginUser.setUserMode(GetLoginUser.RECEIVE_MODE_STR);
+//                } else {
+//                    GetLoginUser.setUserMode(GetLoginUser.RELEASE_MODE_STR);
+//                }
+//                finish();
+//                startActivity(getIntent());
+//            }
+//        });
 
 
         // 以下為測試用, 如果系統有被登入 則會修改 memberPoints 的文字
@@ -70,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void onClickToTestMain(View view) {
 
         // 初始這頁的切換按鈕
-        userModeSwitch.setChecked(false);
+//        userModeSwitch.setChecked(false);
 
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
