@@ -29,29 +29,36 @@
     <!-- both layout_width/layout_height are wrap_content -->
     <ImageView
         android:id="@+id/imageView_logo"
-        android:layout_width="101dp"
-        android:layout_height="69dp"
+        android:layout_width="113dp"
+        android:layout_height="93dp"
         android:layout_marginTop="50dp"
         android:src="@drawable/temp_logo"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
         app:layout_constraintTop_toTopOf="parent" /> <!-- 參考教學 : http://androidnotebykenny.blogspot.com/2015/07/android-imageview.html -->
 
-    <EditText
-        android:id="@+id/editText_login_username"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_username_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/login_edit_text_background"
-        android:drawableStart="@drawable/ic_email_address"
-        android:drawablePadding="8dp"
+        android:layout_marginTop="50dp"
         android:hint="@string/email_address"
         android:textColorHint="@color/login_register_form_details"
-        android:padding="16dp"
         app:layout_constraintEnd_toStartOf="@id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_logo">
+
+        <EditText
+            android:id="@+id/editText_login_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/login_edit_text_background"
+            android:padding="15dp"
+            android:drawableStart="@drawable/ic_email_address"
+            android:drawablePadding="8dp"
+            android:textColor="@color/login_register_form_details" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Asset 教學 : https://developer.android.com/studio/write/image-asset-studio?hl=zh-cn -->
     <com.google.android.material.textfield.TextInputLayout
@@ -60,23 +67,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:endIconMode="password_toggle"
+        app:endIconTint="@color/login_register_form_details"
+        android:hint="@string/password"
         android:textColorHint="@color/login_register_form_details"
         app:layout_constraintEnd_toStartOf="@id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText_login_username">
+        app:layout_constraintTop_toBottomOf="@+id/login_username_layout">
 
         <EditText
             android:id="@+id/editText_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:padding="16dp"
-            android:background="@drawable/login_edit_text_background"
+            android:padding="15dp"
             android:drawableStart="@drawable/ic_lock_password"
+            android:background="@drawable/login_edit_text_background"
             android:drawablePadding="8dp"
-            android:hint="@string/password"
-            android:textColor="@color/login_register_form_details"
-            android:textColorHint="@color/login_register_form_details"/>
+            android:textColor="@color/login_register_form_details" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -98,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forgot_your_password"
-        android:textColor="@color/login_register_form_details"
+        android:textColor="@color/login_register_form_details_medium"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/guideline_login_page_left"
         app:layout_constraintEnd_toStartOf="@id/guideline_login_page_right"
@@ -120,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/or"
-        android:textColor="@color/login_register_form_details"
+        android:textColor="@color/login_register_form_details_medium"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/view_or_left_line"
         app:layout_constraintTop_toTopOf="@+id/view_or_left_line"
@@ -203,7 +210,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
-        android:textColor="@color/login_register_form_details"
+        android:textColor="@color/login_register_form_details_medium"
         app:layout_constraintTop_toBottomOf="@+id/view_footer_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
