@@ -77,11 +77,6 @@
             android:drawableRight="@drawable/arrow_right_content"
             style="@style/ProfileButtonStyle" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CED4DA"/>
-
         <Button
             android:id="@+id/button_profile_wallet"
             android:layout_width="match_parent"
@@ -90,11 +85,6 @@
             android:drawableLeft="@drawable/ic_wallet"
             android:drawableRight="@drawable/arrow_right_content"
             style="@style/ProfileButtonStyle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CED4DA"/>
 
         <Button
             android:id="@+id/button_profile_points_record"
@@ -105,16 +95,11 @@
             android:drawableRight="@drawable/arrow_right_content"
             style="@style/ProfileButtonStyle" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CED4DA"/>
-
         <Button
             android:id="@+id/button_profile_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="點數紀錄"
+            android:text="登出"
             android:drawableLeft="@drawable/ic_logout"
             android:drawableRight="@drawable/arrow_right_content"
             style="@style/ProfileButtonStyle" />
