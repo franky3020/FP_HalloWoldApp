@@ -19,9 +19,10 @@ public class WaitBoosCheckTheUserIsDoneTaskState implements ITaskStateAction {
         if (context.isReleaseUser()) {
             context.addBoosAgreeTaskIsDoneButton();
             context.addBoosNotAgreeTaskIsDoneButton();
+            context.addSendMessageToUserButton(context.getReceiveUserId());
 
         } else if (context.isReceiveUser()) {
-            context.addSendMessageToReleaseTaskUserButton();
+            context.addSendMessageToUserButton(context.getReleaseUserId());
             // 等待boss按下確認, 此處要處理如果boos一直沒按下的情況
         } else {
             // no thing

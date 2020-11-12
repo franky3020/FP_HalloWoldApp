@@ -675,7 +675,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addSendMessageToReleaseTaskUserButton() {
+    public void addSendMessageToUserButton(final int toUserId) {
         // Todo 需要加
         final MaterialButton materialButton = getPositiveButton("Send Message");
 
@@ -683,7 +683,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, ChatActivity.class);
-                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, mTask.getReleaseUserID());
+                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
                 activity.startActivity(intent);
             }
         });
@@ -714,6 +714,16 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public boolean isCanCancelRequestTaskUser() {
         return isUserModeEqualTo(IS_CAN_CANCEL_REQUEST_TASK_USER);
+    }
+
+    @Override
+    public int getReleaseUserId() {
+        return mTask.getReleaseUserID();
+    }
+
+    @Override
+    public int getReceiveUserId() {
+        return mTask.getReceiveUserID();
     }
 
     private boolean isUserModeEqualTo(String userModeStr) {

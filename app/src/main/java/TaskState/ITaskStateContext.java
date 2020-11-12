@@ -26,12 +26,15 @@ public interface ITaskStateContext {
 
     void removeAllViewForTaskStateContext();
 
-    void addSendMessageToReleaseTaskUserButton();
+    void addSendMessageToUserButton(int toUserId);
     boolean isReleaseUser();
     boolean isReceiveUser();
 
     boolean isCanRequestTaskUser();
     boolean isCanCancelRequestTaskUser();
+
+    int getReleaseUserId();
+    int getReceiveUserId();
 
 
 
