@@ -7,37 +7,15 @@
     android:id="@+id/root"
     tools:context=".ShowTaskActivity">
 
-
     <include
         layout="@layout/toolbar_main"
         android:id="@+id/toolbar"/>
-
-    <LinearLayout
-        android:id="@+id/typeAndAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/toolbar"
-        android:gravity="right">
-
-        <Spinner
-            android:id="@+id/button_task_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="100dp"
-            android:layout_margin="8dp"
-            android:dropDownWidth="fill_parent"
-            android:entries="@array/task_type_array"
-            android:background="@drawable/show_task_spinner"
-            android:text="@string/show_task_spinner_type" />
-    </LinearLayout>
-
 
     <FrameLayout
         android:id="@+id/tasks_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/typeAndAddress"
+        android:layout_below="@id/toolbar"
         android:layout_above="@id/bottom_navigation">
     </FrameLayout>
 
