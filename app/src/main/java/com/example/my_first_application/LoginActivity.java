@@ -52,6 +52,13 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
 
+        if (email.isEmpty() || password.isEmpty()) { // 避免 firebaseAuth.signInWithEmailAndPassword 壞掉
+            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // email, password 不能是空的字串
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
