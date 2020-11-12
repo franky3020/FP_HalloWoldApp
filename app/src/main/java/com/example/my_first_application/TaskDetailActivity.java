@@ -675,8 +675,25 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addSendMessageButton() {
+    public void addSendMessageToReleaseTaskUserButton() {
         // Todo 需要加
+        final MaterialButton materialButton = getPositiveButton("Send Message");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, ChatActivity.class);
+                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, mTask.getReleaseUserID());
+                activity.startActivity(intent);
+            }
+        });
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
     }
 
     @Override

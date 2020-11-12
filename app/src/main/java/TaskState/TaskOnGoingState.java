@@ -21,6 +21,7 @@ public class TaskOnGoingState implements ITaskStateAction {
         } else if (context.isReceiveUser()) {
             context.addWorkerRequestCheckTheTaskDoneButton();
             context.addWorkerStopTaskButton();
+            context.addSendMessageToReleaseTaskUserButton();
         } else if (context.isCanRequestTaskUser()) {
             // 顯示已被執行中 不得申請
         } else {

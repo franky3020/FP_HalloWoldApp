@@ -22,6 +22,7 @@ public class WaitWorkAgreeStopTheTaskState implements ITaskStateAction {
         } else if (context.isReceiveUser()) {
             context.addWorkerNotAgreeStopTaskButton();
             context.addWorkerStopTaskButton();
+            context.addSendMessageToReleaseTaskUserButton();
 
         } else {
             // no thing
