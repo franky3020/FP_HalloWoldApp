@@ -1,92 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustUnspecified"
     tools:context=".ReleaseTaskActivity">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar_release_task"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/release_task_button"
+        android:layout_below="@+id/toolbar_release_task">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="vertical">
-
-        <include
-            layout="@layout/toolbar_main"
-            android:id="@+id/toolbar_release_task"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView_title"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="標題"
+                android:gravity="center"
+                android:text="標題:"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editText_title_content"
-                android:gravity="center"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="例：幫忙打掃倉庫"
+                android:gravity="start"
+                android:hint="請填寫清楚明瞭的標題"
                 android:inputType="textPersonName" />
 
-            <TextView
-                android:id="@+id/textView_type"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="任務類型"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinner_task_type"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/task_type_array"
-                android:gravity="center"
-                android:textAlignment="center" />
-
+        </LinearLayout>
             <TextView
                 android:id="@+id/textView_detail"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="任務內容"
+                android:gravity="center"
+                android:text="任務內容:"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editText_detail_content"
-                android:gravity="center"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="請簡述任務的工作內容"
-                android:inputType="textPersonName"
-                android:orientation="horizontal" />
+        <EditText
+            android:id="@+id/editText_detail_content"
+            android:layout_width="fill_parent"
+            android:layout_height="300sp"
+            android:gravity="start"
+            android:ems="10"
+            android:hint="請簡述任務的工作內容"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
 
-            <TextView
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <TextView
                 android:id="@+id/textView_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
+                android:layout_marginTop="0dp"
                 android:gravity="center"
-                android:text="任務待遇"
+                android:text="任務報酬:"
                 android:textAlignment="textStart"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -94,59 +85,61 @@
 
             <EditText
                 android:id="@+id/editText_pay_content"
-                android:gravity="center"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:gravity="start"
                 android:hint="請輸入金額"
                 android:inputType="number" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView_time_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="任務地點"
+                android:text="任務地點:"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/editText_task_region"
-                android:gravity="center"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_height="100sp"
+                android:gravity="start"
                 android:hint="請輸入地址或地標"
-                android:inputType="textPersonName" />
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView_task_date"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="任務日期"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:text="任務日期:"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_single_date"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:gravity="center"
                     android:text="單日" />
 
                 <Button
                     android:id="@+id/button_period_date"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:gravity="center"
                     android:text="期間" />
 
             </LinearLayout>
@@ -155,18 +148,21 @@
                 android:id="@+id/textView_task_time"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="0dp"
                 android:text=""
                 android:textSize="18sp"
                 android:textStyle="bold" />
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:gravity="center"
-                android:text="發布並儲存" />
 
-        </LinearLayout>
+
     </LinearLayout>
-</ScrollView>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/release_task_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="預覽 / 發布" />
+</RelativeLayout>
