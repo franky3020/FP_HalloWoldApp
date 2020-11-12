@@ -26,7 +26,7 @@ public interface ITaskStateContext {
 
     void removeAllViewForTaskStateContext();
 
-    void addSendMessageButton();
+    void addSendMessageToReleaseTaskUserButton();
     boolean isReleaseUser();
     boolean isReceiveUser();
 

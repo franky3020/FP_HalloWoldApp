@@ -19,8 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_margin="20dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,7 +74,6 @@
                 android:id="@+id/textView_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:text="任務報酬:"
                 android:textAlignment="textStart"
@@ -87,10 +85,12 @@
                 android:id="@+id/editText_pay_content"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_marginLeft="10dp"
+                android:maxLength="4"
                 android:gravity="start"
-                android:hint="請輸入金額"
+                android:hint="請輸入金額 金錢上限為: 9999"
                 android:inputType="number" />
+
             </LinearLayout>
 
             <TextView
@@ -105,7 +105,7 @@
             <EditText
                 android:id="@+id/editText_task_region"
                 android:layout_width="fill_parent"
-                android:layout_height="100sp"
+                android:layout_height="75sp"
                 android:gravity="start"
                 android:hint="請輸入地址或地標"
                 android:inputType="textMultiLine"
