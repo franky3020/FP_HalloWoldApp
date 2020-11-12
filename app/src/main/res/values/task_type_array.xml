@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="task_type_array">
-        <item>選擇任務類型</item>
-        <item>食物代購</item>
-        <item>家務</item>
-    </string-array>
-</resources>

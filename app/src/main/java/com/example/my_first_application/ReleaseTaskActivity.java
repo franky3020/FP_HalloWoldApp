@@ -22,7 +22,6 @@ import android.app.DatePickerDialog;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -111,7 +110,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
 
 
-        Button releaseButton = findViewById(R.id.button3);
+        Button releaseButton = findViewById(R.id.release_task_button);
         releaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,22 +183,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         } catch (Exception e) {
             salary = 0;
         }
-
-//        Spinner taskTypeField = findViewById(R.id.spinner_task_type);
-//
-//        String taskType = taskTypeField.getSelectedItem().toString();
-//        switch (taskType){
-//            case "食物代購":
-//                taskType = "EatTask";
-//                break;
-//
-//            case "家務":
-//                taskType = "HouseworkTask";
-//                break;
-//
-//            default:
-//                taskType = "其他";
-//        }
 //
 //        EditText TaskAddressField = findViewById(R.id.editText_task_region);
 //        String taskAddress = TaskAddressField.getText().toString();
