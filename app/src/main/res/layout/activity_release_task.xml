@@ -9,6 +9,7 @@
     <include
         layout="@layout/toolbar_main"
         android:id="@+id/toolbar_release_task"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,12 +22,15 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="標題:"
                 android:textSize="18sp"
@@ -37,15 +41,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:gravity="center"
-                android:hint="例：幫忙打掃倉庫"
+                android:gravity="start"
+                android:hint="請填寫清楚明瞭的標題"
                 android:inputType="textPersonName" />
 
+        </LinearLayout>
             <TextView
                 android:id="@+id/textView_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="任務內容:"
                 android:textSize="18sp"
@@ -61,12 +65,17 @@
             android:inputType="textMultiLine"
             android:scrollbars="vertical" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
         <TextView
                 android:id="@+id/textView_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="任務報酬:"
                 android:textAlignment="textStart"
@@ -79,9 +88,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:gravity="center"
+                android:gravity="start"
                 android:hint="請輸入金額"
                 android:inputType="number" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView_time_content"
@@ -142,7 +152,10 @@
                 android:text=""
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+
     </LinearLayout>
+
     </ScrollView>
 
     <Button
@@ -151,5 +164,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:text="發布" />
+        android:text="預覽 / 發布" />
 </RelativeLayout>

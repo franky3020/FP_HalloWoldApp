@@ -1,9 +1,11 @@
 package com.example.my_first_application;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -24,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -114,7 +117,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         releaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postTask();
+                releaseTask();
             }
         });
 
@@ -171,7 +174,23 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         },  currentHour ,currentMinute,false).show();
     }
 
-    private void postTask() {
+
+    private void releaseTask() {
+        checkAlertDialog(new CheckAlertDialogListener() {
+            @Override
+            public void onPositive() {
+                postTask();
+            }
+
+            @Override
+            public void onNegative() {
+                // nothing
+            }
+        });
+    }
+
+
+    private void postTask() { // Todo 應該改名
         String taskName = taskNameField.getText().toString();
 
         String message = messageField.getText().toString();
@@ -216,5 +235,31 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         }
     }
 
+    private interface  CheckAlertDialogListener {
+        void onPositive();
+        void onNegative();
+    }
+
+    private void checkAlertDialog(final CheckAlertDialogListener checkAlertDialogListener) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(ReleaseTaskActivity.this);
+        dialog.setTitle("確認");
+        dialog.setMessage("test");
+
+        dialog.setNegativeButton("NO",new DialogInterface.OnClickListener() { // 改顏色
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                checkAlertDialogListener.onNegative();
+            }
+        });
+
+        dialog.setPositiveButton("YES",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                checkAlertDialogListener.onPositive();
+            }
+        });
+
+        dialog.show();
+    }
 
 }
