@@ -18,7 +18,7 @@ import User.User;
 public class ProfileActivity extends AppCompatActivity {
 
     Button userModeSwitchBtn;
-    boolean userModeFlag;
+    boolean userModeFlag; // Todo 這裡需要重構, 名子要改
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,30 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-//        if (GetLoginUser.isReleaseMode()) {
-//            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
-//            userModeSwitch.setChecked(false);
-//
-//        } else if (GetLoginUser.isReceiveMode()) {
-//            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
-//            userModeSwitch.setChecked(true);
-//        }
-//
-//        userModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) { // to Receive
-//                    GetLoginUser.setUserMode(GetLoginUser.RECEIVE_MODE_STR);
-//                } else {
-//                    GetLoginUser.setUserMode(GetLoginUser.RELEASE_MODE_STR);
-//                }
-//                finish();
-//                startActivity(getIntent());
-//            }
-//        });
-
-
         // 以下為測試用, 如果系統有被登入 則會修改 memberPoints 的文字
         User loginUser = GetLoginUser.getLoginUser();
         if(loginUser !=  null) {
@@ -95,6 +71,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickToSignOut(View view) {
+
+        // 初始這頁的切換按鈕
+        userModeFlag = true;
+        GetLoginUser.unRegisterUser();
+
+        Intent intent = new Intent();
+        intent.setClass(this, LoginActivity.class);
         startActivity(intent);
     }
 
