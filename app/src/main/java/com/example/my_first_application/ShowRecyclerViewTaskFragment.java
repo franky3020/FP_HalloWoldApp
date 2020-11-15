@@ -35,6 +35,7 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     Handler getTasksAPI_Handler;
 
     public static final String ALL_TASKS = "allTasks";
+    public static final String ALL_TASKS_WITHOUT_LOGIN_USER = "allTasksWithoutLoginUser";
     public static final String USER_RELEASE_TASKS = "userReleaseTasks";
     public static final String USER_REQUEST_TASKS = "userRequestTasks";
     public static final String USER_RECEIVE_TASKS = "userReceiveTasks";
@@ -137,8 +138,11 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
         public void run() {
 
             switch (showTaskMode) {
-                case ALL_TASKS:
+                case ALL_TASKS: // 訪客用的 他可以看到全部任務
                     sendGetTasksAPI();
+                    break;
+                case ALL_TASKS_WITHOUT_LOGIN_USER:
+                    sendGetTasksWithoutLoginUserAPI();
                     break;
                 case USER_RELEASE_TASKS:
                     sendGetUserReleaseTasksAPI();
@@ -164,7 +168,12 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     private void sendGetTasksAPI() {
         final TaskAPIService taskApiService = new TaskAPIService();
         taskApiService.getTasksV3(getTasksAPIListener);
+    }
 
+    private void sendGetTasksWithoutLoginUserAPI() {
+        final TaskAPIService taskApiService = new TaskAPIService();
+        int loginUserId = GetLoginUser.getLoginUser().getId();
+        taskApiService.getTasksWithoutLoginUser(loginUserId, getTasksAPIListener);
     }
 
     private void sendGetUserReleaseTasksAPI() {

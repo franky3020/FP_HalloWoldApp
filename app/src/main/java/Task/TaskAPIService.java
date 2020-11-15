@@ -89,6 +89,39 @@ public class TaskAPIService {
         getTaskThread.start();
     }
 
+    public void getTasksWithoutLoginUser(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+
+        Thread getTaskThread = new Thread() {
+
+            @Override
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + "WithoutUserId" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONArray tasksJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = JsonParse.parseTasksFromJson(tasksJSONArray);
+                        getAPIListener.onResponseOK(taskList);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskThread.start();
+    }
+
 
     public void getReleaseUserTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
 

@@ -23,7 +23,7 @@ public class MessageAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String LOG_TAG = MessageAPIService.class.getSimpleName();
 
-    public static final String API_version = "ms-provider-test-release150";
+    public static final String API_version = "ms-provider-test-release-200"; // Todo 之後需要統一管理
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/message";
 
@@ -106,7 +106,6 @@ public class MessageAPIService {
         jsonEntity.put("content", message.getContent());
         jsonEntity.put("userID", message.getUserID());
         jsonEntity.put("receiverID", message.getReceiverID());
-        jsonEntity.put("taskID", message.getTaskID());
         jsonEntity.put("postTime", TransitTime.transitLocalDateTimeToString(message.getPostTime()));
 
         RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON);

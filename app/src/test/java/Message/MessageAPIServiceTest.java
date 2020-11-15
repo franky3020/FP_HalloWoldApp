@@ -19,7 +19,7 @@ public class MessageAPIServiceTest {
     @Test
     public void post() {
 
-        Message message= new Message("testing-post", 1, 1, 200, LocalDateTime.now());
+        Message message= new Message("testing-post", 1, 1, LocalDateTime.now());
         MessageAPIService messageAPIService = new MessageAPIService();
         try {
             messageAPIService.post(message, new Callback() {

@@ -776,11 +776,17 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void updateUserMode() {
+
+        if(GetLoginUser.isLogin() == false) { // 先判斷是不是訪客模式
+            userMode = IS_UNKNOWN_USER;
+            return;
+        }
+
         if (mTask.getReleaseUserID() == loginUserID) {
             userMode = IS_RELEASE_USER;
         } else if (mTask.getReceiveUserID() == loginUserID){
             userMode = IS_RECEIVE_USER;
-        } else if ( isUserAlreadyRequest == false ) { // 如果任務不屬於該使用者 且 該使用者未被指定, 則是可以申請任務狀態, 先不考慮沒登入的情況
+        } else if ( isUserAlreadyRequest == false ) {
             userMode = IS_CAN_REQUEST_TASK_USER;
         } else if ( isUserAlreadyRequest == true ) {
             userMode = IS_CAN_CANCEL_REQUEST_TASK_USER;
