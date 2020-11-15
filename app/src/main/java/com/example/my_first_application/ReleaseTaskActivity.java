@@ -99,6 +99,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
                     @Override
                     public void onTaskDateAndTimeSet(String dataAndTime) {
+                        // Todo 之後需要修掉顯示 T 的問題
                         mEditText_task_end_date_Field.setText(dataAndTime);
                     }
                 });
@@ -131,7 +132,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         String time = "" + hourOfDay + ":" + minute + ":00";
-                        listener.onTaskDateAndTimeSet(date + " " + time);
+                        listener.onTaskDateAndTimeSet(date + "T" + time);
                     }
                 });
             }

@@ -23,13 +23,9 @@ public class TransitTime {
         }
     }
 
+    // Todo 這函數跟上面的完全一樣, 所以之後需要換掉
     public static LocalDateTime transitTimeStamp(String timeStampString) { // 如果傳入null 或 null字串 則會傳出 null
-        if(timeStampString != null && !timeStampString.equals("null") && !timeStampString.equals("")) { // Todo 這裡有壞味道
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            return LocalDateTime.parse(timeStampString, dateTimeFormatter);
-        } else {
-            return null;
-        }
+        return transitTimeStampFromGetAPI(timeStampString);
     }
 
 }
