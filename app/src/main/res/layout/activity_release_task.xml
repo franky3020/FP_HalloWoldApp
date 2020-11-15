@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="任務內容:"
+                android:text="內容:"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="任務報酬:"
+                android:text="報酬:"
                 android:textAlignment="textStart"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="任務地點:"
+                android:text="地點:"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:gravity="center"
-                    android:text="任務起始時刻:"
+                    android:text="起始時刻:"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:focusableInTouchMode="false"
-                    android:hint="2020-11-15 08:30:00"/>
+                    android:hint="請點擊設定"/>
 
             </LinearLayout>
 
@@ -147,9 +147,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:gravity="center"
-                    android:text="任務結束時刻:"
+                    android:text="結束時刻:"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
 
                 <EditText
                     android:id="@+id/editText_task_end_date"
@@ -157,19 +158,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:focusableInTouchMode="false"
-                    android:hint="2020-11-15 09:30:00"/>
+                    android:hint="請點擊設定"/>
 
             </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/textView_task_time"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_marginTop="0dp"
-                android:text=""
-                android:textSize="18sp"
-                android:textStyle="bold" />
         </LinearLayout>
 
     </ScrollView>

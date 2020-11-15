@@ -24,7 +24,6 @@ import android.app.DatePickerDialog;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,23 +38,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     private static final String LOG_TAG = ReleaseTaskActivity.class.getSimpleName();
     ReleaseTaskActivity releaseTaskActivity = this;
 
-    String currentTime;
-    String date1;
-    String date2;
-    String PeriodDate1;
-    String PeriodDate2;
-    TextView postTimeField;
-    Calendar calendar;
-    int currentHour;
-    int currentMinute;
-    int currentYear;
-    int currentMonth;
-    int currentDay;
-    boolean twice = false;
-    boolean flag = false;
-
     int loginUserId;
-
 
     EditText taskNameField;
     EditText messageField;
@@ -159,20 +142,19 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
 
     private void showDatePickerDialogV2( DatePickerDialog.OnDateSetListener onDateSetListener) {
-        calendar = Calendar.getInstance();
-        currentYear = calendar.get(Calendar.YEAR);
-        currentMonth = calendar.get(Calendar.MONTH);
-        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         new DatePickerDialog(ReleaseTaskActivity.this, onDateSetListener,
                 currentYear, currentMonth, currentDay).show();
     }
 
     private void showTimePickerDialogV2( TimePickerDialog.OnTimeSetListener onTimeSetListener) {
-        postTimeField = findViewById(R.id.textView_task_time);
-        calendar = Calendar.getInstance();
-        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        currentMinute = calendar.get(Calendar.MINUTE);
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
         new TimePickerDialog(ReleaseTaskActivity.this, onTimeSetListener,
                 currentHour ,currentMinute,false).show();
     }
