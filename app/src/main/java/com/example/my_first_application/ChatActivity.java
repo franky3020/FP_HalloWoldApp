@@ -155,8 +155,7 @@ public class ChatActivity extends AppCompatActivity {
 
         MessageAPIService messageAPIService = new MessageAPIService();
 
-        // Todo 以下的taskID 完全沒用, 可以不要設定
-        Message message = new Message(mContent, loginUser.getId(), mReceiverId,0, LocalDateTime.now());
+        Message message = new Message(mContent, loginUser.getId(), mReceiverId, LocalDateTime.now());
 
         try {
              messageAPIService.post(message, new Callback() {

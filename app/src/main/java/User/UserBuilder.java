@@ -3,7 +3,6 @@ package User;
 public final class UserBuilder {
     private final int id;
     private String name;
-    private String phone;
     private String firebaseUID;
 
 
@@ -23,7 +22,6 @@ public final class UserBuilder {
 
 
     public UserBuilder withPhone(String phone) {
-        this.phone = phone;
         return this;
     }
 
@@ -36,7 +34,6 @@ public final class UserBuilder {
         User user = new User();
         user.setId(id);
         user.setName(name);
-        user.setPhone(phone);
         user.setFirebaseUID(firebaseUID);
         return user;
     }

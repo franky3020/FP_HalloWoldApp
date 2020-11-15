@@ -240,7 +240,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addBoosDeleteButton() {
-        final MaterialButton materialButton = getNegativeButton("Delete");
+        final MaterialButton materialButton = getNegativeButton("刪除");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,7 +273,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     public void addBoosSelectedWorkerButton() { // Todo 這裡有bug 因為當發布者選擇接收者時 跳回到此頁時 會不是更新為最新的任務狀態
                                                // 應該要回到此任務介面即時更新,  之後改成 把更新放在onStart()
         
-        final MaterialButton materialButton = getPositiveButton("Select Request User");
+        final MaterialButton materialButton = getPositiveButton("選擇任務接收者");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -296,7 +296,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addBoosCancelRequestThatUserButton() {
-        final MaterialButton materialButton = getNegativeButton("Cancel Request that User");
+        final MaterialButton materialButton = getNegativeButton("取消選擇該接收者");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -343,7 +343,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerRequestTaskButton() {
 
-        final MaterialButton materialButton = getPositiveButton("Request Task");
+        final MaterialButton materialButton = getPositiveButton("申請接收任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -377,7 +377,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerCancelRequestButton() {
 
-        final MaterialButton materialButton = getNegativeButton("Cancel Request");
+        final MaterialButton materialButton = getNegativeButton("取消申請");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -409,9 +409,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
-    public void addWorkerConfirmExecutionButton() { // 此按鈕應該修改任務狀態為 WORKER_CONFIRM_EXECUTION
+    public void addWorkerConfirmExecutionButton() {
 
-        final MaterialButton materialButton = getPositiveButton("Confirm Execution");
+        final MaterialButton materialButton = getPositiveButton("確認接收並執行");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -443,7 +443,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerRequestCheckTheTaskDoneButton() {
 
-        final MaterialButton materialButton = getPositiveButton("Request check Done");
+        final MaterialButton materialButton = getPositiveButton("請求確認完成任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -475,7 +475,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addBoosAgreeTaskIsDoneButton() {
 
-        final MaterialButton materialButton = getPositiveButton("Agree The Task is Done");
+        final MaterialButton materialButton = getPositiveButton("同意完成任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -507,7 +507,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addBoosNotAgreeTaskIsDoneButton() {
 
-        final MaterialButton materialButton = getNegativeButton("Not Agree The Task is Done");
+        final MaterialButton materialButton = getNegativeButton("駁回該任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -539,7 +539,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addBoosRequestStopTaskButton() {
 
-        final MaterialButton materialButton = getNegativeButton("Request Stop Task");
+        final MaterialButton materialButton = getNegativeButton("請求中止任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -571,7 +571,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addBoosCancelTheStopTaskRequestButton() {
 
-        final MaterialButton materialButton = getPositiveButton("Cancel Stop Task Request");
+        final MaterialButton materialButton = getPositiveButton("取消請求中止任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -603,7 +603,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerNotAgreeStopTaskButton() {
 
-        final MaterialButton materialButton = getNegativeButton("Not Agree Stop Task");
+        final MaterialButton materialButton = getNegativeButton("不同意中止任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -635,7 +635,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addWorkerStopTaskButton() {
 
-        final MaterialButton materialButton = getNegativeButton("Stop Task");
+        final MaterialButton materialButton = getNegativeButton("中止任務");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -677,7 +677,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addSendMessageToUserButton(final int toUserId) {
         // Todo 需要加
-        final MaterialButton materialButton = getPositiveButton("Send Message");
+        final MaterialButton materialButton = getPositiveButton("發送訊息");
 
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -776,11 +776,17 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     private void updateUserMode() {
+
+        if(GetLoginUser.isLogin() == false) { // 先判斷是不是訪客模式
+            userMode = IS_UNKNOWN_USER;
+            return;
+        }
+
         if (mTask.getReleaseUserID() == loginUserID) {
             userMode = IS_RELEASE_USER;
         } else if (mTask.getReceiveUserID() == loginUserID){
             userMode = IS_RECEIVE_USER;
-        } else if ( isUserAlreadyRequest == false ) { // 如果任務不屬於該使用者 且 該使用者未被指定, 則是可以申請任務狀態, 先不考慮沒登入的情況
+        } else if ( isUserAlreadyRequest == false ) {
             userMode = IS_CAN_REQUEST_TASK_USER;
         } else if ( isUserAlreadyRequest == true ) {
             userMode = IS_CAN_CANCEL_REQUEST_TASK_USER;

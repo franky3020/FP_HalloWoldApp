@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import UtilTool.JsonParse;
 import UtilTool.TransitTime;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -23,7 +24,7 @@ public class TaskAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String LOG_TAG = TaskAPIService.class.getSimpleName();
 
-    public static final String API_version = "ms-provider-test-release150";
+    public static final String API_version = "ms-provider-test-release-200";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/tasks";
 
@@ -40,7 +41,6 @@ public class TaskAPIService {
         jsonEntity.put("startPostTime", TransitTime.transitLocalDateTimeToString(task.getStartPostTime()));
         jsonEntity.put("endPostTime", TransitTime.transitLocalDateTimeToString(task.getEndPostTime()));
         jsonEntity.put("salary", task.getSalary());
-        jsonEntity.put("typeName", task.getTypeName());
         jsonEntity.put("releaseUserID", task.getReleaseUserID());
         jsonEntity.put("releaseTime", TransitTime.transitLocalDateTimeToString(task.getReleaseTime()));
         jsonEntity.put("receiveUserID", task.getReceiveUserID());
@@ -72,8 +72,41 @@ public class TaskAPIService {
                     Response response= client.newCall(request).execute();
 
                     if(response.isSuccessful()) {
-                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                        JSONArray tasksJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = JsonParse.parseTasksFromJson(tasksJSONArray);
+                        getAPIListener.onResponseOK(taskList);
+                    } else {
+                        getAPIListener.onFailure();
+                    }
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                    getAPIListener.onFailure();
+                }
+            }
+        };
+        getTaskThread.start();
+    }
+
+    public void getTasksWithoutLoginUser(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+
+        Thread getTaskThread = new Thread() {
+
+            @Override
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + "WithoutUserId" + "/" + userId)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONArray tasksJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = JsonParse.parseTasksFromJson(tasksJSONArray);
                         getAPIListener.onResponseOK(taskList);
                     } else {
                         getAPIListener.onFailure();
@@ -106,8 +139,8 @@ public class TaskAPIService {
                     Response response= client.newCall(request).execute();
 
                     if(response.isSuccessful()) {
-                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                        JSONArray tasksJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = JsonParse.parseTasksFromJson(tasksJSONArray);
                         getAPIListener.onResponseOK(taskList);
                     } else {
                         getAPIListener.onFailure();
@@ -135,10 +168,6 @@ public class TaskAPIService {
         getUserSpecifyTask("UserEndTasks", userId, getAPIListener);
     }
 
-    public void getUserMessageRelatedWhichTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
-        getUserSpecifyTask("userMessageRelatedWhichTask", userId, getAPIListener);
-    }
-
     private void getUserSpecifyTask(final String specifyClassification, final int userId,
                                     final GetAPIListener< ArrayList<Task> > getAPIListener) {
         Thread getTaskThread = new Thread() {
@@ -155,8 +184,8 @@ public class TaskAPIService {
                     Response response= client.newCall(request).execute();
 
                     if(response.isSuccessful()) {
-                        JSONObject tasksJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                        ArrayList<Task> taskList = parseTasksFromJson(tasksJSONObject);
+                        JSONArray tasksJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
+                        ArrayList<Task> taskList = JsonParse.parseTasksFromJson(tasksJSONArray);
                         getAPIListener.onResponseOK(taskList);
                     } else {
                         getAPIListener.onFailure();
@@ -251,28 +280,7 @@ public class TaskAPIService {
     }
 
 
-
-
-
-
-    public ArrayList<Task> parseTasksFromJson(JSONObject tasksJSONObject) {
-        ArrayList<Task> taskList = new ArrayList<>();
-        Iterator<String> taskKeys = tasksJSONObject.keys();
-
-        while (taskKeys.hasNext()) {
-            try {
-                String key = taskKeys.next();
-                JSONObject aJSONTask = tasksJSONObject.getJSONObject(key);
-                Task task = parse_a_Task(aJSONTask, key); //還不確定如果這裡丟出例外 會發生什麼事
-                taskList.add(task);
-            } catch (Exception e) {
-                Log.d(LOG_TAG, e.getMessage());
-            }
-        }
-
-        return taskList;
-    }
-
+    // Todo 拿單個TASK 的 API 還沒修改
     private Task parse_a_Task(JSONObject aJSONTask, String taskKey) throws Exception {
 
         int taskId = Integer.parseInt(taskKey);

@@ -18,7 +18,7 @@ public class UserAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String LOG_TAG = UserAPIService.class.getSimpleName();
 
-    public static final String API_version = "ms-provider-test-release150";
+    public static final String API_version = "ms-provider-test-release-200";
 
     public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/users";
 
@@ -26,7 +26,6 @@ public class UserAPIService {
     public void createUser(User user, Callback callback) throws Exception {
         JSONObject jsonEntity = new JSONObject();
         jsonEntity.put("name", user.getName());
-        jsonEntity.put("phone", user.getPhone());
         jsonEntity.put("firebaseUid", user.getFirebaseUID());
 
         RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON);
@@ -93,7 +92,6 @@ public class UserAPIService {
 
         return UserBuilder.anUser(userIdInt)
                 .withName(aJsonUser.optString("name"))
-                .withPhone(aJsonUser.optString("phone"))
                 .withFirebaseUID(aJsonUser.optString("firebase_uid"))
                 .build();
     }

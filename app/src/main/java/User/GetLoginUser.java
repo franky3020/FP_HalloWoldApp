@@ -13,7 +13,8 @@ public class GetLoginUser {
 
     public static final String RELEASE_MODE_STR = "releaseMode";
     public static final String RECEIVE_MODE_STR = "receiveMode";
-    private String userMode = RELEASE_MODE_STR;
+    public static final String VISITORS_MODE_STR = "visitorsMode";
+    private String userMode = VISITORS_MODE_STR;
 
     private GetLoginUser() {
 
@@ -64,7 +65,19 @@ public class GetLoginUser {
         }
     }
 
+    public static boolean isVisitorsMode() {
+        if (instance.userMode.equals(VISITORS_MODE_STR)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void setUserMode(String userMode) {
         instance.userMode = userMode;
+    }
+
+    public static boolean isLogin() {
+        return instance.isLogin;
     }
 }

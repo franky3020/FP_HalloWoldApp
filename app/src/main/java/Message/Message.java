@@ -7,29 +7,19 @@ public class Message {
     private String content = "";
     private int userID = -1;
     private int receiverID = -1;
-    private int taskID = -1;
     private LocalDateTime postTime;
     private boolean isSeen;
 
-    public Message(int messageID, String content, int userID, int receiverID, int taskID, LocalDateTime postTime) {
+    public Message(int messageID, String content, int userID, int receiverID, LocalDateTime postTime) {
         this.messageID = messageID;
         this.content = content;
         this.userID = userID;
         this.receiverID = receiverID;
-        this.taskID = taskID; // Todo 不需要了
         this.postTime = postTime;
     }
 
 
-    public Message(String content, int userID, int receiverID, int taskID, LocalDateTime postTime) {
-        this.content = content;
-        this.userID = userID;
-        this.receiverID = receiverID;
-        this.taskID = taskID; // Todo 不需要了
-        this.postTime = postTime;
-    }
-
-    public Message (String content, int userID, int receiverID, LocalDateTime postTime) {
+    public Message(String content, int userID, int receiverID, LocalDateTime postTime) {
         this.content = content;
         this.userID = userID;
         this.receiverID = receiverID;
@@ -62,14 +52,6 @@ public class Message {
 
     public void setReceiverID(int receiverID) {
         this.receiverID = receiverID;
-    }
-
-    public int getTaskID() {
-        return taskID;
-    }
-
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
     }
 
     public LocalDateTime getPostTime() {

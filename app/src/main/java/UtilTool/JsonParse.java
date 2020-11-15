@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.Objects;
 
 import Message.Message;
+import Task.Task;
+import Task.TaskBuilder;
 import User.UserBuilder;
 import User.User;
 
@@ -84,6 +86,62 @@ public class JsonParse {
         LocalDateTime postTime = TransitTime.transitTimeStampFromGetAPI(aJSONMessage.getString("postTime"));
 
         return new Message(content, userID, receiverID, postTime);
+    }
+
+
+    public static ArrayList<Task> parseTasksFromJson(JSONArray jsonArray) {
+        ArrayList<Task> taskList = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length() ; i++) {
+
+            try {
+                JSONObject a_task = jsonArray.getJSONObject(i);
+                Task task = parse_a_Task(a_task);
+                taskList.add(task);
+            } catch (Exception e) {
+                Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
+            }
+        }
+
+        return taskList;
+    }
+
+    private static Task parse_a_Task(JSONObject aJSONTask) throws Exception {
+
+        int taskId = aJSONTask.optInt("TaskID");
+
+        String taskName = aJSONTask.optString("TaskName");
+
+        String taskMessage = aJSONTask.optString("Message");
+
+        LocalDateTime startPostTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("StartPostTime"));
+
+        LocalDateTime endPostTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("EndPostTime"));
+
+        int salary = aJSONTask.optInt("Salary");
+
+        String typeName = aJSONTask.optString("TypeName");
+
+        int releaseUserID = aJSONTask.optInt("ReleaseUserID");
+
+        LocalDateTime releaseTime = TransitTime.transitTimeStampFromGetAPI(aJSONTask.optString("ReleaseTime"));
+
+        int receiveUserID = aJSONTask.optInt("ReceiveUserID");
+
+        String taskAddress = aJSONTask.optString("TaskAddress");
+
+        Task task = TaskBuilder.aTask(taskId, salary, releaseUserID)
+                .withTaskName(taskName)
+                .withMessage(taskMessage)
+                .withStartPostTime(startPostTime)
+                .withEndPostTime(endPostTime)
+                .withTypeName(typeName)
+                .withReleaseTime(releaseTime)
+                .withReceiveUserID(receiveUserID)
+                .withTaskAddress(taskAddress)
+                .build();
+
+        return task;
     }
 
 }
