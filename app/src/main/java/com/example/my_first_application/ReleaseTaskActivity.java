@@ -24,13 +24,14 @@ import android.app.DatePickerDialog;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -40,43 +41,23 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     private static final String LOG_TAG = ReleaseTaskActivity.class.getSimpleName();
     ReleaseTaskActivity releaseTaskActivity = this;
 
-    String currentTime;
-    String date1;
-    String date2;
-    String PeriodDate1;
-    String PeriodDate2;
-    Button SingleDateButton;
-    Button PeriodDateButton;
-    TextView postTimeField;
-    Calendar calendar;
-    int currentHour;
-    int currentMinute;
-    int currentYear;
-    int currentMonth;
-    int currentDay;
-    boolean twice = false;
-    boolean flag = false;
-
     int loginUserId;
-
 
     EditText taskNameField;
     EditText messageField;
     EditText salaryField;
-
-
+    EditText mEditText_task_start_date_Field;
+    EditText mEditText_task_end_date_Field;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_release_task);
 
         GetLoginUser.checkLoginIfNotThenGoToLogin(this);
 
         this.loginUserId = GetLoginUser.getLoginUser().getId();
 
-
-
-        setContentView(R.layout.activity_release_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_release_task);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -85,32 +66,44 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        SingleDateButton = findViewById(R.id.button_single_date);
-        PeriodDateButton = findViewById(R.id.button_period_date);
-        SingleDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-        PeriodDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flag = true;
-                showDatePickerDialog();
-            }
-        });
-
-
 
         taskNameField = findViewById(R.id.editText_title_content);
         messageField = findViewById(R.id.editText_detail_content);
         salaryField = findViewById(R.id.editText_pay_content);
 
+        mEditText_task_start_date_Field = findViewById(R.id.editText_task_start_date);
+        mEditText_task_start_date_Field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditText_task_start_date_Field.setText(""); // 先設定為空
+                mEditText_task_end_date_Field.setError(null); // 為了清掉錯誤訊息
+                
+                setTaskDateAndTime(new OnTaskDateAndTimeSetListener(){
 
+                    @Override
+                    public void onTaskDateAndTimeSet(String dataAndTime) {
+                        mEditText_task_start_date_Field.setText(dataAndTime);
+                    }
+                });
+            }
+        });
 
+        mEditText_task_end_date_Field = findViewById(R.id.editText_task_end_date);
+        mEditText_task_end_date_Field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditText_task_end_date_Field.setText(""); // 先設定為空
+                mEditText_task_end_date_Field.setError(null);// 為了清掉錯誤訊息
 
+                setTaskDateAndTime(new OnTaskDateAndTimeSetListener(){
 
+                    @Override
+                    public void onTaskDateAndTimeSet(String dataAndTime) {
+                        mEditText_task_end_date_Field.setText(dataAndTime);
+                    }
+                });
+            }
+        });
 
 
         Button releaseButton = findViewById(R.id.release_task_button);
@@ -124,58 +117,53 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     }
 
 
-    private void showDatePickerDialog() {
-        calendar = Calendar.getInstance();
-        currentYear = calendar.get(Calendar.YEAR);
-        currentMonth = calendar.get(Calendar.MONTH);
-        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-        new DatePickerDialog(ReleaseTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                date1 = year+"-" + (monthOfYear+1)+ "-" +dayOfMonth;
-                showTimePickerDialog();
-            }
-        }, currentYear, currentMonth, currentDay).show();
-
-
-    }
-    private void showTimePickerDialog(){
-        postTimeField = findViewById(R.id.textView_task_time);
-        calendar = Calendar.getInstance();
-        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        currentMinute = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(ReleaseTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
-
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                currentTime = String.format("%02d:%02d", hourOfDay%12, minute);
-                if(hourOfDay >= 12){
-                    date2 = "下午" + currentTime;
-                }
-                else{
-                    date2 = "上午" + currentTime;
-                }
-                if(twice){
-                    PeriodDate2 = date1 + " " + date2;
-                    twice = false;
-                }
-                else {
-                    PeriodDate1 = date1 + "  " + date2;
-                    PeriodDate2 = "";
-                }
-                if(flag){
-                    twice = true;
-                    showDatePickerDialog();
-                }
-                flag = false;
-                postTimeField.setText(PeriodDate1 +  " ～ " + PeriodDate2);
-            }
-        },  currentHour ,currentMinute,false).show();
+    private interface  OnTaskDateAndTimeSetListener {
+        void onTaskDateAndTimeSet(String dataAndTime);
     }
 
+    private void setTaskDateAndTime(final OnTaskDateAndTimeSetListener listener) {
+        showDatePickerDialogV2(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                final String date = "" + year + "-" + (month + 1) + "-" + dayOfMonth;
+
+                showTimePickerDialogV2(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String time = "" + hourOfDay + ":" + minute + ":00";
+                        listener.onTaskDateAndTimeSet(date + " " + time);
+                    }
+                });
+            }
+        });
+
+    }
+
+
+    private void showDatePickerDialogV2( DatePickerDialog.OnDateSetListener onDateSetListener) {
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        new DatePickerDialog(ReleaseTaskActivity.this, onDateSetListener,
+                currentYear, currentMonth, currentDay).show();
+    }
+
+    private void showTimePickerDialogV2( TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+        new TimePickerDialog(ReleaseTaskActivity.this, onTimeSetListener,
+                currentHour ,currentMinute,false).show();
+    }
 
     private void releaseTask() {
+
+        if(isAEditTextNotHasValues()) {
+            return;
+        }
+
         checkAlertDialog(new CheckAlertDialogListener() {
             @Override
             public void onPositive() {
@@ -190,7 +178,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     }
 
 
-    private void postTask() { // Todo 應該改名
+    private void postTask() {
         String taskName = taskNameField.getText().toString();
 
         String message = messageField.getText().toString();
@@ -202,15 +190,24 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         } catch (Exception e) {
             salary = 0;
         }
-//
-//        EditText TaskAddressField = findViewById(R.id.editText_task_region);
-//        String taskAddress = TaskAddressField.getText().toString();
-//
-//        postTime = date1 + " " + currentTime + ":00"; // Todo 時間需要改  所以先不處理
+
+        EditText TaskAddressField = findViewById(R.id.editText_task_region);
+        String taskAddress = TaskAddressField.getText().toString();
+
+        String startPostTimeStr= mEditText_task_start_date_Field.getText().toString();
+        LocalDateTime startPostTime = UtilTool.TransitTime.transitTimeStamp(startPostTimeStr);
+
+        String endPostTimeStr = mEditText_task_end_date_Field.getText().toString();
+        LocalDateTime endPostTime = UtilTool.TransitTime.transitTimeStamp(endPostTimeStr);
+
+
 
         Task task = TaskBuilder.aTask(0, salary, loginUserId)
                 .withTaskName(taskName)
                 .withMessage(message)
+                .withTaskAddress(taskAddress)
+                .withStartPostTime(startPostTime)
+                .withEndPostTime(endPostTime)
                 .build();
 
         TaskAPIService taskApiService = new TaskAPIService();
@@ -234,6 +231,25 @@ public class ReleaseTaskActivity extends AppCompatActivity {
             Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
+
+    private boolean isAEditTextNotHasValues() {
+        ArrayList<EditText> allEditText = new ArrayList<>();
+
+        allEditText.add(taskNameField);
+        allEditText.add(messageField);
+        allEditText.add(salaryField);
+        allEditText.add(mEditText_task_start_date_Field);
+        allEditText.add(mEditText_task_end_date_Field);
+
+        for(EditText editText : allEditText) {
+            if ("".equals(editText.getText().toString().trim())) {
+                editText.setError("不能沒有值");
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private interface  CheckAlertDialogListener {
         void onPositive();

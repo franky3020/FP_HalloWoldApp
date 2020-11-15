@@ -17,4 +17,6 @@
 
     <!-- Log in 和 Register social button -->
     <color name="login_register_button_text">#000000</color>
+
+    <color name="colorLight">#C4F0F5</color>
 </resources>
