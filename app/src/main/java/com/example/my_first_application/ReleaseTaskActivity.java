@@ -26,7 +26,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -68,6 +67,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_release_task);
 
         GetLoginUser.checkLoginIfNotThenGoToLogin(this);
 
@@ -75,7 +75,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
 
 
-        setContentView(R.layout.activity_release_task);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_release_task);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
