@@ -45,7 +45,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     String date2;
     String PeriodDate1;
     String PeriodDate2;
-    Button SingleDateButton;
     Button PeriodDateButton;
     TextView postTimeField;
     Calendar calendar;
@@ -63,6 +62,7 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     EditText taskNameField;
     EditText messageField;
     EditText salaryField;
+    EditText mEditText_task_start_date_Field;
 
 
 
@@ -85,14 +85,8 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        SingleDateButton = findViewById(R.id.button_single_date);
         PeriodDateButton = findViewById(R.id.button_period_date);
-        SingleDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
+
         PeriodDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,9 +102,21 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         salaryField = findViewById(R.id.editText_pay_content);
 
 
+        mEditText_task_start_date_Field = findViewById(R.id.editText_task_start_date);
 
+        mEditText_task_start_date_Field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditText_task_start_date_Field.setText(""); // 先設定為空
+                setTaskDateAndTime(new OnTaskDateAndTimeSetListener(){
 
-
+                    @Override
+                    public void onTaskDateAndTimeSet(String dataAndTime) {
+                        mEditText_task_start_date_Field.setText(dataAndTime);
+                    }
+                });
+            }
+        });
 
 
         Button releaseButton = findViewById(R.id.release_task_button);
@@ -124,11 +130,57 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     }
 
 
+    private interface  OnTaskDateAndTimeSetListener {
+        void onTaskDateAndTimeSet(String dataAndTime);
+    }
+
+    private void setTaskDateAndTime(final OnTaskDateAndTimeSetListener listener) {
+
+
+        showDatePickerDialogV2(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                final String date = year + "-" + (month + 1) + "-" + dayOfMonth;
+
+                showTimePickerDialogV2(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + ":00";
+                        listener.onTaskDateAndTimeSet(date + " " + time);
+                    }
+                });
+            }
+        });
+
+    }
+
+
+    private void showDatePickerDialogV2( DatePickerDialog.OnDateSetListener onDateSetListener) {
+        calendar = Calendar.getInstance();
+        currentYear = calendar.get(Calendar.YEAR);
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        new DatePickerDialog(ReleaseTaskActivity.this, onDateSetListener,
+                currentYear, currentMonth, currentDay).show();
+    }
+
+    private void showTimePickerDialogV2( TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+        postTimeField = findViewById(R.id.textView_task_time);
+        calendar = Calendar.getInstance();
+        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        currentMinute = calendar.get(Calendar.MINUTE);
+        new TimePickerDialog(ReleaseTaskActivity.this, onTimeSetListener,
+                currentHour ,currentMinute,false).show();
+    }
+
+
     private void showDatePickerDialog() {
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         currentMonth = calendar.get(Calendar.MONTH);
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
         new DatePickerDialog(ReleaseTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -140,7 +192,9 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
 
     }
-    private void showTimePickerDialog(){
+
+
+    private void showTimePickerDialog() {
         postTimeField = findViewById(R.id.textView_task_time);
         calendar = Calendar.getInstance();
         currentHour = calendar.get(Calendar.HOUR_OF_DAY);
