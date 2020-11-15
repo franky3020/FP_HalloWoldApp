@@ -132,8 +132,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:focusableInTouchMode="false"
-                    android:hint="2020-11-15 08:30:00"
-                    android:scrollbars="vertical" />
+                    android:hint="2020-11-15 08:30:00"/>
 
             </LinearLayout>
 
@@ -152,13 +151,14 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/button_period_date"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editText_task_end_date"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:gravity="center"
-                    android:text="期間" />
+                    android:gravity="start"
+                    android:focusableInTouchMode="false"
+                    android:hint="2020-11-15 09:30:00"/>
+
             </LinearLayout>
 
 

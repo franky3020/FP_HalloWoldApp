@@ -45,7 +45,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     String date2;
     String PeriodDate1;
     String PeriodDate2;
-    Button PeriodDateButton;
     TextView postTimeField;
     Calendar calendar;
     int currentHour;
@@ -85,17 +84,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        PeriodDateButton = findViewById(R.id.button_period_date);
-
-        PeriodDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flag = true;
-                showDatePickerDialog();
-            }
-        });
-
-
 
         taskNameField = findViewById(R.id.editText_title_content);
         messageField = findViewById(R.id.editText_detail_content);
@@ -113,6 +101,22 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                     @Override
                     public void onTaskDateAndTimeSet(String dataAndTime) {
                         mEditText_task_start_date_Field.setText(dataAndTime);
+                    }
+                });
+            }
+        });
+
+        final EditText editText_task_end_date_Field = findViewById(R.id.editText_task_end_date);
+
+        editText_task_end_date_Field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText_task_end_date_Field.setText(""); // 先設定為空
+                setTaskDateAndTime(new OnTaskDateAndTimeSetListener(){
+
+                    @Override
+                    public void onTaskDateAndTimeSet(String dataAndTime) {
+                        editText_task_end_date_Field.setText(dataAndTime);
                     }
                 });
             }
@@ -173,61 +177,6 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         new TimePickerDialog(ReleaseTaskActivity.this, onTimeSetListener,
                 currentHour ,currentMinute,false).show();
     }
-
-
-    private void showDatePickerDialog() {
-        calendar = Calendar.getInstance();
-        currentYear = calendar.get(Calendar.YEAR);
-        currentMonth = calendar.get(Calendar.MONTH);
-        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        new DatePickerDialog(ReleaseTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                date1 = year+"-" + (monthOfYear+1)+ "-" +dayOfMonth;
-                showTimePickerDialog();
-            }
-        }, currentYear, currentMonth, currentDay).show();
-
-
-    }
-
-
-    private void showTimePickerDialog() {
-        postTimeField = findViewById(R.id.textView_task_time);
-        calendar = Calendar.getInstance();
-        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        currentMinute = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(ReleaseTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
-
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                currentTime = String.format("%02d:%02d", hourOfDay%12, minute);
-                if(hourOfDay >= 12){
-                    date2 = "下午" + currentTime;
-                }
-                else{
-                    date2 = "上午" + currentTime;
-                }
-                if(twice){
-                    PeriodDate2 = date1 + " " + date2;
-                    twice = false;
-                }
-                else {
-                    PeriodDate1 = date1 + "  " + date2;
-                    PeriodDate2 = "";
-                }
-                if(flag){
-                    twice = true;
-                    showDatePickerDialog();
-                }
-                flag = false;
-                postTimeField.setText(PeriodDate1 +  " ～ " + PeriodDate2);
-            }
-        },  currentHour ,currentMinute,false).show();
-    }
-
 
     private void releaseTask() {
         checkAlertDialog(new CheckAlertDialogListener() {
