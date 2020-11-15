@@ -10,7 +10,6 @@ public class Task {
     private LocalDateTime startPostTime;
     private LocalDateTime endPostTime;
     private int salary;
-    private String typeName;
     private int releaseUserID;
     private LocalDateTime releaseTime;
     private int receiveUserID = 0; // 保險起見 還是初始化個0
@@ -70,14 +69,6 @@ public class Task {
         this.salary = salary;
     }
 
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
     public int getReleaseUserID() {
         return releaseUserID;
     }
@@ -130,17 +121,16 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "taskID=" + taskID +
-                ", taskName='" + taskName + '\'' +
-                ", message='" + message + '\'' +
+                ", taskName='" + taskName +
+                ", message='" + message +
                 ", startPostTime=" + startPostTime +
                 ", endPostTime=" + endPostTime +
                 ", salary=" + salary +
-                ", typeName='" + typeName + '\'' +
                 ", releaseUserID=" + releaseUserID +
                 ", releaseTime=" + releaseTime +
                 ", receiveUserID=" + receiveUserID +
                 ", receiveTime=" + receiveTime +
-                ", taskAddress='" + taskAddress + '\'' +
+                ", taskAddress='" + taskAddress +
                 ", taskCity=" + taskCity +
                 '}';
     }

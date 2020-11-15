@@ -11,7 +11,6 @@ public final class TaskBuilder {
     private String message;
     private LocalDateTime startPostTime;
     private final int salary;
-    private String typeName;
     private final int releaseUserID;
     private LocalDateTime releaseTime;
 
@@ -65,7 +64,6 @@ public final class TaskBuilder {
     }
 
     public TaskBuilder withTypeName(String typeName) {
-        this.typeName = typeName;
         return this;
     }
 
@@ -84,7 +82,6 @@ public final class TaskBuilder {
         task.setMessage(message);
         task.setStartPostTime(startPostTime);
         task.setSalary(salary);
-        task.setTypeName(typeName);
         task.setReleaseUserID(releaseUserID);
         task.setReleaseTime(releaseTime);
 
