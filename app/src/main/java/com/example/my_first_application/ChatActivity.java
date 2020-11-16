@@ -67,7 +67,6 @@ public class ChatActivity extends AppCompatActivity {
         mReceiverId = getIntent().getExtras().getInt(EXTRA_RECEIVER_ID);
         loginUser = GetLoginUser.getLoginUser();
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -91,11 +90,13 @@ public class ChatActivity extends AppCompatActivity {
 
 
         mRecyclerView = findViewById(R.id.chat_recyclerView);
-        LinearLayoutManager layoutManager= new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-
         mChatAdapter = new ChatAdapter(mMessagesList);
         mRecyclerView.setAdapter(mChatAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(layoutManager);
 
     }
 
@@ -152,6 +153,7 @@ public class ChatActivity extends AppCompatActivity {
     public void onClickToSendMessage(View view){
         EditText messageEt = findViewById(R.id.messageEt);
         mContent = messageEt.getText().toString();
+        messageEt.setText("");
 
         MessageAPIService messageAPIService = new MessageAPIService();
 
