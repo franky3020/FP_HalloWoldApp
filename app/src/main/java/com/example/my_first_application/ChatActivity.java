@@ -44,6 +44,8 @@ public class ChatActivity extends AppCompatActivity {
     EditText mMessageET;
     ImageButton mSendBtn;
 
+    static boolean mIsFirst = true;
+
     String mContent;
 
     public static final String EXTRA_RECEIVER_ID = "receiverId";
@@ -81,7 +83,7 @@ public class ChatActivity extends AppCompatActivity {
         mProfileIV = findViewById(R.id.profileIV);
 
         mNameTV = findViewById(R.id.nameTV);
-        mNameTV.setText("" + mReceiverId); // Todo 先加上ID來測試
+        mNameTV.setText(""); // Todo 先加上ID來測試
 
 
         mUserStatusTV = findViewById(R.id.userStatusTV);
@@ -94,10 +96,9 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mChatAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true);
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
 
+        mIsFirst = true;
     }
 
     @Override
@@ -141,8 +142,10 @@ public class ChatActivity extends AppCompatActivity {
     private void messageListUIUpdate() {
 
         mChatAdapter.setShowChatList(mMessagesList);
-        mRecyclerView.smoothScrollToPosition(mMessagesList.size() - 1);
-
+        if (mIsFirst) {
+            mRecyclerView.smoothScrollToPosition(mMessagesList.size() - 1);
+            mIsFirst = false;
+        }
         runOnUiThread( new Runnable() {
             @Override
             public void run() {
