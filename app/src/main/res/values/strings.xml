@@ -50,4 +50,18 @@
     <string name="login_with_line">Login with Line</string>
     <string name="nickname">nickname</string>
 
+    <!-- fragment release task -->
+    <string name="releaseTask_title">Title</string>
+    <string name="releaseTask_userID">Release User</string>
+    <string name="releaseTask_userID_content">releaseUserID</string>
+    <string name="releaseTask_phone_image">Phone</string>
+    <string name="releaseTask_message_image">Message</string>
+    <string name="releaseTask_time">Release Time</string>
+    <string name="releaseTask_time_content">releaseTime</string>
+    <string name="releaseTask_salary">Salary</string>
+    <string name="releaseTask_salary_content">salary</string>
+    <string name="releaseTask_taskAddress">Task Address</string>
+    <string name="releaseTask_taskAddress_content">taskAddress</string>
+    <string name="releaseTask_message">Task Details</string>
+    <string name="releaseTask_message_content">message</string>
 </resources>

@@ -19,4 +19,9 @@
     <color name="login_register_button_text">#000000</color>
 
     <color name="colorLight">#C4F0F5</color>
+
+    <!-- releaseTask details -->
+    <color name="releaseTask_textColor">#000000</color>
+    <color name="releaseTask_bg">#e9ecef</color>
+    <color name="releaseTask_textContent_bg">#ffffff</color>
 </resources>

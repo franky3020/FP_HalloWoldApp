@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".TaskDetailFragment">
 
     <TextView
@@ -14,68 +13,274 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:text="XXX"
-        android:padding="6dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="5dp"
-        android:background="#000000" />
+        android:padding="13dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:text="@string/releaseTask_title"/>
 
     <LinearLayout
+        android:id="@+id/linearLayout_releaseTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1">
+        android:orientation="vertical"
+        android:background="@color/releaseTask_bg"
+        android:layout_weight="18" >
 
-        <TextView
-            android:id="@+id/releaseUserID"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="releaseUserID" />
+        <LinearLayout
+            android:id="@+id/linearLayout_releaseUserID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/releaseTask_textContent_bg"
+            android:layout_marginTop="5dp">
 
-        <TextView
-            android:id="@+id/releaseTime"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="releaseTime" />
+            <LinearLayout
+                android:id="@+id/linearLayout_releaseUserID_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="13dp"
+                android:background="@color/releaseTask_textContent_bg"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/typeName"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="typeName" />
+                <TextView
+                    android:id="@+id/releaseUserID_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|bottom"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="@string/releaseTask_userID" />
+
+                <TextView
+                    android:id="@+id/releaseUserID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="left"
+                    android:textSize="16sp"
+                    android:text="@string/releaseTask_userID_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_releaseUser_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginRight="25dp"
+                android:background="@color/releaseTask_textContent_bg"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/image_releaseTask_phone"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_release_task_phone"/>
+
+                <TextView
+                    android:id="@+id/textView_releaseTask_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/releaseTask_phone_image" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_releaseUser_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginRight="25dp"
+                android:background="@color/releaseTask_textContent_bg"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/image_releaseTask_message"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_release_task_message"/>
+
+                <TextView
+                    android:id="@+id/textView_releaseTask_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/releaseTask_message_image" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_releaseTime_and_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/releaseTask_textContent_bg"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_releaseTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="13dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/releaseTime_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|bottom"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="@string/releaseTask_time" />
+
+                <TextView
+                    android:id="@+id/releaseTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="left"
+                    android:textSize="16sp"
+                    android:text="@string/releaseTask_time_content" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_salary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="13dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/salary_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|bottom"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="@string/releaseTask_salary" />
+
+                <TextView
+                    android:id="@+id/salary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="left"
+                    android:textSize="16sp"
+                    android:text="@string/releaseTask_salary_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_taskAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/releaseTask_textContent_bg"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_taskAddress_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="13dp"
+                android:background="@color/releaseTask_textContent_bg"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/taskAddress_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|bottom"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="@string/releaseTask_taskAddress" />
+
+                <TextView
+                    android:id="@+id/taskAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="left"
+                    android:textSize="16sp"
+                    android:text="@string/releaseTask_taskAddress_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginRight="25dp"
+                android:background="@color/releaseTask_textContent_bg"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/image_map"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_release_task_map"/>
+
+                <TextView
+                    android:id="@+id/textView_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:text="看地圖" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="13dp"
+            android:background="@color/releaseTask_textContent_bg"
+            android:layout_marginTop="5dp"
+            android:layout_weight="13">
+
+            <TextView
+                android:id="@+id/textView_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|bottom"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/releaseTask_message" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:text="@string/releaseTask_message_content"
+                android:layout_weight="13" />
+        </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/salary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="2"
-        android:text="salary" />
-
-    <TextView
-        android:id="@+id/taskAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="taskAddress" />
-
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="12"
-        android:text="message" />
-
-
-
 </LinearLayout>
