@@ -94,8 +94,8 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mChatAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
 
     }
@@ -141,6 +141,7 @@ public class ChatActivity extends AppCompatActivity {
     private void messageListUIUpdate() {
 
         mChatAdapter.setShowChatList(mMessagesList);
+        mRecyclerView.smoothScrollToPosition(mMessagesList.size() - 1);
 
         runOnUiThread( new Runnable() {
             @Override
