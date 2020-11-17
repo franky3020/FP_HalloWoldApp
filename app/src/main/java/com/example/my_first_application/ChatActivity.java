@@ -14,8 +14,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +27,7 @@ import Message.Message;
 import Message.MessageAPIService;
 import User.GetLoginUser;
 import User.User;
+import User.UserAPIService;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -39,11 +38,6 @@ public class ChatActivity extends AppCompatActivity {
     private static final String LOG_TAG = ChatActivity.class.getSimpleName();
 
     RecyclerView mRecyclerView;
-    ImageView mProfileIV;
-    TextView mNameTV, mUserStatusTV;
-    EditText mMessageET;
-    ImageButton mSendBtn;
-
     static boolean mIsFirst = true;
 
     String mContent;
@@ -79,17 +73,20 @@ public class ChatActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        final TextView userNameField = findViewById(R.id.nameTV);
 
-        mProfileIV = findViewById(R.id.profileIV);
+        UserAPIService userAPIService = new UserAPIService();
+        userAPIService.getAUserByUserID(mReceiverId, new UserAPIService.UserListener() {
+            @Override
+            public void onResponseOK(User user) {
+                userNameField.setText(user.getName());
+            }
 
-        mNameTV = findViewById(R.id.nameTV);
-        mNameTV.setText(""); // Todo 先加上ID來測試
+            @Override
+            public void onFailure() {
 
-
-        mUserStatusTV = findViewById(R.id.userStatusTV);
-        mMessageET = findViewById(R.id.messageEt);
-        mSendBtn = findViewById(R.id.sendBtn);
-
+            }
+        });
 
         mRecyclerView = findViewById(R.id.chat_recyclerView);
         mChatAdapter = new ChatAdapter(mMessagesList);
