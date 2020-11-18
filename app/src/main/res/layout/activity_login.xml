@@ -25,27 +25,17 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="25dp" />
 
-    <ImageView
-        android:id="@+id/imageView_logo"
-        android:layout_width="92dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/temp_logo"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView_login_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="登入老人長照"
-        android:textSize="22sp"
-        android:textColor="@android:color/black"
+        android:layout_marginTop="80dp"
+        android:text="@string/log_in"
+        android:textColor="@color/login_register_form_details"
+        android:textSize="50dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left"
-        app:layout_constraintTop_toBottomOf="@id/imageView_logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_username_layout"

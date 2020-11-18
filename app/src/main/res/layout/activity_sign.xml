@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_sign_page_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="25dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_sign_page_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="25dp" />
+
+    <ImageView
+        android:id="@+id/imageView_logo"
+        android:layout_width="92dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/temp_logo"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_page_left"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_sign_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="隨手發佈，即時服務。"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_logo"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_page_left" />
+
+    <TextView
+        android:id="@+id/textView_sign_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="老人長照給你貼心的服務，與滿足您即時的個人需求。"
+        android:textSize="18sp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_sign_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_page_left"
+        app:layout_constraintTop_toBottomOf="@+id/textView_sign_title" />
+
+    <Button
+        android:id="@+id/button_facebook_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with_facebook"
+        android:textColor="@color/login_register_button_text"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"
+        style="?attr/materialButtonOutlinedStyle"
+        app:icon="@drawable/ic_sign_facebook"
+        android:paddingStart="35dp"
+        app:layout_constraintBottom_toTopOf="@id/button_google_login"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_sign_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_page_left"/>
+
+    <Button
+        android:id="@+id/button_google_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with_google"
+        android:textColor="@color/login_register_button_text"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"
+        style="?attr/materialButtonOutlinedStyle"
+        app:icon="@drawable/ic_sign_google"
+        android:paddingStart="35dp"
+        app:layout_constraintBottom_toTopOf="@id/button_line_login"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_sign_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_page_left"/>
+
+    <Button
+        android:id="@+id/button_line_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with_line"
+        android:textColor="@color/login_register_button_text"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="20dp"
+        style="?attr/materialButtonOutlinedStyle"
+        app:icon="@drawable/ic_sign_line"
+
+        android:paddingStart="35dp"
+        app:layout_constraintBottom_toTopOf="@id/button_mail_login"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_sign_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_page_left"/>
+
+    <Button
+        android:id="@+id/button_mail_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="@string/login_with_mail"
+        android:textAllCaps="false"
+        android:textColor="@color/login_register_button_text"
+        android:textSize="15sp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_sign_page_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_page_left" />
+</androidx.constraintlayout.widget.ConstraintLayout>
