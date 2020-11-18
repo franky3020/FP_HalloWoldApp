@@ -8,9 +8,11 @@
     <string name="password">Password</string>
     <string name="password_again">Confirm Password</string>
     <string name="login">LOGIN</string>
+    <string name="remember_your_password">Remember me</string>
     <string name="forgot_your_password">Forgot your Password?</string>
     <string name="or">OR</string>
     <string name="sign_up">Register</string>
+    <string name="register">Log in</string>
     <string name="show_task_title">Task Title</string>
     <string name="show_task_type">Task type</string>
     <string name="show_task_status">Task time</string>

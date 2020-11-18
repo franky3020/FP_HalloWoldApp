@@ -44,11 +44,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:theme="@style/SignTheme" />
+            android:name=".LoginActivity" />
         <activity
-            android:name=".SignUpActivity"
-            android:theme="@style/SignTheme" />
+            android:name=".SignUpActivity" />
         <activity
             android:name=".ReleaseTaskActivity"
             android:label="@string/releaseTask_toolbar_title"

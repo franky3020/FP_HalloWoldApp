@@ -12,13 +12,6 @@
         <item name="android:navigationBarColor">@color/navigationBarColor</item>
     </style>
 
-    <style name="SignTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#00000000</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/navigationBarColor</item>
-    </style>
-
     <style name="ProfileButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">18sp</item>

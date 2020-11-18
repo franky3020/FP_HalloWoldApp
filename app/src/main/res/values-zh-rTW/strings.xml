@@ -9,9 +9,11 @@
     <string name="password">密碼</string>
     <string name="password_again">再次輸入密碼</string>
     <string name="login">登入</string>
+    <string name="remember_your_password">記住密碼</string>
     <string name="forgot_your_password">忘記密碼?</string>
     <string name="or">或</string>
     <string name="sign_up">註冊</string>
+    <string name="register">登入</string>
     <string name="show_task_title">任務標題</string>
     <string name="show_task_type">任務類型</string>
     <string name="show_task_status">任務時間</string>

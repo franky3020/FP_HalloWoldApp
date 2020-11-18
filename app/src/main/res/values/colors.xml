@@ -14,6 +14,7 @@
     <color name="login_register_form_details">#b3000000</color>
     <color name="login_register_form_details_light">#1a000000</color>
     <color name="login_register_form_details_medium">#99000000</color>
+    <color name="login_register_form_button">#000000</color>
 
     <!-- Log in 和 Register social button -->
     <color name="login_register_button_text">#000000</color>
