@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,9 +40,11 @@ public class ChatActivity extends AppCompatActivity {
     private static final String LOG_TAG = ChatActivity.class.getSimpleName();
 
     RecyclerView mRecyclerView;
-    static boolean mIsFirst = true;
 
     String mContent;
+    private ImageButton sendBtn;
+    private EditText messageEt;
+    private LinearLayout chatLayout;
 
     public static final String EXTRA_RECEIVER_ID = "receiverId";
     private int mReceiverId;
@@ -74,28 +78,28 @@ public class ChatActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         final TextView userNameField = findViewById(R.id.nameTV);
-
         UserAPIService userAPIService = new UserAPIService();
         userAPIService.getAUserByUserID(mReceiverId, new UserAPIService.UserListener() {
             @Override
             public void onResponseOK(User user) {
                 userNameField.setText(user.getName());
             }
-
             @Override
             public void onFailure() {
-
             }
         });
 
+        chatLayout = (LinearLayout)findViewById(R.id.chatLayout);
+        sendBtn = (ImageButton)findViewById(R.id.sendBtn);
+        messageEt = findViewById(R.id.messageEt);
+
         mRecyclerView = findViewById(R.id.chat_recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
         mChatAdapter = new ChatAdapter(mMessagesList);
         mRecyclerView.setAdapter(mChatAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
 
-        mIsFirst = true;
     }
 
     @Override
@@ -125,10 +129,11 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onResponseOK(ArrayList<Message> messages) {
-                mMessagesList = messages;
-                messageListUIUpdate();
+                if (messages.size() > mMessagesList.size()){
+                    mMessagesList = messages;
+                    messageListUIUpdate();
+                }
             }
-
             @Override
             public void onFailure() {
 
@@ -137,16 +142,12 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void messageListUIUpdate() {
-
         mChatAdapter.setShowChatList(mMessagesList);
-        if (mIsFirst) {
-            mRecyclerView.smoothScrollToPosition(mMessagesList.size() - 1);
-            mIsFirst = false;
-        }
         runOnUiThread( new Runnable() {
             @Override
             public void run() {
-                mChatAdapter.notifyDataSetChanged();
+                mChatAdapter.notifyItemInserted(mMessagesList.size() - 1);
+                mRecyclerView.scrollToPosition(mMessagesList.size() - 1);
             }
         });
     }
@@ -154,32 +155,30 @@ public class ChatActivity extends AppCompatActivity {
     public void onClickToSendMessage(View view){
         EditText messageEt = findViewById(R.id.messageEt);
         mContent = messageEt.getText().toString();
-        messageEt.setText("");
+        if (!"".equals(mContent)){
+            MessageAPIService messageAPIService = new MessageAPIService();
+            Message message = new Message(mContent, loginUser.getId(), mReceiverId, LocalDateTime.now());
 
-        MessageAPIService messageAPIService = new MessageAPIService();
-
-        Message message = new Message(mContent, loginUser.getId(), mReceiverId, LocalDateTime.now());
-
-        try {
-             messageAPIService.post(message, new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    if(response.isSuccessful()) {
-                        Log.d(LOG_TAG, "onResponse isSuccessful");
+            try {
+                messageAPIService.post(message, new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
                     }
-                }
-            });
 
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        if(response.isSuccessful()) {
+                            Log.d(LOG_TAG, "onResponse isSuccessful");
+                        }
+                    }
+                });
+                messageEt.setText("");
+            } catch (Exception e) {
+                Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
+            }
 
-        } catch (Exception e) {
-            Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
