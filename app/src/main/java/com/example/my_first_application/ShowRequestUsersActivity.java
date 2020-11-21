@@ -104,21 +104,12 @@ public class ShowRequestUsersActivity extends AppCompatActivity {
     private void sendGetRequestUsersAPI() {
         final TaskAPIService taskApiService = new TaskAPIService();
 
-        taskApiService.getTaskRequestUsersID(taskID, new TaskAPIService.GetAPIListener< ArrayList<Integer> >() {
+        taskApiService.getTaskRequestUsers(taskID, new TaskAPIService.GetAPIListener< ArrayList<User> >() {
 
             @Override
-            public void onResponseOK(ArrayList<Integer> usersId) {
-                Log.d(LOG_TAG, usersId.toString());
-
-                ArrayList<User> users = new ArrayList<>();
-
-                for(Integer userId : usersId) {
-                    users.add(UserBuilder.anUser(userId.intValue()).build());
-                }
-
+            public void onResponseOK(ArrayList<User> users) {
                 userList = users;
                 userListUIUpdate(userList);
-
                 Log.d(LOG_TAG, "sendGetRequestUsersAPI onResponse");
             }
 

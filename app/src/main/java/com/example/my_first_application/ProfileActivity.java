@@ -18,7 +18,6 @@ import User.User;
 public class ProfileActivity extends AppCompatActivity {
 
     Button userModeSwitchBtn;
-    boolean userModeFlag; // Todo 這裡需要重構, 名子要改
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +32,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
-        if (GetLoginUser.isReleaseMode()) {
-            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
-            userModeFlag = true;
-        } else if (GetLoginUser.isReceiveMode()) {
-            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
-            userModeFlag = false;
-        }
+        BottomNavigationSettingFacade.setNavigation(this, bottomNavigationView); // 會依據不同使用者狀態做設定
 
         userModeSwitchBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (userModeFlag) {
+                if (GetLoginUser.isReleaseMode()) {
                     GetLoginUser.setUserMode(GetLoginUser.RECEIVE_MODE_STR);
-                } else {
+                } else if (GetLoginUser.isReceiveMode()){
                     GetLoginUser.setUserMode(GetLoginUser.RELEASE_MODE_STR);
                 }
                 finish();
@@ -65,19 +57,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onClickToTestMain(View view) {
-
-        // 初始這頁的切換按鈕
-        userModeFlag = true;
-
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
         startActivity(intent);
     }
 
     public void onClickToSignOut(View view) {
-
-        // 初始這頁的切換按鈕
-        userModeFlag = true;
         GetLoginUser.unRegisterUser();
 
         Intent intent = new Intent();

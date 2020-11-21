@@ -1,9 +1,11 @@
 package com.example.my_first_application;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,10 +46,21 @@ public class ShowRequestUsersAdapter extends RecyclerView.Adapter<ShowRequestUse
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final User user = users.get(position);
-        CardView requestUserCardView = holder.userCardView;
+        final CardView requestUserCardView = holder.userCardView;
 
         TextView userName = requestUserCardView.findViewById(R.id.user_name);
-        userName.setText("" + user.getId()); // Todo 先用ID 替代
+        userName.setText(user.getName());
+
+        final ImageView sendMessage = requestUserCardView.findViewById(R.id.chat_image_view);
+
+        sendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requestUserCardView.getContext(), ChatActivity.class);
+                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, user.getId());
+                requestUserCardView.getContext().startActivity(intent);
+            }
+        });
 
         Button selectButton = requestUserCardView.findViewById(R.id.select_user_button);
         selectButton.setOnClickListener(new View.OnClickListener() {

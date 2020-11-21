@@ -1,13 +1,19 @@
 package com.example.my_first_application;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,6 +72,12 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail2);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         this.loginUserID = GetLoginUser.getLoginUser().getId();
 
         // 初始化此頁面必要資訊
@@ -79,6 +91,16 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -152,7 +174,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
                 @Override
                 public void onResponseOK(Boolean aBoolean) {
-                    isUserAlreadyRequest = aBoolean;
+                    isUserAlreadyRequest = aBoolean; // Todo 應該是releaseTask 狀態要自行去得知, 有壞味道
 
                     Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
                     checkTheInitIsOkThenUpdateAllUI();
@@ -676,22 +698,30 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addSendMessageToUserButton(final int toUserId) {
-        // Todo 需要加
-        final MaterialButton materialButton = getPositiveButton("發送訊息");
 
-        materialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, ChatActivity.class);
-                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
-                activity.startActivity(intent);
-            }
-        });
+        // Todo 電話功能 之後需要補上
+//        final LinearLayout phoneLinearLayout = findViewById(R.id.linearLayout_releaseUser_phone);
+
+
+        final LinearLayout messageLayout = findViewById(R.id.linearLayout_releaseUser_message);
+        final ImageView sendMessage = findViewById(R.id.image_releaseTask_message);
 
         runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
             @Override
             public void run() {
-                stateButtonsLayout.addView(materialButton);
+                // Todo 電話功能 之後需要補上
+//                phoneLinearLayout.setVisibility(View.VISIBLE);
+
+                messageLayout.setVisibility(View.VISIBLE);
+
+                sendMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, ChatActivity.class);
+                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
+                        activity.startActivity(intent);
+                    }
+                });
             }
         });
     }

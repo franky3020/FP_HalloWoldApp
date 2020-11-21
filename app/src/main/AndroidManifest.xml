@@ -33,7 +33,11 @@
         <activity
             android:name=".ShowTaskActivity"
             android:label="@string/showTask_toolbar_title" />
-        <activity android:name=".TaskDetailActivity" />
+
+        <activity
+            android:name=".TaskDetailActivity"
+            android:label="@string/task_content"/>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/main_toolbar_title">
