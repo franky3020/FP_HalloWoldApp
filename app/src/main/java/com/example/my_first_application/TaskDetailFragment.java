@@ -5,8 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.time.LocalDateTime;
+
 import Task.Task;
 import Task.TaskAPIService;
+import User.User;
+import User.UserAPIService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,21 +57,44 @@ public class TaskDetailFragment extends Fragment {
 
                 TextView taskTitle = view.findViewById(R.id.taskTitle);
                 taskTitle.setText(task.getTaskName());
-//
-//                TextView releaseUserID = view.findViewById(R.id.releaseUserID);
-//                releaseUserID.setText(task.getReceiveUserID());
 
-//                    TextView releaseTime = view.findViewById(R.id.releaseTime);
-//                    releaseTime.setText(task.getReceiveTime());
-
-//                TextView typeName = view.findViewById(R.id.typeName);
-//                typeName.setText(task.getTypeName());
+                UserAPIService userAPIService = new UserAPIService();
+                userAPIService.getAUserByUserID(task.getReleaseUserID(), new UserAPIService.UserListener() {
+                    @Override
+                    public void onResponseOK(User user) {
+                        TextView releaseUserID = view.findViewById(R.id.releaseUserID);
+                        releaseUserID.setText(user.getName());
+                    }
+                    @Override
+                    public void onFailure() {
+                    }
+                });
+                TextView releaseTime = view.findViewById(R.id.releaseTime);
+                LocalDateTime startPostTime = task.getStartPostTime();
+                if (startPostTime != null) {
+                    int year = startPostTime.getYear();
+                    int month = startPostTime.getMonthValue() ;
+                    int day = startPostTime.getDayOfMonth();
+                    String AMPM = "上午";
+                    int hour = startPostTime.getHour();
+                    if (hour > 12){
+                        AMPM = "下午";
+                        hour = hour - 12;
+                    }
+                    int minute = startPostTime.getMinute();
+                    if(minute < 10){
+                        releaseTime.setText("" + year + "/" + month + "/" + day + " "+ AMPM + hour + ":0" + minute);
+                    }
+                    else {
+                        releaseTime.setText("" + year + "/" + month + "/" + day + " "+ AMPM + hour + ":" + minute);
+                    }
+                }
 
                 TextView salary = view.findViewById(R.id.salary);
                 salary.setText(String.valueOf(task.getSalary()));
 
-//                TextView taskAddress = view.findViewById(R.id.taskAddress);
-//                taskAddress.setText(task.getTaskAddress());
+                TextView taskAddress = view.findViewById(R.id.taskAddress);
+                taskAddress.setText(task.getTaskAddress());
 
                 TextView message = view.findViewById(R.id.message);
                 message.setText(task.getMessage());
