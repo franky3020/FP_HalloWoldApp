@@ -40,9 +40,53 @@ public class UserAPIService {
         void onFailure();
     }
 
+    public void getAUserByUserID(final int UserID, final UserListener userListener) {
+
+        Thread getUserThread = new Thread() {
+
+            @Override
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(base_URL + "/" + UserID)
+                        .method("GET", null)
+                        .build();
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+                try {
+                    Response response= client.newCall(request).execute();
+
+                    if(response.isSuccessful()) {
+                        JSONObject userJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
+                        Iterator<String> usersId = userJSONObject.keys();
+                        if ( usersId.hasNext() ) {
+                            String idStr = usersId.next();
+                            JSONObject aUserJSON = userJSONObject.getJSONObject(idStr);
+                            User user = parse_a_User(aUserJSON, idStr);
+                            userListener.onResponseOK(user);
+                        } else {
+                            userListener.onFailure();
+                        }
+
+                    } else {
+                        userListener.onFailure();
+                    }
+
+
+                    response.close();
+
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
+                    userListener.onFailure();
+                }
+            }
+        };
+        getUserThread.start();
+    }
+
+
     public void getAUserByFirebaseUID(final String firebaseUID, final UserListener userListener) {
 
-        Thread getTaskThread = new Thread() {
+        Thread getUserThread = new Thread() {
 
             @Override
             public void run() {
@@ -80,10 +124,7 @@ public class UserAPIService {
                 }
             }
         };
-        getTaskThread.start();
-
-
-
+        getUserThread.start();
     }
 
     private User parse_a_User(JSONObject aJsonUser, String userIdStr) throws Exception {
