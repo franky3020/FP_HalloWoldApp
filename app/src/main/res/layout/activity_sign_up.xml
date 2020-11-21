@@ -4,11 +4,10 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/login_background">
+android:layout_height="match_parent">
 
     <include
-        layout="@layout/toolbar_main"
+        layout="@layout/toolbar_sign"
         android:id="@+id/toolbar_sign_up"/>
 
     <androidx.constraintlayout.widget.Guideline
@@ -44,7 +43,7 @@ android:background="@drawable/login_background">
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:hint="@string/email_address"
-        android:textColorHint="@color/login_register_form_details"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@+id/TextView_sign_up">
@@ -54,11 +53,9 @@ android:background="@drawable/login_background">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:background="@drawable/login_edit_text_background"
             android:padding="15dp"
             android:drawableStart="@drawable/ic_email_address"
-            android:drawablePadding="8dp"
-            android:textColor="@color/login_register_form_details" />
+            android:drawablePadding="8dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -68,6 +65,7 @@ android:background="@drawable/login_background">
         android:layout_marginTop="10dp"
         android:hint="@string/nickname"
         android:textColorHint="@color/login_register_form_details"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@+id/sign_up_email_layout">
@@ -77,10 +75,9 @@ android:background="@drawable/login_background">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:background="@drawable/login_edit_text_background"
             android:padding="15dp"
             android:drawableStart="@drawable/ic_user_nickname"
-            android:drawablePadding="11dp"
+            android:drawablePadding="8dp"
             android:textColor="@color/login_register_form_details" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,6 +89,7 @@ android:background="@drawable/login_background">
         app:endIconMode="password_toggle"
         app:endIconTint="@color/login_register_form_details"
         android:textColorHint="@color/login_register_form_details"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@+id/sign_up_nick_name_layout">
@@ -103,7 +101,6 @@ android:background="@drawable/login_background">
             android:inputType="textPassword"
             android:padding="15dp"
             android:drawableStart="@drawable/ic_lock_password"
-            android:background="@drawable/login_edit_text_background"
             android:drawablePadding="8dp"
             android:hint="@string/password"
             android:textColor="@color/login_register_form_details" />
@@ -117,6 +114,7 @@ android:background="@drawable/login_background">
         app:endIconMode="password_toggle"
         app:endIconTint="@color/login_register_form_details"
         android:textColorHint="@color/login_register_form_details"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toStartOf="@id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@+id/sign_up_password_layout">
@@ -128,7 +126,6 @@ android:background="@drawable/login_background">
             android:inputType="textPassword"
             android:padding="15dp"
             android:drawableStart="@drawable/ic_lock_password"
-            android:background="@drawable/login_edit_text_background"
             android:drawablePadding="8dp"
             android:hint="@string/password_again"
             android:textColor="@color/login_register_form_details" />
@@ -138,13 +135,35 @@ android:background="@drawable/login_background">
         android:id="@+id/button_sign_up"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
+        android:padding="12dp"
         android:text="@string/sign_up"
         android:textAllCaps="false"
-        android:textColor="@color/login_register_form_details_medium"
+        android:textSize="18dp"
+        android:textColor="@color/login_register_form_button"
         android:background="@drawable/login_button_background"
         app:layout_constraintEnd_toStartOf="@+id/guideline_sign_up_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_sign_up_page_left"
         app:layout_constraintTop_toBottomOf="@id/sign_up_password_again_layout" />
 
+    <View
+        android:id="@+id/view_register_footer_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="50dp"
+        android:background="@color/login_register_form_details_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_in"
+        android:textColor="@color/login_register_form_details_medium"
+        app:layout_constraintTop_toBottomOf="@+id/view_register_footer_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

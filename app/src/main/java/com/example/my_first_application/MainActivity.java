@@ -86,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickToSign(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, SignActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();

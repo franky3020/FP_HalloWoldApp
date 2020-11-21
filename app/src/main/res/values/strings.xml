@@ -8,9 +8,11 @@
     <string name="password">Password</string>
     <string name="password_again">Confirm Password</string>
     <string name="login">LOGIN</string>
+    <string name="remember_your_password">Remember me</string>
     <string name="forgot_your_password">Forgot your Password?</string>
     <string name="or">OR</string>
     <string name="sign_up">Register</string>
+    <string name="log_in">Login</string>
     <string name="show_task_title">Task Title</string>
     <string name="show_task_type">Task type</string>
     <string name="show_task_status">Task time</string>
@@ -48,6 +50,7 @@
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="login_with_google">Login with Google</string>
     <string name="login_with_line">Login with Line</string>
+    <string name="login_with_mail">Register with Mail</string>
     <string name="nickname">nickname</string>
 
     <!-- fragment release task -->
