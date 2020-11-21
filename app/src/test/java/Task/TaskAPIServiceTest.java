@@ -163,7 +163,7 @@ public class TaskAPIServiceTest {
     @Test
     public void getTaskRequestUsersID() {
         final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getTaskRequestUsersID(374, new TaskAPIService.GetAPIListener<ArrayList<Integer>>() {
+        taskApiService.getTaskRequestUsers(374, new TaskAPIService.GetAPIListener<ArrayList<Integer>>() {
             @Override
             public void onResponseOK(ArrayList<Integer> integers) {
                 System.out.println(integers);

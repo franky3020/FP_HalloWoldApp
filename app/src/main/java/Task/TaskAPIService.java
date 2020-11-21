@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import User.User;
+import User.UserAPIService;
 import UtilTool.JsonParse;
 import UtilTool.TransitTime;
 import okhttp3.Callback;
@@ -239,7 +241,7 @@ public class TaskAPIService {
     }
 
 
-    public void getTaskRequestUsersID(final int taskId, final GetAPIListener< ArrayList<Integer> > getAPIListener) {
+    public void getTaskRequestUsers(final int taskId, final GetAPIListener< ArrayList<User> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
 
@@ -255,16 +257,10 @@ public class TaskAPIService {
                     Response response= client.newCall(request).execute();
 
                     if(response.isSuccessful()) {
+                        ArrayList<User> users = new ArrayList<>();
                         JSONArray usersJSONArray = new JSONArray( Objects.requireNonNull(response.body()).string() );
-                        ArrayList<Integer> userIdList = new ArrayList<>();
-
-                        for (int i = 0; i < usersJSONArray.length() ; i++ ) {
-                            JSONObject a_id = usersJSONArray.getJSONObject(i);
-                            userIdList.add(a_id.getInt("id"));
-                        }
-                        getAPIListener.onResponseOK(userIdList);
-
-
+                        users = JsonParse.parseUsersFromJsonArray(usersJSONArray);
+                        getAPIListener.onResponseOK(users);
                     } else {
                         getAPIListener.onFailure();
                     }

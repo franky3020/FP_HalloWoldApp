@@ -724,25 +724,6 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 });
             }
         });
-
-//
-//        final MaterialButton materialButton = getPositiveButton("發送訊息");
-//
-//        materialButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(activity, ChatActivity.class);
-//                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
-//                activity.startActivity(intent);
-//            }
-//        });
-//
-//        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
-//            @Override
-//            public void run() {
-//                stateButtonsLayout.addView(materialButton);
-//            }
-//        });
     }
 
     @Override

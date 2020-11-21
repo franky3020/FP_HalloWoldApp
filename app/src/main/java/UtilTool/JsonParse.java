@@ -20,6 +20,19 @@ public class JsonParse {
 
     private static final String LOG_TAG = JsonParse.class.getSimpleName();
 
+    public static User parse_a_User(JSONObject aJSONObj) throws Exception {
+        int id =  aJSONObj.optInt("id");
+
+        String name =  aJSONObj.optString("name");
+
+        String firebase_uid = aJSONObj.optString("firebase_uid");
+
+        return UserBuilder.anUser(id)
+                .withName(name)
+                .withFirebaseUID(firebase_uid)
+                .build();
+    }
+
     public static User parse_a_User(JSONObject aJSONObj, String idKey) throws Exception {
         int id = Integer.parseInt(idKey);
 
@@ -51,6 +64,21 @@ public class JsonParse {
             }
         }
 
+        return userList;
+    }
+
+    public static ArrayList<User> parseUsersFromJsonArray(JSONArray usersJSONArray) {
+        ArrayList<User> userList = new ArrayList<>();
+
+        for(int i = 0; i < usersJSONArray.length() ; i++) {
+            try {
+                JSONObject a_user = usersJSONArray.getJSONObject(i);
+                User user = parse_a_User(a_user);
+                userList.add(user);
+            } catch (Exception e) {
+                Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
+            }
+        }
         return userList;
     }
 
