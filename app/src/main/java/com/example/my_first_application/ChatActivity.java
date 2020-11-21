@@ -143,10 +143,10 @@ public class ChatActivity extends AppCompatActivity {
 
     private void messageListUIUpdate() {
         mChatAdapter.setShowChatList(mMessagesList);
-        runOnUiThread( new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mChatAdapter.notifyItemInserted(mMessagesList.size() - 1);
+                mChatAdapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(mMessagesList.size() - 1);
             }
         });
