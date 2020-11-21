@@ -42,6 +42,7 @@ public class GetLoginUser {
     public static void registerUser(User user) {
         instance.user = user;
         instance.isLogin = true;
+        instance.userMode = RELEASE_MODE_STR;
     }
 
     public static void unRegisterUser() {
