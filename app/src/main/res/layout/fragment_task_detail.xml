@@ -70,6 +70,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:layout_marginRight="25dp"
+                android:visibility="invisible"
                 android:background="@color/releaseTask_textContent_bg"
                 android:layout_marginTop="5dp">
 
@@ -98,6 +99,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:layout_marginRight="25dp"
+                android:visibility="invisible"
                 android:background="@color/releaseTask_textContent_bg"
                 android:layout_marginTop="5dp">
 
@@ -106,6 +108,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_gravity="center"
+
                     android:src="@drawable/ic_release_task_message"/>
 
                 <TextView

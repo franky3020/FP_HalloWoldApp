@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -173,7 +174,7 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
             taskApiService.checkUserAlreadyRequest(taskID, loginUserID, new TaskAPIService.GetAPIListener<Boolean>() {
                 @Override
                 public void onResponseOK(Boolean aBoolean) {
-                    isUserAlreadyRequest = aBoolean;
+                    isUserAlreadyRequest = aBoolean; // Todo 應該是releaseTask 狀態要自行去得知, 有壞味道
 
                     Log.d(LOG_TAG, "updateTheUserIsAlreadyRequest");
                     checkTheInitIsOkThenUpdateAllUI();
@@ -697,24 +698,51 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addSendMessageToUserButton(final int toUserId) {
-        // Todo 需要加
-        final MaterialButton materialButton = getPositiveButton("發送訊息");
 
-        materialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, ChatActivity.class);
-                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
-                activity.startActivity(intent);
-            }
-        });
+        // Todo 電話功能 之後需要補上
+//        final LinearLayout phoneLinearLayout = findViewById(R.id.linearLayout_releaseUser_phone);
+
+
+        final LinearLayout messageLayout = findViewById(R.id.linearLayout_releaseUser_message);
+        final ImageView sendMessage = findViewById(R.id.image_releaseTask_message);
 
         runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
             @Override
             public void run() {
-                stateButtonsLayout.addView(materialButton);
+                // Todo 電話功能 之後需要補上
+//                phoneLinearLayout.setVisibility(View.VISIBLE);
+
+                messageLayout.setVisibility(View.VISIBLE);
+
+                sendMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, ChatActivity.class);
+                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
+                        activity.startActivity(intent);
+                    }
+                });
             }
         });
+
+//
+//        final MaterialButton materialButton = getPositiveButton("發送訊息");
+//
+//        materialButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(activity, ChatActivity.class);
+//                intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
+//                activity.startActivity(intent);
+//            }
+//        });
+//
+//        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+//            @Override
+//            public void run() {
+//                stateButtonsLayout.addView(materialButton);
+//            }
+//        });
     }
 
     @Override
