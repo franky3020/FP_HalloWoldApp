@@ -1,12 +1,17 @@
 package com.example.my_first_application;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,6 +71,12 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail2);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         this.loginUserID = GetLoginUser.getLoginUser().getId();
 
         // 初始化此頁面必要資訊
@@ -79,6 +90,16 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
         stateButtonsLayout = findViewById(R.id.task_state_buttons_container);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

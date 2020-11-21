@@ -66,4 +66,9 @@
     <string name="releaseTask_taskAddress_content">taskAddress</string>
     <string name="releaseTask_message">任務內容</string>
     <string name="releaseTask_message_content">message</string>
+
+
+    <!-- task detail -->
+    <string name="task_content">任務內容</string>
+
 </resources>
