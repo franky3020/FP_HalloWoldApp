@@ -57,13 +57,7 @@ public class ShowChatActivity extends AppCompatActivity { // 顯示訊息的管�
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        if(GetLoginUser.isReleaseMode()) {
-            BottomNavigationSettingFacade.setReleaseModeNavigation(this, bottomNavigationView);
-        } else if(GetLoginUser.isReceiveMode()) {
-            BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
-        }
-
+        BottomNavigationSettingFacade.setNavigation(this, bottomNavigationView);
 
         Log.d(LOG_TAG, "onCreate over"); // 就算跳到 login 頁面, 這一行還是會跑完, onCreate() 完後 會執行 onDestroy
     }

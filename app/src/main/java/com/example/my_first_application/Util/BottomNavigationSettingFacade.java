@@ -16,7 +16,20 @@ import com.example.my_first_application.ShowChatActivity;
 import com.example.my_first_application.ShowTaskActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import User.GetLoginUser;
+
 public final class BottomNavigationSettingFacade {
+
+    public static void setNavigation(final Activity activity, BottomNavigationView bottomNavigationView) {
+        if (GetLoginUser.isReleaseMode()) {
+            setReleaseModeNavigation(activity, bottomNavigationView);
+        } else if(GetLoginUser.isReceiveMode()) {
+            setReceiveModeNavigation(activity, bottomNavigationView);
+        } else if(GetLoginUser.isVisitorsMode()) {
+            setReceiveModeNavigation(activity, bottomNavigationView);
+        }
+    }
+
 
     public static void setReleaseModeNavigation(final Activity activity, BottomNavigationView bottomNavigationView) {
         bottomNavigationView.inflateMenu(R.menu.menu_release_mode_bottom_navigation);
