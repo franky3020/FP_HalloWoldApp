@@ -66,21 +66,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickToLogin14(View view) {
-        GetLoginUser.registerUser(UserBuilder.anUser(14).build());
+        GetLoginUser.registerUser(
+                UserBuilder.anUser(14)
+                .withName("Les")
+                .build());
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, ShowTaskActivity.class);
         startActivity(intent);
     }
 
     public void onClickToLogin21(View view) {
-        GetLoginUser.registerUser(UserBuilder.anUser(21).build());
+        GetLoginUser.registerUser(
+                UserBuilder.anUser(21)
+                .withName("James")
+                .build());
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, ShowTaskActivity.class);
         startActivity(intent);
     }
 
     public void onClickToLogin22(View view) {
-        GetLoginUser.registerUser(UserBuilder.anUser(22).build());
+        GetLoginUser.registerUser(
+                UserBuilder.anUser(22)
+                .withName("Ace")
+                .build());
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, ShowTaskActivity.class);
         startActivity(intent);
