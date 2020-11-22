@@ -23,9 +23,9 @@ public class MessageAPIService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String LOG_TAG = MessageAPIService.class.getSimpleName();
 
-    public static final String API_version = "ms-provider-test-release-200"; // Todo 之後需要統一管理
+    public static final String API_version = "ms-provider-release-200"; // Todo 之後需要統一管理
 
-    public static final String base_URL = "http://140.134.26.71:46557/" + API_version + "/message";
+    public static final String base_URL = "http://140.134.26.65:46557/" + API_version + "/message";
 
     public interface GetAPIListener<T> {
         void onResponseOK(T t);
