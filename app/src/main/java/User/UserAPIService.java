@@ -85,6 +85,12 @@ public class UserAPIService {
         getUserThread.start();
     }
 
+    public void changeUserPoint(final int userID,final int point, Callback callback) {
+        Request request = new Request.Builder().url(base_URL + "/" + userID + "/" + point).post(null).build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
+    }
+
 
     public void getAUserByFirebaseUID(final String firebaseUID, final UserListener userListener) {
 
