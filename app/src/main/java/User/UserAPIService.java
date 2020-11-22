@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.Objects;
+
+import UtilTool.JsonParse;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -61,7 +63,7 @@ public class UserAPIService {
                         if ( usersId.hasNext() ) {
                             String idStr = usersId.next();
                             JSONObject aUserJSON = userJSONObject.getJSONObject(idStr);
-                            User user = parse_a_User(aUserJSON, idStr);
+                            User user = JsonParse.parse_a_User(aUserJSON, idStr);
                             userListener.onResponseOK(user);
                         } else {
                             userListener.onFailure();
@@ -81,6 +83,12 @@ public class UserAPIService {
             }
         };
         getUserThread.start();
+    }
+
+    public void changeUserPoint(final int userID,final int point, Callback callback) {
+        Request request = new Request.Builder().url(base_URL + "/" + userID + "/" + point).post(null).build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
     }
 
 
@@ -105,7 +113,7 @@ public class UserAPIService {
                         if ( usersId.hasNext() ) {
                             String idStr = usersId.next();
                             JSONObject aUserJSON = userJSONObject.getJSONObject(idStr);
-                            User user = parse_a_User(aUserJSON, idStr);
+                            User user = JsonParse.parse_a_User(aUserJSON, idStr);
                             userListener.onResponseOK(user);
                         } else {
                             userListener.onFailure();
@@ -126,15 +134,4 @@ public class UserAPIService {
         };
         getUserThread.start();
     }
-
-    private User parse_a_User(JSONObject aJsonUser, String userIdStr) throws Exception {
-
-        int userIdInt = Integer.parseInt(userIdStr);
-
-        return UserBuilder.anUser(userIdInt)
-                .withName(aJsonUser.optString("name"))
-                .withFirebaseUID(aJsonUser.optString("firebase_uid"))
-                .build();
-    }
-
 }

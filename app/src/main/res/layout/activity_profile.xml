@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_below="@+id/textView_member_points"
-                    android:text="@string/profile_member_points_number"
+                    android:text="0"
                     android:textSize="28dp"
                     style="@style/TextColorStyle" />
             </LinearLayout>
@@ -77,23 +77,24 @@
             android:drawableRight="@drawable/arrow_right_content"
             style="@style/ProfileButtonStyle" />
 
-        <Button
-            android:id="@+id/button_profile_wallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="點數立即儲"
-            android:drawableLeft="@drawable/ic_wallet"
-            android:drawableRight="@drawable/arrow_right_content"
-            style="@style/ProfileButtonStyle" />
+<!--        目前還沒有金流功能 所以先註解-->
+<!--        <Button-->
+<!--            android:id="@+id/button_profile_wallet"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="點數立即儲"-->
+<!--            android:drawableLeft="@drawable/ic_wallet"-->
+<!--            android:drawableRight="@drawable/arrow_right_content"-->
+<!--            style="@style/ProfileButtonStyle" />-->
 
-        <Button
-            android:id="@+id/button_profile_points_record"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="點數紀錄"
-            android:drawableLeft="@drawable/ic_transaction_details"
-            android:drawableRight="@drawable/arrow_right_content"
-            style="@style/ProfileButtonStyle" />
+<!--        <Button-->
+<!--            android:id="@+id/button_profile_points_record"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="點數紀錄"-->
+<!--            android:drawableLeft="@drawable/ic_transaction_details"-->
+<!--            android:drawableRight="@drawable/arrow_right_content"-->
+<!--            style="@style/ProfileButtonStyle" />-->
 
         <Button
             android:id="@+id/button_profile_logout"

@@ -27,9 +27,12 @@ public class JsonParse {
 
         String firebase_uid = aJSONObj.optString("firebase_uid");
 
+        int point = aJSONObj.optInt("point");
+
         return UserBuilder.anUser(id)
                 .withName(name)
                 .withFirebaseUID(firebase_uid)
+                .withPoint(point)
                 .build();
     }
 
@@ -38,14 +41,14 @@ public class JsonParse {
 
         String name =  aJSONObj.optString("name");
 
-        String phone = aJSONObj.optString("phone");
-
         String firebase_uid = aJSONObj.optString("firebase_uid");
+
+        int point = aJSONObj.optInt("point");
 
         return UserBuilder.anUser(id)
                 .withName(name)
-                .withPhone(phone)
                 .withFirebaseUID(firebase_uid)
+                .withPoint(point)
                 .build();
     }
 
@@ -101,15 +104,11 @@ public class JsonParse {
 
     private static Message parse_a_Message(JSONObject aJSONMessage) throws Exception {
 
-//        int messageId = Integer.parseInt(messageKey);
-
         String content =  aJSONMessage.getString("content");
 
         int userID = aJSONMessage.getInt("userID");
 
         int receiverID = aJSONMessage.getInt("receiverID");
-
-//        int taskID = aJSONMessage.getInt("taskID");
 
         LocalDateTime postTime = TransitTime.transitTimeStampFromGetAPI(aJSONMessage.getString("postTime"));
 
