@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_below="@+id/textView_member_points"
-                    android:text="@string/profile_member_points_number"
+                    android:text="0"
                     android:textSize="28dp"
                     style="@style/TextColorStyle" />
             </LinearLayout>

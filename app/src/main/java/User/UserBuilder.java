@@ -4,6 +4,7 @@ public final class UserBuilder {
     private final int id;
     private String name;
     private String firebaseUID;
+    private int point;
 
 
     private UserBuilder(int id) {
@@ -20,13 +21,13 @@ public final class UserBuilder {
         return this;
     }
 
-
-    public UserBuilder withPhone(String phone) {
+    public UserBuilder withFirebaseUID(String firebaseUID) {
+        this.firebaseUID = firebaseUID;
         return this;
     }
 
-    public UserBuilder withFirebaseUID(String firebaseUID) {
-        this.firebaseUID = firebaseUID;
+    public UserBuilder withPoint(int point) {
+        this.point = point;
         return this;
     }
 
@@ -35,6 +36,7 @@ public final class UserBuilder {
         user.setId(id);
         user.setName(name);
         user.setFirebaseUID(firebaseUID);
+        user.setPoint(point);
         return user;
     }
 }

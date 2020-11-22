@@ -51,6 +51,10 @@ public class ProfileActivity extends AppCompatActivity {
         if(loginUser !=  null) {
             TextView memberPoints = findViewById(R.id.textView_member_points);
             memberPoints.setText( loginUser.getName()  + " 你好");
+
+            TextView memberPointNumber = findViewById(R.id.textView_member_points_number);
+            memberPointNumber.setText("" + loginUser.getPoint());
+
         }
         ////////////////////////////////////////////////////////////////////////
 
