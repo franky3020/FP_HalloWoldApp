@@ -173,7 +173,7 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     private void sendGetTasksWithoutLoginUserAPI() {
         final TaskAPIService taskApiService = new TaskAPIService();
         int loginUserId = GetLoginUser.getLoginUser().getId();
-        taskApiService.getTasksWithoutLoginUser(loginUserId, getTasksAPIListener);
+        taskApiService.getCanRequestTasks(loginUserId, getTasksAPIListener);
     }
 
     private void sendGetUserReleaseTasksAPI() {

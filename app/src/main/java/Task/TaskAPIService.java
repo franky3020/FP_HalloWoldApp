@@ -91,14 +91,14 @@ public class TaskAPIService {
         getTaskThread.start();
     }
 
-    public void getTasksWithoutLoginUser(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
+    public void getCanRequestTasks(final int userId, final GetAPIListener< ArrayList<Task> > getAPIListener) {
 
         Thread getTaskThread = new Thread() {
 
             @Override
             public void run() {
                 Request request = new Request.Builder()
-                        .url(base_URL + "/" + "WithoutUserId" + "/" + userId)
+                        .url(base_URL + "/" + "CanRequest" + "/" + userId)
                         .method("GET", null)
                         .build();
                 OkHttpClient client = new OkHttpClient().newBuilder().build();
