@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import User.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -163,10 +164,10 @@ public class TaskAPIServiceTest {
     @Test
     public void getTaskRequestUsersID() {
         final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getTaskRequestUsers(374, new TaskAPIService.GetAPIListener<ArrayList<Integer>>() {
+        taskApiService.getTaskRequestUsers(374, new TaskAPIService.GetAPIListener<ArrayList<User>>() {
             @Override
-            public void onResponseOK(ArrayList<Integer> integers) {
-                System.out.println(integers);
+            public void onResponseOK(ArrayList<User> user) {
+                System.out.println(user);
             }
 
             @Override

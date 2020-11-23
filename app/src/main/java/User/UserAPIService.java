@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 import UtilTool.JsonParse;
+import UtilTool.TransitTime;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -117,6 +118,24 @@ public class UserAPIService {
 
     public void changeUserPoint(final int userID,final int point, Callback callback) {
         Request request = new Request.Builder().url(base_URL + "/" + userID + "/" + point).post(null).build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public void increaseUserPoint(final int userID,final int point, Callback callback) {
+        JSONObject jsonEntity = new JSONObject();
+        RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON); // 需要一個空的
+
+        Request request = new Request.Builder().url(base_URL + "/" + userID + "/increaseUserPoint/" + point).post(requestBody).build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public void deductionUserPoint(final int userID,final int point, Callback callback) {
+        JSONObject jsonEntity = new JSONObject();
+        RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON);// 需要一個空的
+
+        Request request = new Request.Builder().url(base_URL + "/" + userID + "/deductionUserPoint/" + point).post(requestBody).build();
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         client.newCall(request).enqueue(callback);
     }

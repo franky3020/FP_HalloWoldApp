@@ -66,4 +66,27 @@ public class UserAPIServiceTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void deductionUserPoint() {
+        UserAPIService userAPIService = new UserAPIService();
+
+        userAPIService.deductionUserPoint(14, 9, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+            }
+        });
+
+        try {
+            Thread.sleep(5000); // 為了等它完成, 不然這個test會被突然中斷, 導致失敗
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
