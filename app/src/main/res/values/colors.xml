@@ -25,4 +25,5 @@
     <color name="releaseTask_textColor">#000000</color>
     <color name="releaseTask_bg">#e9ecef</color>
     <color name="releaseTask_textContent_bg">#ffffff</color>
+    <color name="delete_color">#C40C27</color>
 </resources>

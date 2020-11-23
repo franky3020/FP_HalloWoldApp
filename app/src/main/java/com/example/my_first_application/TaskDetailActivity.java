@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.media.RatingCompat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -768,9 +769,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     private MaterialButton getPositiveButton(String buttonText) {
 
         MaterialButton materialButton = getBaseButton();
-        materialButton.setBackgroundColor(Color.parseColor("#32A852"));
+        materialButton.setStrokeColorResource(R.color.colorPrimary);
         materialButton.setText(buttonText);
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        materialButton.setTextColor(getColor(R.color.colorPrimaryDark));
 
         return materialButton;
     }
@@ -779,9 +780,9 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
         MaterialButton materialButton = getBaseButton();
 
-        materialButton.setBackgroundColor(Color.parseColor("#C40C27"));
+        materialButton.setStrokeColorResource(R.color.delete_color);
         materialButton.setText(buttonText);
-        materialButton.setTextColor(Color.parseColor("#FFFFFF"));
+        materialButton.setTextColor(getColor(R.color.delete_color));
 
         return materialButton;
     }
