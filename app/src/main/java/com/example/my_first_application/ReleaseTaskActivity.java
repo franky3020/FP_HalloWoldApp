@@ -15,6 +15,8 @@ import android.view.View;
 import Task.Task;
 import Task.TaskAPIService;
 import User.GetLoginUser;
+import User.User;
+import User.UserAPIService;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -25,12 +27,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -46,8 +49,12 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     EditText taskNameField;
     EditText messageField;
     EditText salaryField;
+
     EditText mEditText_task_start_date_Field;
+    LocalDateTime taskStartLocalDataTime;
+
     EditText mEditText_task_end_date_Field;
+    LocalDateTime taskEndLocalDataTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +88,9 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                 setTaskDateAndTime(new OnTaskDateAndTimeSetListener(){
 
                     @Override
-                    public void onTaskDateAndTimeSet(String dataAndTime) {
-                        mEditText_task_start_date_Field.setText(dataAndTime);
+                    public void onTaskDateAndTimeSet(LocalDateTime localDateTime) {
+                        taskStartLocalDataTime = localDateTime;
+                        mEditText_task_start_date_Field.setText(taskStartLocalDataTime.toString());
                     }
                 });
             }
@@ -98,9 +106,9 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                 setTaskDateAndTime(new OnTaskDateAndTimeSetListener(){
 
                     @Override
-                    public void onTaskDateAndTimeSet(String dataAndTime) {
-                        // Todo 之後需要修掉顯示 T 的問題
-                        mEditText_task_end_date_Field.setText(dataAndTime);
+                    public void onTaskDateAndTimeSet(LocalDateTime localDateTime) {
+                        taskEndLocalDataTime = localDateTime;
+                        mEditText_task_end_date_Field.setText(taskEndLocalDataTime.toString());
                     }
                 });
             }
@@ -119,20 +127,20 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
 
     private interface  OnTaskDateAndTimeSetListener {
-        void onTaskDateAndTimeSet(String dataAndTime);
+        void onTaskDateAndTimeSet(LocalDateTime localDateTime);
     }
 
     private void setTaskDateAndTime(final OnTaskDateAndTimeSetListener listener) {
         showDatePickerDialogV2(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                final String date = "" + year + "-" + (month + 1) + "-" + dayOfMonth;
-
+                final LocalDate  localDate = LocalDate.of(year, month, dayOfMonth);
                 showTimePickerDialogV2(new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String time = "" + hourOfDay + ":" + minute + ":00";
-                        listener.onTaskDateAndTimeSet(date + "T" + time);
+                        LocalTime localTime = LocalTime.of(hourOfDay, minute);
+                        LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+                        listener.onTaskDateAndTimeSet(localDateTime);
                     }
                 });
             }
@@ -162,6 +170,10 @@ public class ReleaseTaskActivity extends AppCompatActivity {
     private void releaseTask() {
 
         if(isAEditTextNotHasValues()) {
+            return;
+        }
+
+        if(!checkPoint()) {
             return;
         }
 
@@ -195,24 +207,17 @@ public class ReleaseTaskActivity extends AppCompatActivity {
         EditText TaskAddressField = findViewById(R.id.editText_task_region);
         String taskAddress = TaskAddressField.getText().toString();
 
-        String startPostTimeStr= mEditText_task_start_date_Field.getText().toString();
-        LocalDateTime startPostTime = UtilTool.TransitTime.transitTimeStamp(startPostTimeStr);
-
-        String endPostTimeStr = mEditText_task_end_date_Field.getText().toString();
-        LocalDateTime endPostTime = UtilTool.TransitTime.transitTimeStamp(endPostTimeStr);
-
-
-
         Task task = TaskBuilder.aTask(0, salary, loginUserId)
                 .withTaskName(taskName)
                 .withMessage(message)
                 .withTaskAddress(taskAddress)
-                .withStartPostTime(startPostTime)
-                .withEndPostTime(endPostTime)
+                .withStartPostTime(taskStartLocalDataTime)
+                .withEndPostTime(taskEndLocalDataTime)
                 .build();
 
         TaskAPIService taskApiService = new TaskAPIService();
         try {
+            final int finalSalary = salary;
             taskApiService.post(task, new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -221,16 +226,33 @@ public class ReleaseTaskActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     if(response.isSuccessful()) {
-                        Intent intent = new Intent();
-                        intent.setClass(releaseTaskActivity, ShowTaskActivity.class);
-                        startActivity(intent);
+                        deductionUserPoint(finalSalary, new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                            }
+
+                            // Todo 並未考慮扣款失敗 但任務被發布的狀況
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                Log.d(LOG_TAG, "扣款成功");
+                                Intent intent = new Intent();
+                                intent.setClass(releaseTaskActivity, ShowTaskActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
                     }
                 }
             });
-
         } catch (Exception e) {
             Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
         }
+    }
+
+    private void deductionUserPoint(int point, Callback callback) {
+        UserAPIService userAPIService = new UserAPIService();
+        userAPIService.deductionUserPoint(loginUserId, point, callback);
     }
 
     private boolean isAEditTextNotHasValues() {
@@ -249,6 +271,27 @@ public class ReleaseTaskActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private boolean checkPoint() {
+
+        String salaryStr = salaryField.getText().toString();
+        int salary;
+        try {
+            salary = Integer.parseInt(salaryStr); // 防止空字串 程式會崩潰
+        } catch (Exception e) {
+            salary = 0;
+        }
+
+        UserAPIService userAPIService = new UserAPIService();
+        User user = userAPIService.getAUserByUserID(loginUserId);
+
+        if(user.getPoint() >= salary) {
+            return true;
+        } else {
+            salaryField.setError("餘額不足");
+            return false;
+        }
     }
 
 
