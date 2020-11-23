@@ -15,6 +15,8 @@ import android.view.View;
 import Task.Task;
 import Task.TaskAPIService;
 import User.GetLoginUser;
+import User.User;
+import User.UserAPIService;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -165,6 +167,11 @@ public class ReleaseTaskActivity extends AppCompatActivity {
             return;
         }
 
+        if(!checkPoint()) {
+            Log.d(LOG_TAG, "not enough money");
+            return;
+        }
+
         checkAlertDialog(new CheckAlertDialogListener() {
             @Override
             public void onPositive() {
@@ -249,6 +256,26 @@ public class ReleaseTaskActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private boolean checkPoint() {
+
+        String salaryStr = salaryField.getText().toString();
+        int salary;
+        try {
+            salary = Integer.parseInt(salaryStr); // 防止空字串 程式會崩潰
+        } catch (Exception e) {
+            salary = 0;
+        }
+
+        UserAPIService userAPIService = new UserAPIService();
+        User user = userAPIService.getAUserByUserID(loginUserId);
+
+        if(user.getPoint() > salary) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
