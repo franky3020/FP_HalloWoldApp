@@ -42,7 +42,7 @@
     <string name="search">搜尋</string>
     <string name="message">訊息</string>
     <string name="user">個人</string>
-    <string name="collect">收集</string>
+    <string name="task">任務</string>
 
     <!-- Login 頁面第三方平台按鈕 -->
     <string name="login_with_facebook">Facebook 登入</string>

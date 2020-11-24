@@ -216,15 +216,15 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addATaskStateShow() {
-        final TextView taskStateTextView = new TextView(this);
-
-        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
-            @Override
-            public void run() {
-                taskStateTextView.setText(state.toString());
-                stateButtonsLayout.addView(taskStateTextView);
-            }
-        });
+//        final TextView taskStateTextView = new TextView(this);
+//
+//        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+//            @Override
+//            public void run() {
+//                taskStateTextView.setText(state.toString());
+//                stateButtonsLayout.addView(taskStateTextView);
+//            }
+//        });
     }
 
     private ITaskStateAction getTaskStateAction(TaskState taskState) {

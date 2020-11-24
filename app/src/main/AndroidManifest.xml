@@ -21,7 +21,7 @@
 
         <activity
             android:name=".CollectTaskActivity"
-            android:label="@string/collect"/>
+            android:label="@string/task"/>
 
         <activity
             android:name=".ShowRequestUsersActivity"

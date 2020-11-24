@@ -12,7 +12,7 @@
         android:id="@+id/icon_search"
         android:enabled="true"
         android:icon="@drawable/ic_search"
-        android:title="@string/collect"/>
+        android:title="@string/task"/>
 
     <item
         android:id="@+id/icon_message"
