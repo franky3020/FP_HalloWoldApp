@@ -59,16 +59,23 @@ public class TaskDetailFragment extends Fragment {
                 taskTitle.setText(task.getTaskName());
 
                 UserAPIService userAPIService = new UserAPIService();
+
                 userAPIService.getAUserByUserID(task.getReleaseUserID(), new UserAPIService.UserListener() {
                     @Override
-                    public void onResponseOK(User user) {
-                        TextView releaseUserID = view.findViewById(R.id.releaseUserID);
-                        releaseUserID.setText(user.getName());
+                    public void onResponseOK(final User user) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView releaseUserID = view.findViewById(R.id.releaseUserID);
+                                releaseUserID.setText(user.getName());
+                            }
+                        });
                     }
                     @Override
                     public void onFailure() {
                     }
                 });
+
                 TextView releaseTime = view.findViewById(R.id.releaseTime);
                 LocalDateTime startPostTime = task.getStartPostTime();
                 if (startPostTime != null) {

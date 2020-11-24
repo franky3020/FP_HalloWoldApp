@@ -30,6 +30,7 @@ import Task.TaskState;
 import User.GetLoginUser;
 
 import TaskState.ITaskStateContext;
+import User.UserAPIService;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -40,6 +41,8 @@ import TaskState.EmptyState;
 import Task.TaskStateEnum;
 import Task.TaskBuilder;
 
+
+//Todo 並未考慮任務已被刪除 但使用者操作任務的任何情況 需補上
 public class TaskDetailActivity extends AppCompatActivity implements ITaskStateContext {
 
     private Activity activity = this;
@@ -214,11 +217,11 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     @Override
     public void addATaskStateShow() {
         final TextView taskStateTextView = new TextView(this);
-        taskStateTextView.setText(state.toString());
 
         runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
             @Override
             public void run() {
+                taskStateTextView.setText(state.toString());
                 stateButtonsLayout.addView(taskStateTextView);
             }
         });
@@ -290,6 +293,53 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
                 stateButtonsLayout.addView(materialButton);
             }
         });
+    }
+
+    @Override
+    public void addBoosRevokeTaskButton() {
+        final MaterialButton materialButton = getNegativeButton("收回任務");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                UserAPIService userAPIService = new UserAPIService();
+                userAPIService.increaseUserPoint(mTask.getReleaseUserID(), mTask.getSalary(), new Callback() {
+
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        TaskAPIService taskApiService = new TaskAPIService();
+                        taskApiService.deleteTask(taskID, new Callback() {
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) {
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                // Todo
+                            }
+                        });
+                    }
+
+                });
+
+            }
+        });
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
     }
 
     @Override
@@ -512,8 +562,21 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        reloadActivity();
+
+                        UserAPIService userAPIService = new UserAPIService();
+                        userAPIService.increaseUserPoint(mTask.getReceiveUserID(), mTask.getSalary(), new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                reloadActivity();
+                            }
+                        });
                     }
+
                 });
             }
         });
@@ -672,7 +735,19 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        reloadActivity();
+
+                        UserAPIService userAPIService = new UserAPIService();
+                        userAPIService.increaseUserPoint(mTask.getReleaseUserID(), mTask.getSalary(), new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                reloadActivity();
+                            }
+                        });
                     }
                 });
             }
