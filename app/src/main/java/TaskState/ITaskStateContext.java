@@ -9,7 +9,10 @@ public interface ITaskStateContext {
     void addBoosCancelRequestThatUserButton();
     void addWorkerRequestTaskButton(); // 要做申請訊息
     void addWorkerCancelRequestButton();
+
     void addWorkerConfirmExecutionButton();
+    void addWorkerNotConfirmExecutionButton(); // 決定不接收
+
     void addWorkerRequestCheckTheTaskDoneButton();
     void addBoosAgreeTaskIsDoneButton();
     void addBoosNotAgreeTaskIsDoneButton();
@@ -27,7 +30,9 @@ public interface ITaskStateContext {
 
     void removeAllViewForTaskStateContext();
 
-    void addSendMessageToUserButton(int toUserId);
+    void addSendMessageToReleaseUserButton();
+    void addSendMessageToReceiveUserButton();
+
     boolean isReleaseUser();
     boolean isReceiveUser();
 

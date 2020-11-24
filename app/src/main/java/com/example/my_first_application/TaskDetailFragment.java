@@ -59,14 +59,13 @@ public class TaskDetailFragment extends Fragment {
                 taskTitle.setText(task.getTaskName());
 
                 UserAPIService userAPIService = new UserAPIService();
-
                 userAPIService.getAUserByUserID(task.getReleaseUserID(), new UserAPIService.UserListener() {
                     @Override
                     public void onResponseOK(final User user) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                TextView releaseUserID = view.findViewById(R.id.releaseUserID);
+                                TextView releaseUserID = view.findViewById(R.id.release_user_name);
                                 releaseUserID.setText(user.getName());
                             }
                         });
@@ -76,26 +75,35 @@ public class TaskDetailFragment extends Fragment {
                     }
                 });
 
-                TextView releaseTime = view.findViewById(R.id.releaseTime);
-                LocalDateTime startPostTime = task.getStartPostTime();
-                if (startPostTime != null) {
-                    int year = startPostTime.getYear();
-                    int month = startPostTime.getMonthValue() ;
-                    int day = startPostTime.getDayOfMonth();
-                    String AMPM = "上午";
-                    int hour = startPostTime.getHour();
-                    if (hour > 12){
-                        AMPM = "下午";
-                        hour = hour - 12;
-                    }
-                    int minute = startPostTime.getMinute();
-                    if(minute < 10){
-                        releaseTime.setText("" + year + "/" + month + "/" + day + " "+ AMPM + hour + ":0" + minute);
-                    }
-                    else {
-                        releaseTime.setText("" + year + "/" + month + "/" + day + " "+ AMPM + hour + ":" + minute);
-                    }
+                final TextView receive_user_name = view.findViewById(R.id.receive_user_name);
+                if(task.getReceiveUserID() != 0) { // 如果有人接收 才會更新名子
+
+                    userAPIService.getAUserByUserID(task.getReceiveUserID(), new UserAPIService.UserListener() {
+                        @Override
+                        public void onResponseOK(final User user) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    receive_user_name.setText(user.getName());
+                                }
+                            });
+                        }
+                        @Override
+                        public void onFailure() {
+                        }
+                    });
+                } else { // 沒人接收
+                    receive_user_name.setText("還未有接收者");
                 }
+
+                TextView taskStartDataTime = view.findViewById(R.id.taskStartDataTime);
+                String startPostTimeStr= formatDataTime(task.getStartPostTime());
+                taskStartDataTime.setText(startPostTimeStr);
+
+                TextView taskEndDataTime = view.findViewById(R.id.taskEndDataTime);
+                String endPostTimeStr= formatDataTime(task.getEndPostTime());
+                taskEndDataTime.setText(endPostTimeStr);
+
 
                 TextView salary = view.findViewById(R.id.salary);
                 salary.setText(String.valueOf(task.getSalary()));
@@ -109,6 +117,37 @@ public class TaskDetailFragment extends Fragment {
             }
         });
     }
+
+
+    private String formatDataTime(LocalDateTime localDateTime) {
+
+        if(localDateTime == null) {
+            return "";
+        }
+
+        int year = localDateTime.getYear();
+        int month = localDateTime.getMonthValue() ;
+        int day = localDateTime.getDayOfMonth();
+        String AMPM = "上午";
+        int hour = localDateTime.getHour();
+        if (hour > 12){
+            AMPM = "下午";
+            hour = hour - 12;
+        }
+        int minute = localDateTime.getMinute();
+        if(minute < 10){
+            return "" + year + "/" + month + "/" + day + " "+ AMPM + hour + ":0" + minute;
+        }
+        else {
+            return "" + year + "/" + month + "/" + day + " "+ AMPM + hour + ":" + minute;
+        }
+    }
+
+
+
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

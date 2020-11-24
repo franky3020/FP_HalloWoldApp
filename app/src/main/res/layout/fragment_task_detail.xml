@@ -62,33 +62,22 @@
                     android:text="@string/releaseTask_userID" />
 
                 <TextView
-                    android:id="@+id/releaseUserID"
+                    android:id="@+id/release_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="@string/releaseTask_userID_content" />
+                    android:text="" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout_releaseUser_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+            <ImageView
+                android:id="@+id/image_releaseTask_message"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_marginRight="25dp"
                 android:visibility="invisible"
-                android:background="@color/releaseTask_textContent_bg"
-                android:layout_marginTop="5dp">
-
-                <ImageView
-                    android:id="@+id/image_releaseTask_message"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_release_task_message"/>
-            </LinearLayout>
+                android:src="@drawable/ic_release_task_message"/>
 
             <View
                 android:layout_width="1px"
@@ -115,33 +104,23 @@
                     android:text="@string/receiveTask_userID" />
 
                 <TextView
-                    android:id="@+id/receiveUserID"
+                    android:id="@+id/receive_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="@string/receiveTask_userID_content" />
+                    android:text="" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout_receiveUser_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+            <ImageView
+                android:id="@+id/image_receiveTask_message"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_marginRight="25dp"
                 android:visibility="invisible"
-                android:background="@color/releaseTask_textContent_bg"
-                android:layout_marginTop="5dp">
+                android:src="@drawable/ic_receive_task_message"/>
 
-                <ImageView
-                    android:id="@+id/image_receiveTask_message"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_receive_task_message"/>
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -170,7 +149,7 @@
                     android:text="起始時間" />
 
                 <TextView
-                    android:id="@+id/releaseTime"
+                    android:id="@+id/taskStartDataTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -202,13 +181,13 @@
                     android:text="截止時間" />
 
                 <TextView
-                    android:id="@+id/releaseTime_end"
+                    android:id="@+id/taskEndDataTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="releaseTaskEndTime" />
+                    android:text="" />
             </LinearLayout>
         </LinearLayout>
 

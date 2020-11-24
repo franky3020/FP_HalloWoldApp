@@ -18,7 +18,9 @@ public class FailureEndState implements ITaskStateAction {
 
         if (context.isReleaseUser()) {
             context.addBoosDeleteButton(); // 測試用 如果任務為結束狀態 可以刪除
-            context.addSendMessageToUserButton(context.getReceiveUserId());
+            context.addSendMessageToReceiveUserButton();
+        } else if (context.isReceiveUser()) {
+            context.addSendMessageToReleaseUserButton();
         }
     }
 

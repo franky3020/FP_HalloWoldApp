@@ -18,15 +18,17 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
         if (context.isReleaseUser()) {
             context.addBoosCancelRequestThatUserButton();
             context.addBoosRevokeTaskButton();
+            context.addSendMessageToReceiveUserButton();
         } else if (context.isReceiveUser()) {
             context.addWorkerConfirmExecutionButton();
-            context.addSendMessageToUserButton(context.getReleaseUserId());
+            context.addWorkerNotConfirmExecutionButton();
+            context.addSendMessageToReleaseUserButton();
         } else if (context.isCanRequestTaskUser()) {
             context.addWorkerRequestTaskButton();
-            context.addSendMessageToUserButton(context.getReleaseUserId());
+            context.addSendMessageToReleaseUserButton();
         } else if (context.isCanCancelRequestTaskUser()) {
             context.addWorkerCancelRequestButton();
-            context.addSendMessageToUserButton(context.getReleaseUserId());
+            context.addSendMessageToReleaseUserButton();
         } else {
             // no thing
         }

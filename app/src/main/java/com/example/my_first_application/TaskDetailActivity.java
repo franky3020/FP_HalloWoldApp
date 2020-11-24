@@ -514,6 +514,68 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
+    public void addWorkerNotConfirmExecutionButton() {
+
+        final MaterialButton materialButton = getNegativeButton("收回接收申請");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 修改任務的接收者為0
+                final TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.setTaskReceiveUser(taskID, 0, new Callback() { // Todo 設定 0 是為無接收者的初始值狀態, 有壞味道 需要重構
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        // Todo
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        Log.d(LOG_TAG, "setTaskReceiveUser Ok");
+
+                        // 改變任務狀態
+                        TaskAPIService taskApiService = new TaskAPIService();
+                        taskApiService.updateTaskState(taskID, TaskStateEnum.BOOS_RELEASE_AND_SELECTING_WORKER, new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                // Todo
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                Log.d(LOG_TAG, "updateTaskState Ok");
+
+                                // 取消請求該任務
+                                TaskAPIService taskApiService = new TaskAPIService();
+                                taskApiService.deleteTaskRequestUser(taskID, loginUserID, new Callback() {
+                                    @Override
+                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                        // Todo
+                                    }
+
+                                    @Override
+                                    public void onResponse(@NotNull Call call, @NotNull Response response) {
+                                        reloadActivity();
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+    }
+
+    @Override
     public void addWorkerRequestCheckTheTaskDoneButton() {
 
         final MaterialButton materialButton = getPositiveButton("請求確認完成任務");
@@ -772,29 +834,42 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         });
     }
 
+
     @Override
-    public void addSendMessageToUserButton(final int toUserId) {
+    public void addSendMessageToReleaseUserButton() {
 
-        // Todo 電話功能 之後需要補上
-//        final LinearLayout phoneLinearLayout = findViewById(R.id.linearLayout_releaseUser_phone);
-
-
-        final LinearLayout messageLayout = findViewById(R.id.linearLayout_releaseUser_message);
         final ImageView sendMessage = findViewById(R.id.image_releaseTask_message);
 
         runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
             @Override
             public void run() {
-                // Todo 電話功能 之後需要補上
-//                phoneLinearLayout.setVisibility(View.VISIBLE);
-
-                messageLayout.setVisibility(View.VISIBLE);
-
+                sendMessage.setVisibility(View.VISIBLE);
                 sendMessage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(activity, ChatActivity.class);
-                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
+                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, mTask.getReleaseUserID());
+                        activity.startActivity(intent);
+                    }
+                });
+            }
+        });
+
+    }
+
+    @Override
+    public void addSendMessageToReceiveUserButton() {
+        final ImageView sendMessage = findViewById(R.id.image_receiveTask_message);
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                sendMessage.setVisibility(View.VISIBLE);
+                sendMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, ChatActivity.class);
+                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, mTask.getReceiveUserID());
                         activity.startActivity(intent);
                     }
                 });

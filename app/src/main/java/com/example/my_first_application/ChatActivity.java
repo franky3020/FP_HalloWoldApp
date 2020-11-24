@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -81,8 +82,14 @@ public class ChatActivity extends AppCompatActivity {
         UserAPIService userAPIService = new UserAPIService();
         userAPIService.getAUserByUserID(mReceiverId, new UserAPIService.UserListener() {
             @Override
-            public void onResponseOK(User user) {
-                userNameField.setText(user.getName());
+            public void onResponseOK(final User user) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        userNameField.setText(user.getName());
+                    }
+                });
+
             }
             @Override
             public void onFailure() {
@@ -98,6 +105,30 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mChatAdapter = new ChatAdapter(mMessagesList);
         mRecyclerView.setAdapter(mChatAdapter);
+
+// Todo 待加入 監聽鍵盤 彈出
+//        messageEt.setOnKeyListener(new TextView.OnKeyListener(){
+//
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                Log.d(LOG_TAG, "onKey");
+//                return false;
+//            }
+//        });
+
+//        messageEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mRecyclerView.scrollToPosition(mMessagesList.size() - 1);
+//                    }
+//                });
+//                return false;
+//            }
+//        });
 
 
     }
