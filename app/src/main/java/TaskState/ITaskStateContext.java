@@ -30,7 +30,6 @@ public interface ITaskStateContext {
 
     void removeAllViewForTaskStateContext();
 
-    void addSendMessageToUserButton(int toUserId);
     void addSendMessageToReleaseUserButton();
     void addSendMessageToReceiveUserButton();
 

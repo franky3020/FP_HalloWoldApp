@@ -834,25 +834,6 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
         });
     }
 
-    @Override
-    public void addSendMessageToUserButton(final int toUserId) {
-        final ImageView sendMessage = findViewById(R.id.image_releaseTask_message);
-
-        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
-            @Override
-            public void run() {
-                sendMessage.setVisibility(View.VISIBLE);
-                sendMessage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(activity, ChatActivity.class);
-                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
-                        activity.startActivity(intent);
-                    }
-                });
-            }
-        });
-    }
 
     @Override
     public void addSendMessageToReleaseUserButton() {
