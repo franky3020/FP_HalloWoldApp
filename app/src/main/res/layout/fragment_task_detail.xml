@@ -62,13 +62,13 @@
                     android:text="@string/releaseTask_userID" />
 
                 <TextView
-                    android:id="@+id/releaseUserID"
+                    android:id="@+id/release_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="@string/releaseTask_userID_content" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -115,13 +115,13 @@
                     android:text="@string/receiveTask_userID" />
 
                 <TextView
-                    android:id="@+id/receiveUserID"
+                    android:id="@+id/receive_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="@string/receiveTask_userID_content" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -170,7 +170,7 @@
                     android:text="起始時間" />
 
                 <TextView
-                    android:id="@+id/releaseTime"
+                    android:id="@+id/taskStartDataTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -202,13 +202,13 @@
                     android:text="截止時間" />
 
                 <TextView
-                    android:id="@+id/releaseTime_end"
+                    android:id="@+id/taskEndDataTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="releaseTaskEndTime" />
+                    android:text="" />
             </LinearLayout>
         </LinearLayout>
 
