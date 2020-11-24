@@ -17,7 +17,7 @@ public class BoosSelectedWorkerState implements ITaskStateAction {
 
         if (context.isReleaseUser()) {
             context.addBoosCancelRequestThatUserButton();
-            context.addBoosDeleteButton();
+            context.addBoosRevokeTaskButton();
         } else if (context.isReceiveUser()) {
             context.addWorkerConfirmExecutionButton();
             context.addSendMessageToUserButton(context.getReleaseUserId());
