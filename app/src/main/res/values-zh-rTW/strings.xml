@@ -56,10 +56,8 @@
     <string name="releaseTask_title">任務標題</string>
     <string name="releaseTask_userID">發布者</string>
     <string name="releaseTask_userID_content">releaseUserID</string>
-    <string name="releaseTask_phone_image">電話聊</string>
-    <string name="releaseTask_message_image">線上聊</string>
-    <string name="releaseTask_time">任務時間</string>
-    <string name="releaseTask_time_content">releaseTime</string>
+    <string name="receiveTask_userID">接收者</string>
+    <string name="receiveTask_userID_content">receiveUserID</string>
     <string name="releaseTask_salary">任務薪水</string>
     <string name="releaseTask_salary_content">salary</string>
     <string name="releaseTask_taskAddress">任務地點</string>

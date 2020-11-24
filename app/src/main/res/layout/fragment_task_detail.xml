@@ -11,12 +11,20 @@
         android:id="@+id/taskTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
         android:gravity="center"
-        android:padding="13dp"
+        android:paddingTop="25sp"
         android:textSize="22sp"
         android:textStyle="bold"
         android:text="@string/releaseTask_title"/>
+
+    <TextView
+        android:id="@+id/salary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|right"
+        android:layout_marginEnd="18sp"
+        android:textSize="20sp"
+        android:text="@string/releaseTask_salary_content" />
 
     <LinearLayout
         android:id="@+id/linearLayout_releaseTask"
@@ -64,35 +72,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout_releaseUser_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_marginRight="25dp"
-                android:visibility="invisible"
-                android:background="@color/releaseTask_textContent_bg"
-                android:layout_marginTop="5dp">
-
-                <ImageView
-                    android:id="@+id/image_releaseTask_phone"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_release_task_phone"/>
-
-                <TextView
-                    android:id="@+id/textView_releaseTask_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="13sp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/releaseTask_phone_image" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/linearLayout_releaseUser_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,18 +87,60 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_gravity="center"
-
                     android:src="@drawable/ic_release_task_message"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_receiveUserID_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="13dp"
+                android:background="@color/releaseTask_textContent_bg"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textView_releaseTask_message"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/receiveUserID_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="13sp"
+                    android:gravity="left|bottom"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="@string/receiveTask_userID" />
+
+                <TextView
+                    android:id="@+id/receiveUserID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="left"
+                    android:textSize="16sp"
+                    android:text="@string/receiveTask_userID_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_receiveUser_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginRight="25dp"
+                android:visibility="invisible"
+                android:background="@color/releaseTask_textContent_bg"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/image_receiveTask_message"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/releaseTask_message_image" />
+                    android:src="@drawable/ic_receive_task_message"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -146,7 +167,7 @@
                     android:gravity="left|bottom"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:text="@string/releaseTask_time" />
+                    android:text="起始時間" />
 
                 <TextView
                     android:id="@+id/releaseTime"
@@ -155,7 +176,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="@string/releaseTask_time_content" />
+                    android:text="releaseTaskStartTime" />
             </LinearLayout>
 
             <View
@@ -164,7 +185,7 @@
                 android:background="#000000" />
 
             <LinearLayout
-                android:id="@+id/linearLayout_salary"
+                android:id="@+id/linearLayout_releaseTime_end"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -172,22 +193,22 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/salary_title"
+                    android:id="@+id/releaseTime_title_end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|bottom"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:text="@string/releaseTask_salary" />
+                    android:text="截止時間" />
 
                 <TextView
-                    android:id="@+id/salary"
+                    android:id="@+id/releaseTime_end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textSize="16sp"
-                    android:text="@string/releaseTask_salary_content" />
+                    android:text="releaseTaskEndTime" />
             </LinearLayout>
         </LinearLayout>
 

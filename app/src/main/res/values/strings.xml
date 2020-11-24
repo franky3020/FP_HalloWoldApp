@@ -57,10 +57,8 @@
     <string name="releaseTask_title">Title</string>
     <string name="releaseTask_userID">Release User</string>
     <string name="releaseTask_userID_content">releaseUserID</string>
-    <string name="releaseTask_phone_image">Phone</string>
-    <string name="releaseTask_message_image">Message</string>
-    <string name="releaseTask_time">Release Time</string>
-    <string name="releaseTask_time_content">releaseTime</string>
+    <string name="receiveTask_userID">Receive User</string>
+    <string name="receiveTask_userID_content">receiveUserID</string>
     <string name="releaseTask_salary">Salary</string>
     <string name="releaseTask_salary_content">salary</string>
     <string name="releaseTask_taskAddress">Task Address</string>
@@ -70,7 +68,6 @@
 
     <!-- task detail -->
     <string name="task_content">Task Content</string>
-
 
 
 </resources>
