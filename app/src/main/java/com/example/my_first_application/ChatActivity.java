@@ -105,32 +105,6 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mChatAdapter = new ChatAdapter(mMessagesList);
         mRecyclerView.setAdapter(mChatAdapter);
-
-// Todo 待加入 監聽鍵盤 彈出
-//        messageEt.setOnKeyListener(new TextView.OnKeyListener(){
-//
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                Log.d(LOG_TAG, "onKey");
-//                return false;
-//            }
-//        });
-
-//        messageEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mRecyclerView.scrollToPosition(mMessagesList.size() - 1);
-//                    }
-//                });
-//                return false;
-//            }
-//        });
-
-
     }
 
     @Override

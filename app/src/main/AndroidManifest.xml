@@ -60,6 +60,7 @@
             android:label="@string/profile_toolbar_title" />
         <activity
             android:name=".ChatActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="ChatPage" />
         <activity
             android:name=".SignActivity" />
