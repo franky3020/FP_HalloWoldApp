@@ -29,6 +29,7 @@ import Task.TaskState;
 import User.GetLoginUser;
 
 import TaskState.ITaskStateContext;
+import User.UserAPIService;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -39,6 +40,8 @@ import TaskState.EmptyState;
 import Task.TaskStateEnum;
 import Task.TaskBuilder;
 
+
+//Todo 並未考慮任務已被刪除 但使用者操作任務的任何情況 需補上
 public class TaskDetailActivity extends AppCompatActivity implements ITaskStateContext {
 
     private Activity activity = this;
@@ -292,6 +295,53 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
+    public void addBoosRevokeTaskButton() {
+        final MaterialButton materialButton = getNegativeButton("收回任務");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                UserAPIService userAPIService = new UserAPIService();
+                userAPIService.increaseUserPoint(mTask.getReleaseUserID(), mTask.getSalary(), new Callback() {
+
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        TaskAPIService taskApiService = new TaskAPIService();
+                        taskApiService.deleteTask(taskID, new Callback() {
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) {
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                // Todo
+                            }
+                        });
+                    }
+
+                });
+
+            }
+        });
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+
+    }
+
+    @Override
     public void addBoosSelectedWorkerButton() { // Todo 這裡有bug 因為當發布者選擇接收者時 跳回到此頁時 會不是更新為最新的任務狀態
                                                // 應該要回到此任務介面即時更新,  之後改成 把更新放在onStart()
         
@@ -511,8 +561,21 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        reloadActivity();
+
+                        UserAPIService userAPIService = new UserAPIService();
+                        userAPIService.increaseUserPoint(mTask.getReceiveUserID(), mTask.getSalary(), new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                reloadActivity();
+                            }
+                        });
                     }
+
                 });
             }
         });
@@ -671,7 +734,19 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        reloadActivity();
+
+                        UserAPIService userAPIService = new UserAPIService();
+                        userAPIService.increaseUserPoint(mTask.getReleaseUserID(), mTask.getSalary(), new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                reloadActivity();
+                            }
+                        });
                     }
                 });
             }

@@ -4,6 +4,7 @@ public interface ITaskStateContext {
 
     void changeTaskState(ITaskStateAction stateAction);
     void addBoosDeleteButton();
+    void addBoosRevokeTaskButton(); // 這會刪除任務且拿回金錢
     void addBoosSelectedWorkerButton();
     void addBoosCancelRequestThatUserButton();
     void addWorkerRequestTaskButton(); // 要做申請訊息

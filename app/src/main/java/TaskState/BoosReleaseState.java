@@ -19,7 +19,7 @@ public class BoosReleaseState implements ITaskStateAction {
 
         if (context.isReleaseUser()) {
             context.addBoosSelectedWorkerButton();
-            context.addBoosDeleteButton();
+            context.addBoosRevokeTaskButton();
 
         } else if (context.isCanRequestTaskUser()) {
             context.addWorkerRequestTaskButton();

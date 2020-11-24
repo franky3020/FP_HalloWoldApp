@@ -2,6 +2,7 @@ package com.example.my_first_application;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,10 +15,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import User.GetLoginUser;
 import User.User;
+import User.UserAPIService;
+import User.UserBuilder;
 
 public class ProfileActivity extends AppCompatActivity {
 
     Button userModeSwitchBtn;
+
+    User user = UserBuilder.anUser(0).build(); // 初始化一個假的
+    Handler getUsersAPI_Handler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +53,64 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        user = GetLoginUser.getLoginUser();
+
         // 以下為測試用, 如果系統有被登入 則會修改 memberPoints 的文字
-        User loginUser = GetLoginUser.getLoginUser();
-        if(loginUser !=  null) {
+        if(user !=  null) {
             TextView memberPoints = findViewById(R.id.textView_member_points);
-            memberPoints.setText( loginUser.getName()  + " 你好");
+            memberPoints.setText( user.getName()  + " 你好");
 
             TextView memberPointNumber = findViewById(R.id.textView_member_points_number);
-            memberPointNumber.setText("" + loginUser.getPoint());
+            memberPointNumber.setText("" + user.getPoint());
 
         }
         ////////////////////////////////////////////////////////////////////////
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.getUsersAPI_Handler.post(getUsersAPI_Runnable);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.getUsersAPI_Handler.removeCallbacks(getUsersAPI_Runnable);
+    }
+
+    private final Runnable getUsersAPI_Runnable = new Runnable() {
+        public void run() {
+            sendGetUsersAPI();
+            int delayMillis = 3000;
+            getUsersAPI_Handler.postDelayed(getUsersAPI_Runnable, delayMillis);
+        }
+    };
+    private void sendGetUsersAPI() {
+        UserAPIService userAPIService = new UserAPIService();
+        userAPIService.getAUserByUserID(user.getId(), new UserAPIService.UserListener() {
+            @Override
+            public void onResponseOK(final User user) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView memberPoints = findViewById(R.id.textView_member_points);
+                        memberPoints.setText( user.getName()  + " 你好");
+
+                        TextView memberPointNumber = findViewById(R.id.textView_member_points_number);
+                        memberPointNumber.setText("" + user.getPoint());
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
 
     }
 
