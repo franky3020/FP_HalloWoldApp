@@ -23,10 +23,10 @@ public class BoosReleaseState implements ITaskStateAction {
 
         } else if (context.isCanRequestTaskUser()) {
             context.addWorkerRequestTaskButton();
-            context.addSendMessageToUserButton(context.getReleaseUserId());
+            context.addSendMessageToReleaseUserButton();
         } else if (context.isCanCancelRequestTaskUser()) {
             context.addWorkerCancelRequestButton();
-            context.addSendMessageToUserButton(context.getReleaseUserId());
+            context.addSendMessageToReleaseUserButton();
         }
     }
 

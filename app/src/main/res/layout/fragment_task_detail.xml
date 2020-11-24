@@ -71,24 +71,13 @@
                     android:text="" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout_releaseUser_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+            <ImageView
+                android:id="@+id/image_releaseTask_message"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_marginRight="25dp"
                 android:visibility="invisible"
-                android:background="@color/releaseTask_textContent_bg"
-                android:layout_marginTop="5dp">
-
-                <ImageView
-                    android:id="@+id/image_releaseTask_message"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_release_task_message"/>
-            </LinearLayout>
+                android:src="@drawable/ic_release_task_message"/>
 
             <View
                 android:layout_width="1px"
@@ -124,24 +113,14 @@
                     android:text="" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout_receiveUser_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+            <ImageView
+                android:id="@+id/image_receiveTask_message"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_marginRight="25dp"
                 android:visibility="invisible"
-                android:background="@color/releaseTask_textContent_bg"
-                android:layout_marginTop="5dp">
+                android:src="@drawable/ic_receive_task_message"/>
 
-                <ImageView
-                    android:id="@+id/image_receiveTask_message"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_receive_task_message"/>
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

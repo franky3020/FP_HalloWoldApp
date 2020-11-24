@@ -836,27 +836,59 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
 
     @Override
     public void addSendMessageToUserButton(final int toUserId) {
-
-        // Todo 電話功能 之後需要補上
-//        final LinearLayout phoneLinearLayout = findViewById(R.id.linearLayout_releaseUser_phone);
-
-
-        final LinearLayout messageLayout = findViewById(R.id.linearLayout_releaseUser_message);
         final ImageView sendMessage = findViewById(R.id.image_releaseTask_message);
 
         runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
             @Override
             public void run() {
-                // Todo 電話功能 之後需要補上
-//                phoneLinearLayout.setVisibility(View.VISIBLE);
-
-                messageLayout.setVisibility(View.VISIBLE);
-
+                sendMessage.setVisibility(View.VISIBLE);
                 sendMessage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(activity, ChatActivity.class);
                         intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, toUserId);
+                        activity.startActivity(intent);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void addSendMessageToReleaseUserButton() {
+
+        final ImageView sendMessage = findViewById(R.id.image_releaseTask_message);
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                sendMessage.setVisibility(View.VISIBLE);
+                sendMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, ChatActivity.class);
+                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, mTask.getReleaseUserID());
+                        activity.startActivity(intent);
+                    }
+                });
+            }
+        });
+
+    }
+
+    @Override
+    public void addSendMessageToReceiveUserButton() {
+        final ImageView sendMessage = findViewById(R.id.image_receiveTask_message);
+
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                sendMessage.setVisibility(View.VISIBLE);
+                sendMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, ChatActivity.class);
+                        intent.putExtra(ChatActivity.EXTRA_RECEIVER_ID, mTask.getReceiveUserID());
                         activity.startActivity(intent);
                     }
                 });
