@@ -514,6 +514,68 @@ public class TaskDetailActivity extends AppCompatActivity implements ITaskStateC
     }
 
     @Override
+    public void addWorkerNotConfirmExecutionButton() {
+
+        final MaterialButton materialButton = getNegativeButton("收回接收申請");
+
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 修改任務的接收者為0
+                final TaskAPIService taskApiService = new TaskAPIService();
+                taskApiService.setTaskReceiveUser(taskID, 0, new Callback() { // Todo 設定 0 是為無接收者的初始值狀態, 有壞味道 需要重構
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        // Todo
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        Log.d(LOG_TAG, "setTaskReceiveUser Ok");
+
+                        // 改變任務狀態
+                        TaskAPIService taskApiService = new TaskAPIService();
+                        taskApiService.updateTaskState(taskID, TaskStateEnum.BOOS_RELEASE_AND_SELECTING_WORKER, new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                // Todo
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                Log.d(LOG_TAG, "updateTaskState Ok");
+
+                                // 取消請求該任務
+                                TaskAPIService taskApiService = new TaskAPIService();
+                                taskApiService.deleteTaskRequestUser(taskID, loginUserID, new Callback() {
+                                    @Override
+                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                        // Todo
+                                    }
+
+                                    @Override
+                                    public void onResponse(@NotNull Call call, @NotNull Response response) {
+                                        reloadActivity();
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+        runOnUiThread(new Runnable() { // 一定要記得跑在UI thread上才會更新UI
+            @Override
+            public void run() {
+                stateButtonsLayout.addView(materialButton);
+            }
+        });
+    }
+
+    @Override
     public void addWorkerRequestCheckTheTaskDoneButton() {
 
         final MaterialButton materialButton = getPositiveButton("請求確認完成任務");
