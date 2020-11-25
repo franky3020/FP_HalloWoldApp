@@ -22,6 +22,7 @@
     <string name="show_task_spinner_address">Address</string>
 
     <!-- Profile 頁面 -->
+    <string name="profile_memberID">Hi, new here</string>
     <string name="profile_member_point">Points remaining</string>
     <string name="profile_member_points_number">654321</string>
     <string name="profile_user_mode">Switch User Mode</string>

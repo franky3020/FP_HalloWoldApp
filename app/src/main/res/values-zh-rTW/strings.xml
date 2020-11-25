@@ -23,6 +23,7 @@
     <string name="show_task_spinner_address">區域</string>
 
     <!-- Profile 頁面 -->
+    <string name="profile_memberID">你好，新會員</string>
     <string name="profile_member_point">點數剩餘</string>
     <string name="profile_member_points_number">654321</string>
     <string name="profile_user_mode">使用者模式切換</string>
