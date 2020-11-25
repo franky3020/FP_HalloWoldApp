@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingTop="25sp"
+        android:paddingTop="20sp"
         android:textSize="22sp"
         android:textStyle="bold"
         android:text="@string/releaseTask_title"/>
@@ -22,23 +22,25 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:gravity="bottom|right"
-        android:textSize="20sp"
-        android:text="NT$: " />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:gravity="bottom|right"
+            android:textSize="14sp"
+            android:text="NT$ " />
 
-    <TextView
-        android:id="@+id/salary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="bottom|left"
-        android:layout_marginEnd="18sp"
-        android:textSize="20sp"
-        android:text="@string/releaseTask_salary_content" />
+        <TextView
+            android:id="@+id/salary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom|left"
+            android:layout_marginEnd="18sp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/releaseTask_salary_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,43 +64,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1"
-                android:background="@color/releaseTask_textContent_bg">
+                android:layout_weight="1">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="13sp"
-                android:background="@color/releaseTask_textContent_bg">
-
-                <TextView
-                    android:id="@+id/releaseUserID_title"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left|bottom"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="@string/releaseTask_userID" />
+                    android:orientation="vertical"
+                    android:padding="13sp"
+                    android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/release_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:textSize="16sp"
-                    android:text="" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/releaseUserID_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|bottom"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/releaseTask_userID" />
 
-            <ImageView
-                android:id="@+id/image_releaseTask_message"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                android:src="@drawable/ic_release_task_message"/>
+                    <TextView
+                        android:id="@+id/release_user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="left"
+                        android:textSize="16sp"
+                        android:text="" />
+                </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/image_releaseTask_message"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:layout_marginEnd="13sp"
+                    android:src="@drawable/ic_release_task_message"/>
             </LinearLayout>
 
             <View
@@ -111,45 +112,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/releaseTask_textContent_bg"
                 android:layout_weight="1">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14sp"
-                android:background="@color/releaseTask_textContent_bg">
-
-                <TextView
-                    android:id="@+id/receiveUserID_title"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left|bottom"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="@string/receiveTask_userID" />
+                    android:orientation="vertical"
+                    android:padding="14sp"
+                    android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/receive_user_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:textSize="16sp"
-                    android:text="" />
+                    <TextView
+                        android:id="@+id/receiveUserID_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|bottom"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/receiveTask_userID" />
+
+                    <TextView
+                        android:id="@+id/receive_user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="left"
+                        android:textSize="16sp"
+                        android:text="" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/image_receiveTask_message"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:layout_marginEnd="13sp"
+                    android:src="@drawable/ic_receive_task_message"/>
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/image_receiveTask_message"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                android:src="@drawable/ic_receive_task_message"/>
-
-            </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout

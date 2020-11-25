@@ -22,6 +22,7 @@
     <string name="show_task_spinner_address">Address</string>
 
     <!-- Profile 頁面 -->
+    <string name="profile_memberID">Hi, new here</string>
     <string name="profile_member_point">Points remaining</string>
     <string name="profile_member_points_number">654321</string>
     <string name="profile_user_mode">Switch User Mode</string>
@@ -47,10 +48,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Login 頁面第三方平台按鈕 -->
-    <string name="login_with_facebook">Login with Facebook</string>
-    <string name="login_with_google">Login with Google</string>
-    <string name="login_with_line">Login with Line</string>
-    <string name="login_with_mail">Register with Mail</string>
+    <string name="login_with_facebook">Facebook</string>
+    <string name="login_with_google">Google</string>
+    <string name="sign_mail">Login with Email</string>
+    <string name="sign_facebook">Login with Facebook</string>
+    <string name="sign_google">Login with Google</string>
     <string name="nickname">nickname</string>
 
     <!-- fragment release task -->
@@ -68,6 +70,4 @@
 
     <!-- task detail -->
     <string name="task_content">Task Content</string>
-
-
 </resources>

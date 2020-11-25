@@ -57,8 +57,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         // 以下為測試用, 如果系統有被登入 則會修改 memberPoints 的文字
         if(user !=  null) {
-            TextView memberPoints = findViewById(R.id.textView_member_points);
-            memberPoints.setText( user.getName()  + " 你好");
+            TextView memberID = findViewById(R.id.textView_memberID);
+            memberID.setText( user.getName() + " 你好" );
 
             TextView memberPointNumber = findViewById(R.id.textView_member_points_number);
             memberPointNumber.setText("" + user.getPoint());
@@ -96,8 +96,8 @@ public class ProfileActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView memberPoints = findViewById(R.id.textView_member_points);
-                        memberPoints.setText( user.getName()  + " 你好");
+                        TextView memberID = findViewById(R.id.textView_memberID);
+                        memberID.setText( user.getName() + " 你好" );
 
                         TextView memberPointNumber = findViewById(R.id.textView_member_points_number);
                         memberPointNumber.setText("" + user.getPoint());

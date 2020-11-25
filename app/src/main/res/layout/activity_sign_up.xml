@@ -147,6 +147,82 @@ android:layout_height="match_parent">
         app:layout_constraintTop_toBottomOf="@id/sign_up_password_again_layout" />
 
     <View
+        android:id="@+id/view_or_left_line"
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:background="@color/login_register_form_details_medium"
+        app:layout_constraintStart_toStartOf="@id/guideline_sign_up_page_left"
+        app:layout_constraintTop_toBottomOf="@+id/button_sign_up"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_social_register"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@+id/textView_or"/>
+
+    <TextView
+        android:id="@+id/textView_or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or"
+        android:textColor="@color/login_register_form_details_medium"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_or_left_line"
+        app:layout_constraintTop_toTopOf="@+id/view_or_left_line"
+        app:layout_constraintEnd_toStartOf="@+id/view_or_right_line"
+        app:layout_constraintStart_toEndOf="@+id/view_or_left_line" />
+
+    <View
+        android:id="@+id/view_or_right_line"
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:background="@color/login_register_form_details_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_or"
+        app:layout_constraintEnd_toEndOf="@id/guideline_sign_up_page_right"
+        app:layout_constraintStart_toEndOf="@+id/textView_or"
+        app:layout_constraintTop_toTopOf="@+id/textView_or" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_social_register"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/view_register_footer_line"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_sign_up_page_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_sign_up_page_left">
+
+        <Button
+            android:id="@+id/button_facebook_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_with_facebook"
+            android:textColor="@color/login_register_button_text"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:padding="35px"
+            android:layout_marginEnd="20px"
+            android:layout_weight="1"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="3px"
+            app:icon="@drawable/ic_sign_facebook"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
+
+        <Button
+            android:id="@+id/button_google_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_with_google"
+            android:textColor="@color/login_register_button_text"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:padding="35px"
+            android:layout_marginStart="20px"
+            android:layout_weight="1"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="3px"
+            app:icon="@drawable/ic_sign_google"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
+    </LinearLayout>
+
+    <View
         android:id="@+id/view_register_footer_line"
         android:layout_width="0dp"
         android:layout_height="1dp"
