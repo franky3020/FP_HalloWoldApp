@@ -167,29 +167,39 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_login_page_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_login_page_left">
 
-        <ImageView
-            android:id="@+id/textView_facebook_login"
+        <Button
+            android:id="@+id/button_facebook_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/login_with_facebook"
+            android:textColor="@color/login_register_button_text"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:paddingStart="20px"
+            android:paddingEnd="20px"
+            android:layout_marginEnd="20px"
             android:layout_weight="1"
-            android:src="@drawable/ic_facebook_login"
-            android:layout_gravity="center" />
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="3px"
+            app:icon="@drawable/ic_sign_facebook"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
 
-        <ImageView
-            android:id="@+id/textView_google_login"
+        <Button
+            android:id="@+id/button_google_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/login_with_google"
+            android:textColor="@color/login_register_button_text"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:paddingStart="20px"
+            android:paddingEnd="20px"
+            android:layout_marginStart="20px"
             android:layout_weight="1"
-            android:src="@drawable/ic_google_login"
-            android:layout_gravity="center"/>
-
-        <ImageView
-            android:id="@+id/textView_line_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_line_login"
-            android:layout_gravity="center" />
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="3px"
+            app:icon="@drawable/ic_sign_google"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"/>
     </LinearLayout>
 
     <View

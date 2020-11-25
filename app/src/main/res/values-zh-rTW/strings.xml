@@ -45,10 +45,11 @@
     <string name="task">任務</string>
 
     <!-- Login 頁面第三方平台按鈕 -->
-    <string name="login_with_facebook">Facebook 登入</string>
-    <string name="login_with_google">Google 登入</string>
-    <string name="login_with_line">Line 登入</string>
-    <string name="login_with_mail">Mail 註冊</string>
+    <string name="login_with_facebook">Facebook</string>
+    <string name="login_with_google">Google</string>
+    <string name="sign_facebook">用 Facebook 登入</string>
+    <string name="sign_google">用 Google 登入</string>
+    <string name="sign_mail">用 Email 登入</string>
 
     <string name="nickname">暱稱</string>
 
