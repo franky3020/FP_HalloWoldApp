@@ -125,15 +125,6 @@
             android:drawableRight="@drawable/arrow_right_content"
             style="@style/ProfileButtonStyle" />
 
-        <Button
-            android:id="@+id/toMainButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClickToTestMain"
-            style="@style/TextColorStyle"
-            android:text="(測試用的) 可以使用此使用者到測試的主頁面"
-            android:layout_marginTop="23dp" />
-
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

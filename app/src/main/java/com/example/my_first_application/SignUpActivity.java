@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -98,7 +99,23 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        LinearLayout login_linear_layout = findViewById(R.id.login_linear_layout);
+        login_linear_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toLoginActivity();
+            }
+        });
+
     }
+
+    private void toLoginActivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
 
     // Todo 應該用介面解偶
     private void registerUser(String mail, String pwd, final String nickName) {

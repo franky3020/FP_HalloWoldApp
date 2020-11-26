@@ -112,12 +112,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void onClickToTestMain(View view) {
-        Intent intent = new Intent();
-        intent.setClass(this, MainActivity.class);
-        startActivity(intent);
-    }
-
     public void onClickToSignOut(View view) {
         GetLoginUser.unRegisterUser();
 

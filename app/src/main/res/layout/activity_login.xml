@@ -218,8 +218,8 @@
         <TextView
             android:id="@+id/textView_sign_up"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:text="@string/sign_up"
             android:textColor="@color/login_register_form_details_medium" />
 

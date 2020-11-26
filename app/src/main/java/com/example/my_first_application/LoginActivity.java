@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 toMainActivity();
+            }
+        });
+
+        LinearLayout sign_up_linear_layout = findViewById(R.id.sign_up_linear_layout);
+        sign_up_linear_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toSignUpActivity();
             }
         });
 
@@ -109,11 +118,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        onBackPressed();
-//        return super.onSupportNavigateUp();
-//    }
+    private void toSignUpActivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, SignUpActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onPause() {
