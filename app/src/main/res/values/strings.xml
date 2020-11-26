@@ -70,4 +70,5 @@
 
     <!-- task detail -->
     <string name="task_content">Task Content</string>
+    <string name="request_users">Request users</string>
 </resources>

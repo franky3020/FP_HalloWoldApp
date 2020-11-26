@@ -25,7 +25,7 @@
 
         <activity
             android:name=".ShowRequestUsersActivity"
-            android:label="RequestUsers"/>
+            android:label="@string/request_users"/>
 
         <activity
             android:name=".HomePageActivity"
