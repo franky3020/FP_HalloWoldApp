@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,12 +39,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_login);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         firebaseAuth = FirebaseAuth.getInstance();
+
+        TextView loginTitle = findViewById(R.id.textView_login_title);
+        loginTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toMainActivity();
+            }
+        });
+
     }
 
     public void onClickToSingIn(View view) {
@@ -98,11 +103,17 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
+    private void toMainActivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, MainActivity.class);
+        startActivity(intent);
     }
+
+//    @Override
+//    public boolean onSupportNavigateUp() {
+//        onBackPressed();
+//        return super.onSupportNavigateUp();
+//    }
 
     @Override
     protected void onPause() {
