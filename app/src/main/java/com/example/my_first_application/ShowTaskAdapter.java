@@ -66,7 +66,14 @@ public class ShowTaskAdapter extends RecyclerView.Adapter<ShowTaskAdapter.ViewHo
             int minute = startPostTime.getMinute();
 
             taskDate.setText( "" + year + "/" + month + "/" + day);
-            taskTime.setText("" + hour + ":" + minute);
+
+            if(minute < 10) {
+                taskTime.setText("" + hour + ":0" + minute);
+            } else {
+                taskTime.setText("" + hour + ":" + minute);
+            }
+
+
         }
 
 
