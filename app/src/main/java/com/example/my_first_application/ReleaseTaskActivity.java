@@ -302,17 +302,17 @@ public class ReleaseTaskActivity extends AppCompatActivity {
 
     private void checkAlertDialog(final CheckAlertDialogListener checkAlertDialogListener) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(ReleaseTaskActivity.this);
-        dialog.setTitle("確認");
-        dialog.setMessage("test");
+        dialog.setTitle("確認發布任務");
+        dialog.setMessage("請問您確定要發布該任務嗎?");
 
-        dialog.setNegativeButton("NO",new DialogInterface.OnClickListener() { // 改顏色
+        dialog.setNegativeButton("否",new DialogInterface.OnClickListener() { // 改顏色
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 checkAlertDialogListener.onNegative();
             }
         });
 
-        dialog.setPositiveButton("YES",new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton("確定",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 checkAlertDialogListener.onPositive();
