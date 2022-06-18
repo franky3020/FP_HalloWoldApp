@@ -1,4 +1,4 @@
-#  任務交易APP
+#  Android APP
 
 [後端微服務](https://github.com/FCU-FPms/ms-task)
 
