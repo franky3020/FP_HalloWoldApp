@@ -1,4 +1,4 @@
-package com.example.my_first_application.Util;
+package com.example.over_task.Util;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,14 +6,13 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
-import com.example.my_first_application.ChatActivity;
-import com.example.my_first_application.CollectTaskActivity;
-import com.example.my_first_application.HomePageActivity;
-import com.example.my_first_application.ProfileActivity;
+import com.example.over_task.CollectTaskActivity;
+import com.example.over_task.HomePageActivity;
+import com.example.over_task.ProfileActivity;
 
-import com.example.my_first_application.R;
-import com.example.my_first_application.ShowChatActivity;
-import com.example.my_first_application.ShowTaskActivity;
+import com.example.over_task.R;
+import com.example.over_task.ShowChatActivity;
+import com.example.over_task.ShowTaskActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import User.GetLoginUser;

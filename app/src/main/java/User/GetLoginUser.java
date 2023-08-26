@@ -3,7 +3,7 @@ package User;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.example.my_first_application.LoginActivity;
+import com.example.over_task.LoginActivity;
 
 public class GetLoginUser {
 

@@ -1,4 +1,4 @@
-package com.example.my_first_application;
+package com.example.over_task;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 import Task.TaskAPIService;
 import User.User;
-import User.UserBuilder;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;

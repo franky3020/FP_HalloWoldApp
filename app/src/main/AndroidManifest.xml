@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.my_first_application">
+    package="com.example.over_task">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,36 +15,44 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ShowChatActivity"
-            android:label="聊天列表"/>
+            android:name="com.example.over_task.ShowChatActivity"
+            android:label="聊天列表"
+            android:exported="false"/>
 <!--        // Todo 多國語言-->
 
         <activity
-            android:name=".CollectTaskActivity"
-            android:label="@string/task"/>
+            android:name="com.example.over_task.CollectTaskActivity"
+            android:label="@string/task"
+            android:exported="false"/>
 
         <activity
-            android:name=".ShowRequestUsersActivity"
-            android:label="@string/request_users"/>
+            android:name="com.example.over_task.ShowRequestUsersActivity"
+            android:label="@string/request_users"
+            android:exported="false"/>
 
         <activity
-            android:name=".HomePageActivity"
-            android:label="@string/homePage_toolbar_title" />
+            android:name="com.example.over_task.HomePageActivity"
+            android:label="@string/homePage_toolbar_title"
+            android:exported="false"/>
         <activity
-            android:name=".ShowTaskActivity"
-            android:label="@string/showTask_toolbar_title" />
+            android:name="com.example.over_task.ShowTaskActivity"
+            android:label="@string/showTask_toolbar_title"
+            android:exported="false"/>
 
         <activity
-            android:name=".TaskDetailActivity"
-            android:label="@string/task_content"/>
+            android:name="com.example.over_task.TaskDetailActivity"
+            android:label="@string/task_content"
+            android:exported="false"/>
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/main_toolbar_title">
+            android:name="com.example.over_task.MainActivity"
+            android:label="@string/main_toolbar_title"
+            android:exported="false">
 
         </activity>
         <activity
-            android:name=".LoginActivity" >
+            android:name="com.example.over_task.LoginActivity"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,20 +62,25 @@
 
 
         <activity
-            android:name=".SignUpActivity" />
+            android:name="com.example.over_task.SignUpActivity"
+            android:exported="false"/>
         <activity
-            android:name=".ReleaseTaskActivity"
+            android:name="com.example.over_task.ReleaseTaskActivity"
             android:label="@string/releaseTask_toolbar_title"
-            android:parentActivityName=".ShowTaskActivity" />
+            android:parentActivityName="com.example.over_task.ShowTaskActivity"
+            android:exported="false"/>
         <activity
-            android:name=".ProfileActivity"
-            android:label="@string/profile_toolbar_title" />
+            android:name="com.example.over_task.ProfileActivity"
+            android:label="@string/profile_toolbar_title"
+            android:exported="false"/>
         <activity
-            android:name=".ChatActivity"
+            android:name="com.example.over_task.ChatActivity"
             android:windowSoftInputMode="adjustPan"
-            android:label="ChatPage" />
+            android:label="ChatPage"
+            android:exported="false"/>
         <activity
-            android:name=".SignActivity" />
+            android:name="com.example.over_task.SignActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

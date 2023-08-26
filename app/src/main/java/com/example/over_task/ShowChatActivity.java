@@ -1,4 +1,4 @@
-package com.example.my_first_application;
+package com.example.over_task;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,7 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.my_first_application.Util.BottomNavigationSettingFacade;
+import com.example.over_task.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
