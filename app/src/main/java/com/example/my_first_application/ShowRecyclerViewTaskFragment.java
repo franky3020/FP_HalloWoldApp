@@ -13,13 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import Task.Task;
 import Task.TaskAPIService;
 import User.GetLoginUser;
+import Task.TaskBuilder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +62,7 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
         if (getArguments() != null) {
             showTaskMode = getArguments().getString(specifyClassification);
         }
+
     }
 
 
@@ -69,7 +70,6 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(LOG_TAG, "onStart");
-
         final View view = getView();
         if(view != null) {
 
@@ -82,33 +82,9 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
             this.recyclerViewAdapter = new ShowTaskAdapter(taskList);
             recyclerView.setAdapter(recyclerViewAdapter);
 
-            getTasksAPIListener = new TaskAPIService.GetAPIListener< ArrayList<Task> >(){
-
-                @Override
-                public void onResponseOK(ArrayList<Task> tasks) {
-                    taskList = tasks;
-                    taskUIUpdate(taskList);
-                    Log.d(LOG_TAG, "sendGetTasksAPI onResponse");
-                }
-
-                @Override
-                public void onFailure() {
-                    final Activity activity = getActivity();
-                    if( activity == null) {
-                        return;
-                    }
-
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(activity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
-                        }
-                    });
-                }
-            };
-
-
-
+            Task task1 = TaskBuilder.aTask(33, 500, 66).build();
+            taskList.add(task1);
+            taskUIUpdate(taskList);
         }
     }
 
@@ -123,80 +99,13 @@ public class ShowRecyclerViewTaskFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(LOG_TAG, "onResume");
-
-        this.getTasksAPI_Handler.post(getTaskAPI_Runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(LOG_TAG, "onPause");
-        this.getTasksAPI_Handler.removeCallbacks(getTaskAPI_Runnable);
     }
-
-    private final Runnable getTaskAPI_Runnable = new Runnable() {
-        public void run() {
-
-            switch (showTaskMode) {
-                case ALL_TASKS: // 訪客用的 他可以看到全部任務
-                    sendGetTasksAPI();
-                    break;
-                case ALL_TASKS_WITHOUT_LOGIN_USER:
-                    sendGetTasksWithoutLoginUserAPI();
-                    break;
-                case USER_RELEASE_TASKS:
-                    sendGetUserReleaseTasksAPI();
-                    break;
-                case USER_REQUEST_TASKS:
-                    sendGetUserRequestTasksAPI();
-                    break;
-                case USER_RECEIVE_TASKS:
-                    sendGetUserReceiveTasksAPI();
-                    break;
-                case USER_END_TASKS:
-                    sendGetUserEndTasksAPI();
-                    break;
-                default:
-                    // nothing
-            }
-
-            int delayMillis = 3000;
-            getTasksAPI_Handler.postDelayed(getTaskAPI_Runnable, delayMillis);
-        }
-    };
-
-    private void sendGetTasksAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getTasksV3(getTasksAPIListener);
-    }
-
-    private void sendGetTasksWithoutLoginUserAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-        int loginUserId = GetLoginUser.getLoginUser().getId();
-        taskApiService.getCanRequestTasks(loginUserId, getTasksAPIListener);
-    }
-
-    private void sendGetUserReleaseTasksAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getReleaseUserTasks(userID, getTasksAPIListener);
-    }
-
-    private void sendGetUserRequestTasksAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getUserRequestTasks(userID, getTasksAPIListener);
-    }
-
-    private void sendGetUserReceiveTasksAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getUserReceiveTasks(userID, getTasksAPIListener);
-    }
-
-    private void sendGetUserEndTasksAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-        taskApiService.getUserEndTasks(userID, getTasksAPIListener);
-    }
-
-
 
     public void taskUIUpdate(final ArrayList<Task> taskList) {
         recyclerViewAdapter.setShowTaskList(taskList);

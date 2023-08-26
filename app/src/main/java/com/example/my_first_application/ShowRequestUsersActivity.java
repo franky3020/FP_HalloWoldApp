@@ -40,10 +40,6 @@ public class ShowRequestUsersActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<User> userList = new ArrayList<>();
     ShowRequestUsersAdapter showRequestUsersAdapter;
-
-    Handler getRequestUsersAPI_Handler = new Handler();;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +56,6 @@ public class ShowRequestUsersActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
         this.recyclerView = findViewById(R.id.request_users);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
@@ -73,13 +68,11 @@ public class ShowRequestUsersActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        this.getRequestUsersAPI_Handler.post(getRequestUsersAPI_Runnable);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        this.getRequestUsersAPI_Handler.removeCallbacks(getRequestUsersAPI_Runnable);
     }
 
     @Override
@@ -90,85 +83,6 @@ public class ShowRequestUsersActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private final Runnable getRequestUsersAPI_Runnable = new Runnable() {
-        public void run() {
-            sendGetRequestUsersAPI();
-            int delayMillis = 3000;
-            getRequestUsersAPI_Handler.postDelayed(getRequestUsersAPI_Runnable, delayMillis);
-        }
-    };
-
-
-    private void sendGetRequestUsersAPI() {
-        final TaskAPIService taskApiService = new TaskAPIService();
-
-        taskApiService.getTaskRequestUsers(taskID, new TaskAPIService.GetAPIListener< ArrayList<User> >() {
-
-            @Override
-            public void onResponseOK(ArrayList<User> users) {
-                userList = users;
-                userListUIUpdate(userList);
-                Log.d(LOG_TAG, "sendGetRequestUsersAPI onResponse");
-            }
-
-            @Override
-            public void onFailure() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(activity, "沒有網路連線", Toast.LENGTH_SHORT).show(); // 這之後要用string
-                    }
-                });
-            }
-        });
-    }
-
-    private void userListUIUpdate(final ArrayList<User> userList) { //必須要在主執行緒上更新UI, 才不會出錯
-        showRequestUsersAdapter.setRequestUsers(userList);
-
-        showRequestUsersAdapter.setListener(new ShowRequestUsersAdapter.Listener() {
-            @Override
-            public void onClick(int position) {
-                User user = userList.get(position);
-
-                final TaskAPIService taskApiService = new TaskAPIService();
-                // Todo 這邊需要更新任務的接收者為該使用者
-                taskApiService.setTaskReceiveUser(taskID, user.getId(), new Callback() {
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        Log.d(LOG_TAG, "setTaskReceiveUser Ok");
-
-                        TaskAPIService taskApiService = new TaskAPIService();
-                        taskApiService.updateTaskState(taskID, TaskStateEnum.BOOS_SELECTED_WORKER, new Callback() {
-                            @Override
-                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                            }
-
-                            @Override
-                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                Log.d(LOG_TAG, "updateTaskState Ok");
-                                finish();
-                            }
-                        });
-                    }
-                });
-            }
-        });
-
-        runOnUiThread( new Runnable() {
-            @Override
-            public void run() {
-                showRequestUsersAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
 }

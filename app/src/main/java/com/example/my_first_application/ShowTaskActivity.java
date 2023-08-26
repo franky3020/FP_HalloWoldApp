@@ -31,10 +31,9 @@ public class ShowTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(LOG_TAG, "onCreate start");
 
-        GetLoginUser.checkLoginIfNotThenGoToLogin(this);
+//        GetLoginUser.checkLoginIfNotThenGoToLogin(this);
 
         this.loginUserId = GetLoginUser.getLoginUser().getId();
-
 
         setContentView(R.layout.activity_show_task);
         Toolbar toolbar = findViewById(R.id.toolbar);
