@@ -1,4 +1,4 @@
-package com.example.over_task;
+package com.example.my_first_application;
 
 import org.junit.Test;
 

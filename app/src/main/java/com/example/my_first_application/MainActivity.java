@@ -1,4 +1,4 @@
-package com.example.over_task;
+package com.example.my_first_application;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.over_task.Util.BottomNavigationSettingFacade;
+import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import User.GetLoginUser;
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);

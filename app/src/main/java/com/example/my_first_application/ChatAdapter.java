@@ -1,6 +1,8 @@
-package com.example.over_task;
+package com.example.my_first_application;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Message.Message;
+import User.User;
 import User.GetLoginUser;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {

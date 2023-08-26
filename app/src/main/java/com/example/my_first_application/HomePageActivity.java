@@ -1,4 +1,4 @@
-package com.example.over_task;
+package com.example.my_first_application;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.over_task.Util.BottomNavigationSettingFacade;
+import com.example.my_first_application.Util.BottomNavigationSettingFacade;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import User.GetLoginUser;

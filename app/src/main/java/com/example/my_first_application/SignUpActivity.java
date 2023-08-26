@@ -1,4 +1,4 @@
-package com.example.over_task;
+package com.example.my_first_application;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,9 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -39,6 +48,8 @@ public class SignUpActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     //declare an instance of FirebaseAuth
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +69,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registering User");
+
+        //In the onCreate() method, initialize the FirebaseAuth instance.
+        mAuth = FirebaseAuth.getInstance();
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +120,30 @@ public class SignUpActivity extends AppCompatActivity {
     // Todo 應該用介面解偶
     private void registerUser(String mail, String pwd, final String nickName) {
         progressDialog.show();
+
+        mAuth.createUserWithEmailAndPassword(mail, pwd)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, dismiss dialog and start register
+                            createUserOnDB(mAuth.getUid(), nickName);
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            progressDialog.dismiss();
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener( new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //error, dismiss progress dialog and get and show the error message
+                progressDialog.dismiss();
+                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

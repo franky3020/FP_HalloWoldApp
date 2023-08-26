@@ -1,4 +1,4 @@
-package com.example.over_task;
+package com.example.my_first_application;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+// import com.google.firebase.auth.FirebaseUser;
+
+import User.User;
+import User.GetLoginUser;
+import User.UserAPIService;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = LoginActivity.class.getSimpleName();
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onStart() {
@@ -25,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         TextView loginTitle = findViewById(R.id.textView_login_title);
         loginTitle.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +73,37 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // email, password 不能是空的字串
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            UserAPIService userAPIService = new UserAPIService();
+                            userAPIService.getAUserByFirebaseUID(firebaseAuth.getUid(), new UserAPIService.UserListener() {
+                                @Override
+                                public void onResponseOK(User user) {
+                                    GetLoginUser.registerUser(user); // 登記使用者已登入系統
+                                    toShowTask();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    Log.w(LOG_TAG, "userAPIService : failure");
+                                    Toast.makeText(LoginActivity.this, "userAPIService failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(LOG_TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void toShowTask() {

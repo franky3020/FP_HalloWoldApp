@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"/>
 
     <fragment
-        android:name="com.example.over_task.TaskDetailFragment"
+        android:name="com.example.my_first_application.TaskDetailFragment"
         android:id="@+id/task_detail_frag"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
