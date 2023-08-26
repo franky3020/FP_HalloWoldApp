@@ -21,22 +21,12 @@ public class GetLoginUser {
     }
 
     public static User getLoginUser() {
-        if (instance.isLogin) {
-            return instance.user;
-        } else { // 以防回傳null 所以做個假的
-            return UserBuilder.anUser(-1)
-                    .withName("Not Login user")
-                    .build();
-        }
+        return UserBuilder.anUser(1)
+                .withName("test user")
+                .build();
     }
 
     public static void checkLoginIfNotThenGoToLogin(Activity activity) {
-        if (instance.isLogin != true) {
-            Intent intent = new Intent();
-            intent.setClass(activity, LoginActivity.class);
-            activity.startActivity(intent);
-            activity.finish();
-        }
     }
 
     public static void registerUser(User user) {

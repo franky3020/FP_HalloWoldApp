@@ -21,13 +21,14 @@ import User.GetLoginUser;
 public final class BottomNavigationSettingFacade {
 
     public static void setNavigation(final Activity activity, BottomNavigationView bottomNavigationView) {
-        if (GetLoginUser.isReleaseMode()) {
-            setReleaseModeNavigation(activity, bottomNavigationView);
-        } else if(GetLoginUser.isReceiveMode()) {
-            setReceiveModeNavigation(activity, bottomNavigationView);
-        } else if(GetLoginUser.isVisitorsMode()) {
-            setReceiveModeNavigation(activity, bottomNavigationView);
-        }
+        setReleaseModeNavigation(activity, bottomNavigationView);
+//        if (GetLoginUser.isReleaseMode()) {
+//            setReleaseModeNavigation(activity, bottomNavigationView);
+//        } else if(GetLoginUser.isReceiveMode()) {
+//            setReceiveModeNavigation(activity, bottomNavigationView);
+//        } else if(GetLoginUser.isVisitorsMode()) {
+//            setReceiveModeNavigation(activity, bottomNavigationView);
+//        }
     }
 
 

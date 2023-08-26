@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -85,10 +86,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     // Todo 應該用介面解偶
     private void registerUser(String mail, String pwd, final String nickName) {
-    }
-
-    // Todo 呼叫順序要改
-    private void createUserOnDB(String firebaseUID, String nickName) {
     }
 
 }
