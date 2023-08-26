@@ -21,47 +21,47 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickToLogin(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, LoginActivity.class);
+        intent.setClass(this, LoginActivity.class);
         startActivity(intent);
     }
 
     public void onClickToSignUp(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, SignUpActivity.class);
+        intent.setClass(this, SignUpActivity.class);
         startActivity(intent);
     }
 
     public void onClickToReleaseTask(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ReleaseTaskActivity.class);
+        intent.setClass(this, ReleaseTaskActivity.class);
         startActivity(intent);
     }
 
     public void onClickToShowTask(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ShowTaskActivity.class);
+        intent.setClass(this, ShowTaskActivity.class);
         startActivity(intent);
     }
     public void onClickToShowChatList(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ShowChatActivity.class);
+        intent.setClass(this, ShowChatActivity.class);
         startActivity(intent);
     }
 
     public void onClickToMainPage(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, HomePageActivity.class);
+        intent.setClass(this, HomePageActivity.class);
         startActivity(intent);
     }
     public void onClickToChatPage(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ChatActivity.class);
+        intent.setClass(this, ChatActivity.class);
         startActivity(intent);
     }
 
     public void onClickToProfile(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ProfileActivity.class);
+        intent.setClass(this, ProfileActivity.class);
         startActivity(intent);
     }
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 .withName("Les")
                 .build());
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ShowTaskActivity.class);
+        intent.setClass(this, ShowTaskActivity.class);
         startActivity(intent);
     }
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 .withName("James")
                 .build());
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ShowTaskActivity.class);
+        intent.setClass(this, ShowTaskActivity.class);
         startActivity(intent);
     }
 
@@ -91,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 .withName("Ace")
                 .build());
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ShowTaskActivity.class);
+        intent.setClass(this, ShowTaskActivity.class);
         startActivity(intent);
     }
 
     public void onClickToSign(View view) {
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, SignActivity.class);
+        intent.setClass(this, SignActivity.class);
         startActivity(intent);
     }
 
@@ -112,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
@@ -124,19 +122,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         BottomNavigationSettingFacade.setReceiveModeNavigation(this, bottomNavigationView);
-
-
-
-        /*Button button = (Button)findViewById(R.id.button_tmp);
-        button.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                MainActivity.this.finish();
-            }
-        });*/
     }
 
     @Override

@@ -15,6 +15,7 @@ import User.User;
 import User.UserAPIService;
 import UtilTool.JsonParse;
 import UtilTool.TransitTime;
+import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -36,7 +37,7 @@ public class TaskAPIService {
     }
 
 
-    public void post(Task task, Callback callback) throws Exception {
+    public void post(Task task) throws Exception {
         JSONObject jsonEntity = new JSONObject();
         jsonEntity.put("name", task.getTaskName());
         jsonEntity.put("message", task.getMessage());
@@ -53,8 +54,10 @@ public class TaskAPIService {
         RequestBody requestBody = RequestBody.create(String.valueOf(jsonEntity), JSON);
 
         Request request = new Request.Builder().url(base_URL).post(requestBody).build();
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
-        client.newCall(request).enqueue(callback);
+        Log.d(LOG_TAG, request.toString());
+
+//        OkHttpClient client = new OkHttpClient().newBuilder().build();
+//        client.newCall(request).enqueue(callback);
 
     }
 

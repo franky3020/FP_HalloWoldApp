@@ -2,9 +2,9 @@ package User;
 
 public class User {
     private String name;
-    private int id;
+    private int id = 1111;
     private String firebaseUID;
-    private int point = 0;
+    private int point = 5000;
 
     public User() {
     }

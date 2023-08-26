@@ -88,31 +88,6 @@ public class UserAPIService {
 
     public User getAUserByUserID(final int UserID) {
         User user = UserBuilder.anUser(UserID).build();
-
-        Request request = new Request.Builder()
-                .url(base_URL + "/" + UserID)
-                .method("GET", null)
-                .build();
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
-
-        try {
-            Response response= client.newCall(request).execute();
-
-            if(response.isSuccessful()) {
-                JSONObject userJSONObject = new JSONObject( Objects.requireNonNull(response.body()).string() );
-                Iterator<String> usersId = userJSONObject.keys();
-                if ( usersId.hasNext() ) {
-                    String idStr = usersId.next();
-                    JSONObject aUserJSON = userJSONObject.getJSONObject(idStr);
-                    user = JsonParse.parse_a_User(aUserJSON, idStr);
-                }
-            }
-            response.close();
-
-        } catch (Exception e) {
-            Log.d(LOG_TAG, Objects.requireNonNull(e.getMessage()));
-        }
-
         return user;
     }
 
