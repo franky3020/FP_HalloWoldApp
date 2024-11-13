@@ -6,7 +6,6 @@
 
 [APIGateway](https://github.com/FCU-FPms/ms-APIGateway-65)
 
-![](./readme_img/FPV1.png)
  
 
 
